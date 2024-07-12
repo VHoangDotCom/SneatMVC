@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_SneatProLayout.cshtml";
+    ViewData["title"] = "User management";
+}
+
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light" @*data-i18n="User"*@>Quản lý nhân sự /</span> Tài khoản</h4>
+
+        <div class="card">
+            <h5 class="card-header" @*data-i18n="User"*@>Danh sách tài khoản</h5>
+            <div class="row mb-2  px-md-4 px-2">
+                <div class="col-md-4 offset-md-0">
+                    <div class="input-group input-group-merge">
+                        <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                        <input type="text" class="form-control " id="txt-key-search" placeholder="Tên tài khoản, số điện thoại, email" onchange="searchUser()" />
+                    </div>
+                </div>
+
+            </div>
+            <div class="row mb-2 px-md-4 px-2">
+                <div class="col-md-12">
+                    <!-- Use col-md-12 and text-md-right -->
+                    <a title="Thêm công ty" style="float: right" class="btn btn-primary" href="/Users/Create">
+                        <i class='menu-icon tf-icons bx bx-plus'></i>
+                        Thêm mới
+                    </a>
+                    @*<button class="btn btn-primary" id="shepherd-example">Start tour</button>*@
+                </div>
+            </div>
+
+
+            <div class=" table-responsive px-md-4 px-2" id="list_user">
+                @{ Html.RenderAction("Search", "Users", new { Page = 1, search = "" }); }
+            </div>
+        </div>
+
+    </div>
+
+    <div class="content-backdrop fade"></div>
+</div>
+
+<script src="~/Scripts/ScriptModel/user-script.js"></script>

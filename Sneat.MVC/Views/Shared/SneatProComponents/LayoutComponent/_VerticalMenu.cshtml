@@ -1,0 +1,65 @@
+﻿@{
+    TempData.Keep();
+    string currentPage = ViewContext.HttpContext.Request.Path;
+}
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    @Html.Partial("SneatProComponents/LayoutComponent/_Macros")
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+        <!-- Dashboards -->
+        <li class='menu-item@(currentPage.EndsWith("/") || currentPage.StartsWith("/Dashboards/") ? " active open" : "")'>
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
+                <span class="badge badge-center rounded-pill bg-danger ms-auto">5</span>
+            </a>
+            <ul class="menu-sub">
+                <li class='menu-item@(currentPage == "/" ? " active" : "")'>
+                    <a href="dashboards-analytics.html" class="menu-link">
+                        <div class="text-truncate" data-i18n="Analytics">Analytics</div>
+                    </a>
+                </li>
+                <li class='menu-item@(currentPage == "/Dashboards/CRM" ? " active" : "")'>
+                    <a href="dashboards-crm.html" class="menu-link">
+                        <div class="text-truncate" data-i18n="CRM">CRM</div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+        <!-- Layouts -->
+        <li class='menu-item@(currentPage.StartsWith("/LayoutExamples") ? " active open" : "")'>
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div class="text-truncate" data-i18n="Layouts">Layouts</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class='menu-item@(currentPage == "/LayoutExamples/WithoutMenu" ? " active" : "")'>
+                    <a href="layouts-collapsed-menu.html" class="menu-link">
+                        <div class="text-truncate" data-i18n="Collapsed menu">Collapsed menu</div>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+
+        <!-- Apps & Pages -->
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text" @*data-i18n="Apps & Pages"*@>Quản lý tài khoản</span>
+        </li>
+
+        <li class='menu-item@(currentPage == "/Users/Index" ? " active" : "")'>
+            <a href="/Users/Index" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user"></i>
+                <div class="text-truncate" @*data-i18n="User"*@>Nhân sự</div>
+            </a>
+        </li>
+
+    </ul>
+</aside>
