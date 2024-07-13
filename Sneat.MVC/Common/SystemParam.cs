@@ -30,6 +30,8 @@ namespace Sneat.MVC.Common
         public const int SUCCESS = 1;
         public const int FAILED = -1;
         public const int ERROR = 0;
+        public const int RETURN_TRUE = 1;
+        public const int RETURN_FALSE = 0;
         #endregion
 
         #region Https status 
@@ -47,6 +49,11 @@ namespace Sneat.MVC.Common
 
         #region Config System
         public const string SESSION_LOGIN = "Login";
+        #endregion
+
+        #region User
+        public const int EMAIL_USED_ERR = -1;
+        public const int PHONEL_USED_ERR = -2;
         #endregion
     }
 }

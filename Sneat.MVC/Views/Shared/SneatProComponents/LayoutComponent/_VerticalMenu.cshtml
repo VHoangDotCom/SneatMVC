@@ -54,10 +54,11 @@
             <span class="menu-header-text" @*data-i18n="Apps & Pages"*@>Quản lý tài khoản</span>
         </li>
 
-        <li class='menu-item@(currentPage == "/Users/Index" ? " active" : "")'>
+        <li class='menu-item@(currentPage == "/Users/Index" 
+                    || currentPage == "/Users/Create" ? " active" : "")'>
             <a href="/Users/Index" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
-                <div class="text-truncate" @*data-i18n="User"*@>Nhân sự</div>
+                <div class="text-truncate" @*data-i18n="User"*@>Tài khoản</div>
             </a>
         </li>
 

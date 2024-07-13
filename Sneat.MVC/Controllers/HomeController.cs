@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,18 +13,46 @@ namespace Sneat.MVC.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public JsonResult UploadFiles(HttpPostedFileBase[] files)
         {
-            ViewBag.Message = "Your application description page.";
+            var listImages = new List<string>();
+            if (ModelState.IsValid)
+            {
+                foreach (HttpPostedFileBase file in files)
+                {
+                    if (file != null)
+                    {
+                        var InputFileName = Path.GetFileName(file.FileName);
+                        string name = DateTime.Now.ToString("ddMMyyyyHHmmssfff") + "-" + InputFileName;
+                        var ServerSavePath = Path.Combine(Server.MapPath(@"/Uploads/files/"), name);
 
-            return View();
+                        file.SaveAs(ServerSavePath);
+                        listImages.Add(name); // Return the updated file name
+                    }
+                }
+            }
+            return Json(listImages);
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        public JsonResult DeleteFile(string fileName)
         {
-            ViewBag.Message = "Your contact page.";
+            try
+            {
+                var filePath = Path.Combine(Server.MapPath("~/Uploads/files/"), fileName);
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                    return Json(new { success = true });
+                }
+                return Json(new { success = false, message = "File not found" });
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return Json(new { success = false, message = ex.ToString() });
+            }
 
-            return View();
         }
     } 
 }

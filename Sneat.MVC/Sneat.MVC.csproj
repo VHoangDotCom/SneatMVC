@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
+    <Compile Include="Models\DTO\User\UserInputModel.cs" />
     <Compile Include="Models\Entity\District.cs" />
     <Compile Include="Models\Entity\Province.cs" />
     <Compile Include="Models\Entity\User.cs" />
@@ -1869,8 +1870,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\SneatProComponents\_CommonMasterLayout.cshtml" />
     <Content Include="Views\Shared\SneatProComponents\LayoutComponent\_Footer.cshtml" />
@@ -1886,9 +1885,11 @@
     <Content Include="Views\Shared\_SneatProLayout.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_ListUser.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\files\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using System.Text;
+using System.Web;
 
 namespace Sneat.MVC.Common
 {
@@ -28,6 +29,16 @@ namespace Sneat.MVC.Common
             string normalizedWhitespace = Regex.Replace(withoutDiacritics, @"\s+", " ");
 
             return normalizedWhitespace.Trim().ToLower();
+        }
+        #endregion
+
+        #region Config System
+        public static string getFullUrl()
+        {
+            if (HttpContext.Current == null)
+                return "";
+            string url = "http://" + HttpContext.Current.Request.Url.Authority;
+            return url;
         }
         #endregion
     }

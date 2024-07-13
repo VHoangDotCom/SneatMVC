@@ -1,0 +1,199 @@
+﻿@{
+    Layout = "~/Views/Shared/_SneatProLayout.cshtml";
+    ViewData["title"] = "Create User";
+}
+<head>
+    <link rel="stylesheet" href="~/Scripts/multiselect-dropdown/virtual-select.min.css" />
+</head>
+
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="py-3 mb-4"><span style="cursor: pointer;" onclick="window.location='/Organization/Index'" class="text-muted fw-light">Quản lý công ty / Công ty / </span>Tạo mới </h4>
+
+
+        <div class="p-3 mt-1 card mb-4">
+            <h5 class="card-header">Thông tin công ty</h5>
+            <div class="row mt-2">
+                <div class="col-sm-6">
+
+                    <div class="mb-3">
+                        <strong>Ảnh đại diện</strong>
+
+                        <div class="col-md-8" id="divAddImg">
+                            @*  <div id="addImg" class="upload-image">
+                                <i class="fa fa-plus-square-o upload-icon" aria-hidden="true"></i>
+                                <div class="upload-text">Tải ảnh</div>
+                            </div>*@
+                            <div action="/upload" class="dropzone needsclick" id="dropzone-basic">
+                                <div class="dz-message needsclick">
+                                    Drop files here or click to upload
+                                    <span class="note needsclick">
+                                        Hãy tải ảnh Avatar người dùng tại đây (chỉ được tải duy nhất một ảnh)
+                                    </span>
+                                </div>
+                                <div class="fallback">
+                                    <input name="file" type="file" id="fileInput"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+
+                </div>
+
+                <div class="col-sm-6">
+
+                    <div class="mb-3">
+                        <strong>Tên tài khoản</strong><span style="color:red"> *</span>
+                        <input type="text" class="form-control" id="nameCreate" name="name" required placeholder="Tên tài khoản">
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Email</strong><span style="color:red"> *</span>
+                        <input type="text" class="form-control" id="emailCreate" name="email" required placeholder="Nhập email">
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Số điện thoại</strong><span style="color:red"> *</span>
+                        <input type="number" class="form-control" id="input-add-phone" name="phone" required placeholder="Nhập số điện thoại">
+                    </div>
+
+                  @*  <div class="mb-3 form-password-toggle">
+                        <strong>Mật khẩu</strong><span style="color:red"> *</span>
+                        <div class="col-md-12 col-xs-12 col-sm-12 input-group input-group-merge">
+                            <input type="password"
+                                   id="txt-pass"
+                                   class="form-control"
+                                   name="password"
+                                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                   aria-describedby="password" />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 form-password-toggle">
+                        <strong>Xác nhận mật khẩu</strong><span style="color:red"> *</span>
+                        <div class="col-md-12 col-xs-12 col-sm-12 input-group input-group-merge">
+                            <input type="password"
+                                   id="txt-pass-confirm"
+                                   class="form-control"
+                                   name="password"
+                                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                   aria-describedby="password" />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                    </div>*@
+
+                </div>
+            </div>
+        </div>
+
+        @*<div class="p-3 mt-1 card mb-4">
+            <h5 class="card-header">Thông tin gói dịch vụ</h5>
+            <div class="row mt-2">
+                <div class="col-sm-6">
+
+                    <div class="mb-3">
+                        <strong>Ngày bắt đầu </strong><span style="color:red"> *</span>
+                        <input type="date" class="form-control" id="dtStartDate" placeholder="Chọn ngày bắt đầu" />
+                        <input hidden type="text" id="dtStartDateText" />
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Số admin</strong><span style="color:red"> *</span>
+                        <input id="adminNumCreate" placeholder="Nhập số admin" class="form-control" type="number" />
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Số nhân viên </strong><span style="color:red"> *</span>
+                        <input id="driverNumCreate" placeholder="Nhập số nhân viên" class="form-control" type="number" />
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6">
+
+                    <div class="mb-3">
+                        <strong>Ngày hết hạn </strong><span style="color:red"> *</span>
+                        <input type="date" class="form-control" id="dtEndDate" placeholder="Chọn ngày hết hạn" />
+                        <input hidden type="text" id="dtEndDateText" />
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Số chi nhánh</strong><span style="color:red"> *</span>
+                        <input id="shopNumCreate" placeholder="Nhập số chi nhánh" class="form-control" type="number" />
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Số khách hàng được phép đăng ký </strong><span style="color:red"> *</span>
+                        <input id="customerNumCreate" placeholder="Nhập số khách hàng được phép đăng ký" class="form-control" type="number" />
+                    </div>
+
+                </div>
+            </div>
+        </div>*@
+
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="mt-1 mb-1 pull-right pr-10 pb-10">
+                    <button style="float: right;" class="btn btn-primary" id="btnAdd" onclick="saveCreateOrganization()"> <i class='menu-icon tf-icons bx bx-plus'></i> Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+ 
+    document.getElementById('fileInput').addEventListener('change', function (event) {
+    const files = event.target.files;
+    const formData = new FormData();
+    Array.from(files).forEach(file => {
+        formData.append('files', file);
+    });
+
+    fetch('/Home/UploadFiles', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(uploadedFiles => {
+      
+        uploadedFiles.forEach(fileName => {
+            const fullUrl = `${"@ViewBag.ServerUrl"}/Uploads/files/${fileName}`;
+            console.log(fullUrl)
+            const img = document.createElement('img');
+            img.src = fullUrl;
+
+         /*   removeIcon.onclick = function () {
+                fetch('/Home/DeleteFile', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fileName })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        previewContainer.removeChild(previewItem);
+                        currentUrls = currentUrls.filter(url => url !== fullUrl);
+                        lstImageUrls.value = JSON.stringify(currentUrls);
+                        //console.log(currentUrls);
+                    } else {
+                        alert('Failed to delete file');
+                    }
+                });
+            };*/
+
+          
+        });
+
+        lstImageUrls.value = JSON.stringify(currentUrls);
+       /*  console.log(currentUrls);
+        console.log(imageUrls);*/
+    });
+});
+
+</script>
