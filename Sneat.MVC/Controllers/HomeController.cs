@@ -26,5 +26,5 @@ namespace Sneat.MVC.Controllers
 
             return View();
         }
-    }
+    } 
 }
