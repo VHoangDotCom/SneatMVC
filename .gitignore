@@ -642,4 +642,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 **/obj/
-APIProject/Uploads/
+Sneat.MVC/Uploads/files

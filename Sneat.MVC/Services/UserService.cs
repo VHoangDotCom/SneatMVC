@@ -80,13 +80,14 @@ namespace Sneat.MVC.Services
                 if (checkMail > 0)
                     return SystemParam.EMAIL_USED_ERR;
                 if (checkPhone > 0)
-                    return SystemParam.PHONEL_USED_ERR;
+                    return SystemParam.PHONE_USED_ERR;
 
                 var user = new User
                 {
                     UserName = input.Name,
                     Email = input.Email,
                     Phone = input.Phone,
+                    Avatar = input.Avatar,
                     Password = Utils.GenPass(input.Password),
                     CreatedDate = DateTime.Now,
                     IsDeleted = SystemParam.IS_NOT_DELETED,
@@ -102,6 +103,98 @@ namespace Sneat.MVC.Services
             {
                 ex.ToString();
                 return SystemParam.RETURN_TRUE;
+            }
+        }
+
+        public async Task<int> UpdateUser(UpdateUserInputModel input)
+        {
+            try
+            {
+                var user = await _dbContext.Users
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED && x.ID == input.ID)
+                    .FirstOrDefaultAsync();
+                if (user == null)
+                    return SystemParam.ACCOUNT_NOT_FOUND_ERR;
+
+                var users = await _dbContext.Users
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED)
+                    .ToListAsync();
+
+                var checkMail = users.Count(u => u.Email == input.Email && u.ID != input.ID);
+                var checkPhone = users.Count(u => u.Phone == input.Phone && u.ID != input.ID);
+                if (checkMail > 0)
+                    return SystemParam.EMAIL_USED_ERR;
+                if (checkPhone > 0)
+                    return SystemParam.PHONE_USED_ERR;
+
+                user.UserName = input.Name;
+                user.Email = input.Email;
+                user.Phone = input.Phone;
+                user.Avatar = input.Avatar;
+                user.UpdatedDate = DateTime.Now;
+                user.DistrictID = input.DistrictID;
+
+                await _dbContext.SaveChangesAsync();
+
+                return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_TRUE;
+            }
+        }
+
+        public async Task<UserDetailOutputModel> DetailUser(int ID)
+        {
+            try
+            {
+                var user = await _dbContext.Users
+                    .Where(u => u.ID == ID && u.IsDeleted == SystemParam.IS_NOT_DELETED)
+                    .FirstOrDefaultAsync();
+                if (user == null)
+                    return new UserDetailOutputModel();
+
+                var userDetail = new UserDetailOutputModel
+                {
+                    ID = ID,
+                    Role = user.Role,
+                    Status = (int?)user.Status,
+                    UserName = user.UserName,
+                    Phone = user.Phone,
+                    Email = user.Email,
+                    Avatar = user.Avatar,
+                    CreateDate = user.CreatedDate,
+                    DistrictID = user.DistrictID,
+                    ProvinceID = user.District != null ? user.District.ProvinceID : default,
+                };
+
+                return userDetail;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new UserDetailOutputModel();
+            }
+        }
+
+        public async Task<int> DeleteUser(int ID)
+        {
+            try
+            {
+                var user = await _dbContext.Users
+                    .FirstOrDefaultAsync(x => x.IsDeleted == SystemParam.IS_NOT_DELETED && x.ID == ID);
+                if (user == null)
+                    return SystemParam.ACCOUNT_NOT_FOUND_ERR;
+                user.IsDeleted = SystemParam.IS_DELETED;
+                await _dbContext.SaveChangesAsync();
+
+                return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
             }
         }
 

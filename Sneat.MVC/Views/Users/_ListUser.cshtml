@@ -44,8 +44,8 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" onclick="updateCompany(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa công ty</a>
-                                    <a class="dropdown-item" onclick="deleteOrganization(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa công ty</a>
+                                    <a class="dropdown-item" onclick="updateUser(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa tài khoản</a>
+                                    <a class="dropdown-item" onclick="deleteUser(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa tài khoản</a>
                                 </div>
                             </div>
                         </td>
@@ -81,7 +81,7 @@
         });
             });
 
-            function updateCompany(id) {
-                window.location.assign("/Organization/Update?id="+ id);
-            }
+    function updateUser(id) {
+        window.location.assign("/Users/Update?ID="+ id);
+    }
 </script>

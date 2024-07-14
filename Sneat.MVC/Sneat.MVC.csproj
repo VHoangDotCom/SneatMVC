@@ -162,6 +162,10 @@
     <Compile Include="Migrations\202407121600173_first_init.designer.cs">
       <DependentUpon>202407121600173_first_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202407140841060_add-user-avatar.cs" />
+    <Compile Include="Migrations\202407140841060_add-user-avatar.designer.cs">
+      <DependentUpon>202407140841060_add-user-avatar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserInputModel.cs" />
@@ -668,6 +672,7 @@
     <Content Include="Content\ckfinder\_samples\skin_v1.html" />
     <Content Include="Content\ckfinder\_samples\standalone.html" />
     <Content Include="Content\ckfinder\_samples\standalone_v1.html" />
+    <Content Include="Content\js\sweet-alert.js" />
     <Content Include="Content\multiselect-dropdown\virtual-select.min.css" />
     <Content Include="Content\multiselect-dropdown\virtual-select.min.js" />
     <Content Include="Content\PagedList.css" />
@@ -1859,6 +1864,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ScriptModel\user-script.js" />
+    <Content Include="Scripts\sweet-alert.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1886,6 +1892,8 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\_ListUser.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Shared\SneatProComponents\UI\_Modal.cshtml" />
+    <Content Include="Views\Users\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1921,6 +1929,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202407121600173_first_init.resx">
       <DependentUpon>202407121600173_first_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407140841060_add-user-avatar.resx">
+      <DependentUpon>202407140841060_add-user-avatar.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

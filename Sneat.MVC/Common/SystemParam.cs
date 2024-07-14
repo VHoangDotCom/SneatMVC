@@ -53,7 +53,8 @@ namespace Sneat.MVC.Common
 
         #region User
         public const int EMAIL_USED_ERR = -1;
-        public const int PHONEL_USED_ERR = -2;
+        public const int PHONE_USED_ERR = -2;
+        public const int ACCOUNT_NOT_FOUND_ERR = -3;
         #endregion
     }
 }

@@ -37,9 +37,11 @@ namespace Sneat.MVC.Common
         {
             if (HttpContext.Current == null)
                 return "";
-            string url = "http://" + HttpContext.Current.Request.Url.Authority;
+            var request = HttpContext.Current.Request;
+            var url = request.Url.Scheme + "://" + request.Url.Authority;
             return url;
         }
+      
         #endregion
     }
 }

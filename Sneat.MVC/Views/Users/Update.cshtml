@@ -1,11 +1,13 @@
 ﻿@{
     Layout = "~/Views/Shared/_SneatProLayout.cshtml";
-    ViewData["title"] = "Create User";
+    ViewData["title"] = "Update User";
 }
+@using Sneat.MVC.Models.DTO.User;
+@model UserDetailOutputModel
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span style="cursor: pointer;" onclick="window.location='/Users/Index'" class="text-muted fw-light">Quản lý tài khoản / Tài khoản / </span>Tạo mới </h4>
+        <h4 class="py-3 mb-4"><span style="cursor: pointer;" onclick="window.location='/Users/Index'" class="text-muted fw-light">Quản lý tài khoản / Tài khoản / </span>Cập nhật </h4>
 
 
         <div class="p-3 mt-1 card mb-4">
@@ -27,7 +29,7 @@
                                 <div class="fallback">
                                     <input name="file" type="file" id="fileInput" />
                                 </div>
-                                <input type="hidden" id="currentImage" value="">
+                                <input type="hidden" id="currentImage" value="@Model.Avatar">
                             </div>
                         </div>
 
@@ -39,45 +41,19 @@
 
                     <div class="mb-3">
                         <strong>Tên tài khoản</strong><span style="color:red"> *</span>
-                        <input type="text" class="form-control" id="nameCreate" name="name" required placeholder="Tên tài khoản">
+                        <input type="text" value="@Model.UserName" class="form-control" id="nameCreate" name="name" required placeholder="Tên tài khoản">
                     </div>
 
                     <div class="mb-3">
                         <strong>Email</strong><span style="color:red"> *</span>
-                        <input type="text" class="form-control" id="emailCreate" name="email" required placeholder="Nhập email">
+                        <input type="text" value="@Model.Email" class="form-control" id="emailCreate" name="email" required placeholder="Nhập email">
                     </div>
 
                     <div class="mb-3">
                         <strong>Số điện thoại</strong><span style="color:red"> *</span>
-                        <input type="number" class="form-control" id="input-add-phone" name="phone" required placeholder="Nhập số điện thoại">
+                        <input type="number" value="@Model.Phone" class="form-control" id="input-add-phone" name="phone" required placeholder="Nhập số điện thoại">
                     </div>
-
-                    <div class="mb-3 form-password-toggle">
-                        <strong>Mật khẩu</strong><span style="color:red"> *</span>
-                        <div class="col-md-12 col-xs-12 col-sm-12 input-group input-group-merge">
-                            <input type="password"
-                                    id="txt-pass"
-                                    class="form-control"
-                                    name="password"
-                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                    aria-describedby="password" />
-                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                        </div>
-                    </div>
-
-                    <div class="mb-3 form-password-toggle">
-                        <strong>Xác nhận mật khẩu</strong><span style="color:red"> *</span>
-                        <div class="col-md-12 col-xs-12 col-sm-12 input-group input-group-merge">
-                            <input type="password"
-                                    id="txt-pass-confirm"
-                                    class="form-control"
-                                    name="password"
-                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                    aria-describedby="password" />
-                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                        </div>
-                    </div>
-
+                   
                 </div>
             </div>
         </div>
@@ -130,7 +106,7 @@
         <div class="row">
             <div class="col-md-12 col-xs-12">
                 <div class="mt-1 mb-1 pull-right pr-10 pb-10">
-                    <button style="float: right;" class="btn btn-primary" id="btnAdd" onclick="saveCreateUser()"> <i class='menu-icon tf-icons bx bx-plus'></i> Lưu</button>
+                    <button style="float: right;" class="btn btn-primary" id="btnAdd" onclick="saveUpdateUser(@Model.ID)"> <i class='menu-icon tf-icons bx bx-plus'></i> Lưu</button>
                 </div>
             </div>
         </div>

@@ -35,10 +35,45 @@
       parallelUploads: 1,
       maxFilesize: 5,
       addRemoveLinks: true,
-      maxFiles: 1
+      maxFiles: 1,
+      
     });
-  }
 
+      // Add existing image as a mock file
+      const currentImageUrl = document.getElementById('currentImage').value;
+      if (currentImageUrl) {
+          const mockFile = { name: "Current Image", size: 12345 }; // Mock file name and size
+          myDropzone.emit("addedfile", mockFile);
+          myDropzone.emit("thumbnail", mockFile, currentImageUrl);
+          myDropzone.emit("complete", mockFile);
+
+          // Set the existing file as preview
+          myDropzone.files.push(mockFile);
+      }
+
+      myDropzone.on('success', function (file) {
+          const formData = new FormData();
+          formData.append('files', file);
+
+          fetch('/Home/UploadFiles', {
+              method: 'POST',
+              body: formData
+          })
+              .then(response => response.json())
+              .then(data => {
+                  data.forEach(url => {
+                      $('#currentImage').val(url);
+                      console.log($('#currentImage').val());
+                      
+                  });
+              })
+              .catch(error => {
+                  console.error('Error uploading files:', error);
+              });
+      });
+   }
+
+  
   // Multiple Dropzone
   // --------------------------------------------------------------------
   const dropzoneMulti = document.querySelector('#dropzone-multi');
