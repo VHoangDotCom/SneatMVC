@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sneat.MVC.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web;
@@ -8,11 +9,13 @@ namespace Sneat.MVC.Controllers
 {
     public class HomeController : Controller
     {
+        public string fullUrl = Utils.getFullUrl();
         public ActionResult Index()
         {
             return View();
         }
 
+        [HttpPost]
         public JsonResult UploadFiles(HttpPostedFileBase[] files)
         {
             var listImages = new List<string>();
@@ -25,9 +28,11 @@ namespace Sneat.MVC.Controllers
                         var InputFileName = Path.GetFileName(file.FileName);
                         string name = DateTime.Now.ToString("ddMMyyyyHHmmssfff") + "-" + InputFileName;
                         var ServerSavePath = Path.Combine(Server.MapPath(@"/Uploads/files/"), name);
-
                         file.SaveAs(ServerSavePath);
-                        listImages.Add(name); // Return the updated file name
+
+                        // Construct the full URL to access the uploaded file
+                        var imageUrl = fullUrl + "/Uploads/files/" + name;
+                        listImages.Add(imageUrl);
                     }
                 }
             }

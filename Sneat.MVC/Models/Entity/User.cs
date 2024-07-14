@@ -14,6 +14,7 @@ namespace Sneat.MVC.Models.Entity
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string Avatar { get; set; }
         public int Role { get; set; }
         public int IsDeleted { get; set; }
         public Status? Status { get; set; }

@@ -7,7 +7,6 @@ namespace Sneat.MVC.Controllers
 {
     public class UsersController : BaseController
     {
-        public string fullUrl = Utils.getFullUrl();
         public ActionResult Index()
         {
             return View();
@@ -21,7 +20,6 @@ namespace Sneat.MVC.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.ServerUrl = fullUrl;
             return View();
         }
 
@@ -30,6 +28,25 @@ namespace Sneat.MVC.Controllers
         {
             UserDetailOutputModel userLogin = UserLogins;
             return await _userService.CreateUser(input);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Update(int ID)
+        {
+            var userDetail = await _userService.DetailUser(ID);
+            return View(userDetail);
+        }
+
+        [HttpPost]
+        public async Task<int> UpdateUser(UpdateUserInputModel input)
+        {
+            return await _userService.UpdateUser(input);
+        }
+
+        [HttpPost]
+        public async Task<int> DeleteUser(int ID)
+        {
+            return await _userService.DeleteUser(ID);
         }
     }
 }
