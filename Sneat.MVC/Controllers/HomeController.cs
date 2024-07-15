@@ -15,6 +15,12 @@ namespace Sneat.MVC.Controllers
             return View();
         }
 
+        public ActionResult Login()
+        {
+            ViewData["isLoginPage"] = true;
+            return View();
+        }
+
         [HttpPost]
         public JsonResult UploadFiles(HttpPostedFileBase[] files)
         {

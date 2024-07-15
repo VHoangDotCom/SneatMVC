@@ -359,8 +359,8 @@ function deleteUser(id) {
         return;
     }
     Swal.fire({
-        title: 'Bạn chắc chắn xóa chứ?',
-        text: "Dữ liệu tài khoản sẽ bị xóa?",
+        title: 'Bạn chắc chắn muốn xóa chứ?',
+        text: "Dữ liệu tài khoản này sẽ bị xóa!",
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Vâng, tôi xác nhận!',
