@@ -11,6 +11,18 @@ namespace Sneat.MVC.Common
         {
             return BCrypt.Net.BCrypt.HashPassword(pass, 10);
         }
+
+        public static bool CheckPass(string pass, string userPass)
+        {
+            try
+            {
+                return BCrypt.Net.BCrypt.Verify(pass, userPass);
+            }
+            catch
+            {
+                return false;
+            }
+        }
         #endregion
 
         #region Filtering

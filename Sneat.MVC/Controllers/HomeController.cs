@@ -1,15 +1,19 @@
-﻿using Sneat.MVC.Common;
+﻿using Sneat.MVC.App_Start;
+using Sneat.MVC.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Sneat.MVC.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public string fullUrl = Utils.getFullUrl();
+
+        [UserAuthenticationFilter]
         public ActionResult Index()
         {
             return View();
@@ -19,6 +23,11 @@ namespace Sneat.MVC.Controllers
         {
             ViewData["isLoginPage"] = true;
             return View();
+        }
+
+        public async Task<int> UserLogin(string email, string password)
+        {
+            return await _userService.UserLogin(email, password);
         }
 
         [HttpPost]

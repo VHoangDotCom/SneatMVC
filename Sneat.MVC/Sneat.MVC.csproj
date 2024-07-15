@@ -149,6 +149,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\UserAuthenticationFilter.cs" />
     <Compile Include="Common\SystemParam.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -1863,6 +1864,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\ScriptModel\home-script.js" />
     <Content Include="Scripts\ScriptModel\user-script.js" />
     <Content Include="Scripts\sweet-alert.js" />
     <Content Include="Web.config" />

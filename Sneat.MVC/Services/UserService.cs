@@ -22,6 +22,8 @@ namespace Sneat.MVC.Services
             _dbContext = dbContext;
         }
 
+        #region User management
+
         public async Task<IPagedList<UserDetailOutputModel>> Search(int page, int limit, string search = "")
         {
             try
@@ -198,5 +200,44 @@ namespace Sneat.MVC.Services
             }
         }
 
+        #endregion
+
+        #region Authentication
+        public async Task<int> UserLogin(string phone, string password)
+        {
+            try
+            {
+                var user = await _dbContext.Users
+                    .Where(u => u.IsDeleted == SystemParam.IS_NOT_DELETED
+                        && (u.Phone.Equals(phone) || u.Email.Equals(phone)))
+                    .FirstOrDefaultAsync();
+
+                if (user == null)
+                    return SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR;
+                if (user.Status == Status.IN_ACTIVE)
+                    return SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR;
+                if (Utils.CheckPass(password, user.Password))
+                {
+                    var userDetail = new UserDetailOutputModel
+                    {
+                        UserName = user.UserName,
+                        Role = user.Role,
+                        ID = user.ID,
+                        Phone = user.Phone,
+                        Email = user.Email,
+                        DistrictID = user.DistrictID,
+                    };
+                    HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;
+                    return SystemParam.RETURN_TRUE;
+                }
+                return SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
+            }
+        }
+        #endregion
     }
 }
