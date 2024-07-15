@@ -51,6 +51,11 @@ namespace Sneat.MVC.Common
         public const string SESSION_LOGIN = "Login";
         #endregion
 
+        #region Authentication
+        public const int INVALID_EMAIL_OR_PASSWORD_ERR = -1;
+        public const int ACCOUNT_HAD_BEEN_BLOCKED_ERR = -2;
+        #endregion
+
         #region User
         public const int EMAIL_USED_ERR = -1;
         public const int PHONE_USED_ERR = -2;
