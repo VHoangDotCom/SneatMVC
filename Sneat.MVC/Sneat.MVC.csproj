@@ -1894,6 +1894,7 @@
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Shared\SneatProComponents\UI\_Modal.cshtml" />
     <Content Include="Views\Users\Update.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
