@@ -238,6 +238,35 @@ namespace Sneat.MVC.Services
                 return SystemParam.RETURN_FALSE;
             }
         }
+
+        public async Task<int> ForgotPassword(string email)
+        {
+            try
+            {
+                var emailService = new EmailService();
+                var user = await _dbContext.Users
+                    .Where(u => u.IsDeleted == SystemParam.IS_NOT_DELETED && u.Email.Equals(email))
+                    .FirstOrDefaultAsync();
+                if (user == null)
+                    return SystemParam.INVALID_EMAIL_ERR;
+
+                var random = new Random();
+                string newPass = random.Next(100000, 999999).ToString();
+                user.Password = Utils.GenPass(newPass);
+                await _dbContext.SaveChangesAsync();
+
+                // Send the email asynchronously
+                emailService.configClient(email, "[HỆ THỐNG SHOPSHIP]", "Mật khẩu mới của bạn là " + newPass);
+
+                return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
+            }
+        }
+
         #endregion
     }
 }

@@ -1,4 +1,6 @@
 ﻿@Html.Partial("SneatProComponents/Localization/_Variables")
+@using Sneat.MVC.Models.DTO.User
+@using Sneat.MVC.Common
 @{
     TempData.Keep();
     Layout = "SneatProComponents/_CommonMasterLayout.cshtml";
@@ -21,6 +23,12 @@
     @RenderSection("PageScripts", required: false)
 }
 
+@{ UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
+    if (ss == null)
+    {
+        Response.Redirect("/Home/Login");
+    }
+}
 
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">

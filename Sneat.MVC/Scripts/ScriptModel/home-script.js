@@ -72,6 +72,44 @@ function Login() {
     
     });
 }
+
+function logout() {
+    if (!navigator.onLine) {
+        Swal.fire({
+            title: 'Thông báo!',
+            text: 'Kiểm tra kết nối internet!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+    $.ajax({
+        url: '/Home/Logout',
+        data: {},
+        type: 'POST',
+        success: function (response) {
+            if (response == 1) {
+                window.location = '/Home/Login'
+            }
+        },
+        error: function (result) {
+            Swal.fire({
+                title: 'Có lỗi xảy ra!',
+                text: ' Không thể đăng xuất tài khoản!',
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+        }
+    });
+}
+
+
 function LoginAdmin() {
 
     if (!navigator.onLine) {
