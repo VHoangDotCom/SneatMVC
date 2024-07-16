@@ -25,6 +25,19 @@ namespace Sneat.MVC.Controllers
             return View();
         }
 
+        public int Logout()
+        {
+            try
+            {
+                Session[SystemParam.SESSION_LOGIN] = null;
+                return SystemParam.SUCCESS;
+            }
+            catch
+            {
+                return SystemParam.ERROR;
+            }
+        }
+
         public async Task<int> UserLogin(string email, string password)
         {
             return await _userService.UserLogin(email, password);

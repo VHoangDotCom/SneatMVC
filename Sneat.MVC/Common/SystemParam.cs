@@ -49,11 +49,16 @@ namespace Sneat.MVC.Common
 
         #region Config System
         public const string SESSION_LOGIN = "Login";
+        // Email
+        public const string EMAIL_CONFIG = "viethoang2001gun@gmail.com";
+        public const string PASS_CONFIG = "wjvs nvnr qigk tpjo";
+        public const string HOST_DEFAUL = "smtp.gmail.com";
         #endregion
 
         #region Authentication
         public const int INVALID_EMAIL_OR_PASSWORD_ERR = -1;
         public const int ACCOUNT_HAD_BEEN_BLOCKED_ERR = -2;
+        public const int INVALID_EMAIL_ERR = -3;
         #endregion
 
         #region User
