@@ -43,6 +43,11 @@ namespace Sneat.MVC.Controllers
             return await _userService.UserLogin(email, password);
         }
 
+        public async Task<int> ForgotPassword(string email)
+        {
+            return await _userService.ForgotPassword(email);
+        }
+
         [HttpPost]
         public JsonResult UploadFiles(HttpPostedFileBase[] files)
         {

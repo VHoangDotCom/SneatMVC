@@ -53,6 +53,7 @@ namespace Sneat.MVC.Common
         public const string EMAIL_CONFIG = "viethoang2001gun@gmail.com";
         public const string PASS_CONFIG = "wjvs nvnr qigk tpjo";
         public const string HOST_DEFAUL = "smtp.gmail.com";
+        public const string EMAIL_TITLE = "[HỆ THỐNG SNEAT]";
         #endregion
 
         #region Authentication
