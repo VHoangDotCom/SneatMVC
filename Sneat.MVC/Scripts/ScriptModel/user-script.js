@@ -425,3 +425,153 @@ function deleteUser(id) {
     });
    
 }
+
+function deactivateAccount(id) {
+    const checkbox = document.getElementById('accountActivation');
+    const checkboxLabel = document.querySelector('label[for="accountActivation"]');
+    const warningMessage = document.getElementById('warningMessage');
+
+    if (!checkbox.checked) {
+        checkbox.style.outline = '2px solid red';
+        checkboxLabel.style.color = 'red';
+        warningMessage.style.display = 'block';
+    } else {
+        Swal.fire({
+            title: 'Ngừng hoạt động tài khoản',
+            text: "Bạn chắc chắn muốn ngừng hoạt động tài khoản này chứ?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Vâng, tôi xác nhận!',
+            customClass: {
+                confirmButton: 'btn btn-primary me-3',
+                cancelButton: 'btn btn-label-secondary'
+            },
+            buttonsStyling: false
+        }).then(function (resultConfirm) {
+            if (resultConfirm.isConfirmed) {
+                $.ajax({
+                    url: '/Users/DeactiveUser',
+                    data: { id: id },
+                    type: "POST",
+                    success: function (result) {
+                        if (result == 1) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: 'Ngừng hoạt động tài khoản thành công!',
+                                icon: 'success',
+                                customClass: {
+                                    confirmButton: 'btn btn-primary'
+                                },
+                                buttonsStyling: false
+                            });
+                            setTimeout(function () {
+                                window.location = "/Users/Index?";
+                                searchUser();
+                            }, 2000);
+                        } else if (result == -3) {
+                            Swal.fire({
+                                title: 'Ngừng hoạt động tài khoản thất bại!',
+                                text: 'Tài khoản hiện không tồn tại hoặc đã bị xóa!',
+                                icon: 'warning',
+                                customClass: {
+                                    confirmButton: 'btn btn-primary'
+                                },
+                                buttonsStyling: false
+                            });
+                            setTimeout(
+                                function () {
+                                    window.location = "/Users/Index?";
+                                    searchUser();
+                                }, 1000);
+
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Có lỗi xảy ra!',
+                                text: ' Không thể ngừng hoạt động tài khoản!',
+                                icon: 'error',
+                                customClass: {
+                                    confirmButton: 'btn btn-primary'
+                                },
+                                buttonsStyling: false
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        checkbox.style.outline = '';
+        checkboxLabel.style.color = '';
+        warningMessage.style.display = 'none';
+    }
+}
+
+function activateAccount(id) {
+   
+    Swal.fire({
+        title: 'Kích hoạt tài khoản',
+        text: "Bạn chắc chắn muốn kích hoạt tài khoản này chứ?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Vâng, tôi xác nhận!',
+        customClass: {
+            confirmButton: 'btn btn-primary me-3',
+            cancelButton: 'btn btn-label-secondary'
+        },
+        buttonsStyling: false
+    }).then(function (resultConfirm) {
+        if (resultConfirm.isConfirmed) {
+            $.ajax({
+                url: '/Users/ActivateUser',
+                data: { id: id },
+                type: "POST",
+                success: function (result) {
+                    if (result == 1) {
+                        Swal.fire({
+                            title: 'Thành công!',
+                            text: 'Kích hoạt tài khoản thành công!',
+                            icon: 'success',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                        setTimeout(function () {
+                            window.location = "/Users/Index?";
+                            searchUser();
+                        }, 2000);
+                    } else if (result == -3) {
+                        Swal.fire({
+                            title: 'Kích hoạt tài khoản thất bại!',
+                            text: 'Tài khoản hiện không tồn tại hoặc đã bị xóa!',
+                            icon: 'warning',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                        setTimeout(
+                            function () {
+                                window.location = "/Users/Index?";
+                                searchUser();
+                            }, 1000);
+
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Có lỗi xảy ra!',
+                            text: ' Không thể kích hoạt tài khoản!',
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+}

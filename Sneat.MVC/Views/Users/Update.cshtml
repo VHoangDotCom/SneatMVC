@@ -3,6 +3,7 @@
     ViewData["title"] = "Update User";
 }
 @using Sneat.MVC.Models.DTO.User;
+@using Sneat.MVC.Common
 @model UserDetailOutputModel
 
 <div class="content-wrapper">
@@ -103,27 +104,49 @@
             </div>
         </div>*@
 
-        <div class="p-3 mt-1 card mb-4">
-            <h5 class="card-header">Ngừng hoạt động tài khoản</h5>
-            <div class="card-body">
-                <div class="mb-3 col-12 mb-0">
-                    <div class="alert alert-warning">
-                        <h6 class="alert-heading fw-medium mb-1">Bạn có chắc muốn ngừng hoạt động tài khoản này?</h6>
-                        <p class="mb-0">Khi tài khoản bị ngừng hoạt động, tài khoản sẽ không được quyền đăng nhập hệ thống nữa.</p>
+        @if (Model.Status == SystemParam.ACTIVE)
+        {
+            <div class="p-3 mt-1 card mb-4">
+                <h5 class="card-header">Ngừng hoạt động tài khoản</h5>
+                <div class="card-body">
+                    <div class="mb-3 col-12 mb-0">
+                        <div class="alert alert-warning">
+                            <h6 class="alert-heading fw-medium mb-1">Bạn có chắc muốn ngừng hoạt động tài khoản này?</h6>
+                            <p class="mb-0">Khi tài khoản bị ngừng hoạt động, tài khoản sẽ không được quyền đăng nhập hệ thống nữa.</p>
+                        </div>
+                    </div>
+                    <div id="formAccountDeactivation">
+                        <div class="form-check mb-1" id="checkboxContainer">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="accountActivation"
+                                   id="accountActivation" />
+                            <label class="form-check-label" for="accountActivation">Tôi xác nhận ngừng hoạt động tài khoản này</label>
+                        </div>
+                        <div id="warningMessage" style="display: none; color: red; font-size: 15px;">Vui lòng xác nhận trước khi ngừng hoạt động tài khoản.</div>
+                        <button class="btn btn-danger deactivate-account " onclick="deactivateAccount(@Model.ID)">Ngừng hoạt động</button>
                     </div>
                 </div>
-                <form id="formAccountDeactivation" onsubmit="return false">
-                    <div class="form-check mb-3">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               name="accountActivation"
-                               id="accountActivation" />
-                        <label class="form-check-label" for="accountActivation">Tôi xác nhận ngừng hoạt động tài khoản này</label>
-                    </div>
-                    <button type="submit" class="btn btn-danger deactivate-account">Ngừng hoạt động</button>
-                </form>
             </div>
-        </div>
+        }
+        else
+        {
+            <div class="p-3 mt-1 card mb-4">
+                <h5 class="card-header">Kích hoạt tài khoản</h5>
+                <div class="card-body">
+                    <div class="mb-3 col-12 mb-0">
+                        <div class="alert alert-success">
+                            <h6 class="alert-heading fw-medium mb-1">Kích hoạt tài khoản</h6>
+                            <p class="mb-0">Sau khi kích hoạt, tài khoản này có thể đăng nhập và hoạt động bình thường.</p>
+                        </div>
+                    </div>
+                    <div id="formAccountActivate">
+                        <button class="btn btn-success activate-account " onclick="activateAccount(@Model.ID)">Kích hoạt</button>
+                    </div>
+                </div>
+            </div>
+        }
+
 
         <div class="row">
             <div class="col-md-12 col-xs-12">
@@ -138,89 +161,17 @@
 <script src="~/Scripts/ScriptModel/user-script.js"></script>
 
 <script>
-    const deactivateAcc = document.querySelector('#formAccountDeactivation'),
-        deactivateButton = deactivateAcc.querySelector('.deactivate-account');
+    document.getElementById('accountActivation').addEventListener('change', function () {
+        const checkbox = this;
+        const checkboxLabel = document.querySelector('label[for="accountActivation"]');
+        const warningMessage = document.getElementById('warningMessage');
 
-    if (deactivateAcc) {
-        const fv = FormValidation.formValidation(deactivateAcc, {
-            fields: {
-                accountActivation: {
-                    validators: {
-                        notEmpty: {
-                            message: 'Please confirm you want to delete account'
-                        }
-                    }
-                }
-            },
-            plugins: {
-                trigger: new FormValidation.plugins.Trigger(),
-                bootstrap5: new FormValidation.plugins.Bootstrap5({
-                    eleValidClass: ''
-                }),
-                submitButton: new FormValidation.plugins.SubmitButton(),
-                fieldStatus: new FormValidation.plugins.FieldStatus({
-                    onStatusChanged: function (areFieldsValid) {
-                        areFieldsValid
-                            ? // Enable the submit button
-                            // so user has a chance to submit the form again
-                            deactivateButton.removeAttribute('disabled')
-                            : // Disable the submit button
-                            deactivateButton.setAttribute('disabled', 'disabled');
-                    }
-                }),
-                // Submit the form when all fields are valid
-                // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
-                autoFocus: new FormValidation.plugins.AutoFocus()
-            },
-            init: instance => {
-                instance.on('plugins.message.placed', function (e) {
-                    if (e.element.parentElement.classList.contains('input-group')) {
-                        e.element.parentElement.insertAdjacentElement('afterend', e.messageElement);
-                    }
-                });
-            }
-        });
-    }
+        if (checkbox.checked) {
+            // Reset the styles to normal
+            checkbox.style.outline = '';
+            checkboxLabel.style.color = '';
+            warningMessage.style.display = 'none';
+        }
+    });
 
-    // Deactivate account alert
-    const accountActivation = document.querySelector('#accountActivation');
-
-    // Alert With Functional Confirm Button
-    if (deactivateButton) {
-        deactivateButton.onclick = function () {
-            if (accountActivation.checked == true) {
-                Swal.fire({
-                    text: 'Are you sure you would like to deactivate your account?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes',
-                    customClass: {
-                        confirmButton: 'btn btn-primary me-2',
-                        cancelButton: 'btn btn-label-secondary'
-                    },
-                    buttonsStyling: false
-                }).then(function (result) {
-                    if (result.value) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Deleted!',
-                            text: 'Your file has been deleted.',
-                            customClass: {
-                                confirmButton: 'btn btn-success'
-                            }
-                        });
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire({
-                            title: 'Cancelled',
-                            text: 'Deactivation Cancelled!!',
-                            icon: 'error',
-                            customClass: {
-                                confirmButton: 'btn btn-success'
-                            }
-                        });
-                    }
-                });
-            }
-        };
-    }
 </script>

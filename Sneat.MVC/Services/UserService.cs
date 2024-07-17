@@ -201,6 +201,29 @@ namespace Sneat.MVC.Services
             }
         }
 
+        public async Task<int> ChangeUserStatus(int ID, int isAcive)
+        {
+            try
+            {
+                var user = await _dbContext.Users
+                    .FirstOrDefaultAsync(x => x.ID == ID && x.IsDeleted == SystemParam.IS_NOT_DELETED);
+                if (user == null)
+                    return SystemParam.ACCOUNT_NOT_FOUND_ERR;
+
+                if(isAcive == SystemParam.ACTIVE)
+                    user.Status = Status.ACTIVE;
+                else
+                    user.Status = Status.IN_ACTIVE;
+
+                await _dbContext.SaveChangesAsync();
+                return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
+            }
+        }
         #endregion
 
         #region Authentication
@@ -226,6 +249,8 @@ namespace Sneat.MVC.Services
                         ID = user.ID,
                         Phone = user.Phone,
                         Email = user.Email,
+                        Avatar = user.Avatar,
+                        Status = (int?)user.Status,
                         DistrictID = user.DistrictID,
                     };
                     HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;

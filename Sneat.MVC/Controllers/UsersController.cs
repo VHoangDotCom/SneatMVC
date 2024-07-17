@@ -53,5 +53,18 @@ namespace Sneat.MVC.Controllers
         {
             return await _userService.DeleteUser(ID);
         }
+
+        [HttpPost]
+        public async Task<int> DeactiveUser(int ID)
+        {
+            return await _userService.ChangeUserStatus(ID, SystemParam.IN_ACTIVE);
+        }
+
+        [HttpPost]
+        public async Task<int> ActivateUser(int ID)
+        {
+            return await _userService.ChangeUserStatus(ID, SystemParam.ACTIVE);
+        }
+
     }
 }
