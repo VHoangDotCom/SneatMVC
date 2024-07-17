@@ -24,7 +24,8 @@ namespace Sneat.MVC.Services
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = title,
-                Body = content
+                Body = content,
+                IsBodyHtml = true
             })
             {
                 smtp.Send(message);

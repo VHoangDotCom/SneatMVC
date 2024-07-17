@@ -4,6 +4,7 @@ using Sneat.MVC.DAL;
 using Sneat.MVC.Models.DTO.User;
 using Sneat.MVC.Models.Entity;
 using Sneat.MVC.Models.Enum;
+using Sneat.MVC.Templates;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -255,8 +256,11 @@ namespace Sneat.MVC.Services
                 user.Password = Utils.GenPass(newPass);
                 await _dbContext.SaveChangesAsync();
 
+                // HTML content for the email
+                string htmlContent = SendMailTemplate.ForgotPasswordTemplate(newPass);
+
                 // Send the email asynchronously
-                emailService.configClient(email, "[HỆ THỐNG SHOPSHIP]", "Mật khẩu mới của bạn là " + newPass);
+                emailService.configClient(email, SystemParam.EMAIL_TITLE, "Mật khẩu mới của bạn là " + htmlContent);
 
                 return SystemParam.RETURN_TRUE;
             }

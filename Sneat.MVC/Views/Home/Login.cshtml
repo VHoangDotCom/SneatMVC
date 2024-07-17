@@ -25,6 +25,7 @@
 
     @Html.Partial("SneatProComponents/RenderSection/_ScriptsIncludes")
 
+    @Html.Partial("SneatProComponents/UI/_Modal")
 </head>
 
 <body>
@@ -53,9 +54,10 @@
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="password">Password</label>
-                                    <a href="auth-forgot-password-basic.html">
+                                    <a href="javascript:void(0);" onclick="forgotPasswordModal();">
                                         <small>Forgot Password?</small>
                                     </a>
+
                                 </div>
 
                                 <div class="input-group input-group-merge">
@@ -103,6 +105,36 @@
             </div>
         </div>
     </div>
-  
 </body>
 </html>
+
+<div class="modal fade"
+     id="forgotPasswordModal"
+     aria-labelledby="modalToggleLabel"
+     tabindex="-1"
+     style="display: none"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+       
+            <div class="modal-body">
+                <h4 class="mb-2">Forgot Password? 🔒</h4>
+                <p class="mb-4">Enter your email and we'll send you instructions to reset your password</p>
+                <div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text"
+                               class="form-control"
+                               id="email-forgot-password"
+                               name="email"
+                               placeholder="Enter your email"
+                               autofocus />
+                    </div>
+                    <button onclick="ForgotPassword()" class="btn btn-primary d-grid w-100">Send Email</button>
+                </div>
+             
+            </div>
+        
+        </div>
+    </div>
+</div>

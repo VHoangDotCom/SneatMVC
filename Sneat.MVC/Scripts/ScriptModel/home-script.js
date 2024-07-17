@@ -109,6 +109,73 @@ function logout() {
     });
 }
 
+function forgotPasswordModal() {
+    $("#forgotPasswordModal").modal('show');
+}
+
+function ForgotPassword() {
+    var email = $('#email-forgot-password').val();
+    if (email == "") {
+        Swal.fire({
+            title: 'Thông báo!',
+            text: 'Vui lòng nhập Email của bạn!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+
+    $.ajax({
+        url: '/Home/ForgotPassword',
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ email: email }),
+        beforeSend: function () {
+            $('#forgotPasswordModal').modal('hide');
+            $("#modalLoad").modal("show");
+        },
+        success: function (res) {
+            $("#modalLoad").modal("hide");
+
+            if (res == 1) {
+                Swal.fire({
+                    title: 'Thành công!',
+                    text: 'Vui lòng kiểm tra Email của bạn để xác nhận mật khẩu mới!',
+                    icon: 'success',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+            else if (res == -3) {
+                Swal.fire({
+                    title: 'Thông báo!',
+                    text: 'Email không hợp lệ!',
+                    icon: 'warning',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+            else {
+                Swal.fire({
+                    title: 'Có lỗi xảy ra!',
+                    text: ' Không thể gửi email!',
+                    icon: 'error',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+        }
+    })
+}
 
 function LoginAdmin() {
 
