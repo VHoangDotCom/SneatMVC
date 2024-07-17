@@ -53,55 +53,77 @@
                         <strong>Số điện thoại</strong><span style="color:red"> *</span>
                         <input type="number" value="@Model.Phone" class="form-control" id="input-add-phone" name="phone" required placeholder="Nhập số điện thoại">
                     </div>
-                   
+
                 </div>
             </div>
         </div>
 
         @*<div class="p-3 mt-1 card mb-4">
-                <h5 class="card-header">Thông tin gói dịch vụ</h5>
-                <div class="row mt-2">
-                    <div class="col-sm-6">
+            <h5 class="card-header">Thông tin gói dịch vụ</h5>
+            <div class="row mt-2">
+                <div class="col-sm-6">
 
-                        <div class="mb-3">
-                            <strong>Ngày bắt đầu </strong><span style="color:red"> *</span>
-                            <input type="date" class="form-control" id="dtStartDate" placeholder="Chọn ngày bắt đầu" />
-                            <input hidden type="text" id="dtStartDateText" />
-                        </div>
-
-                        <div class="mb-3">
-                            <strong>Số admin</strong><span style="color:red"> *</span>
-                            <input id="adminNumCreate" placeholder="Nhập số admin" class="form-control" type="number" />
-                        </div>
-
-                        <div class="mb-3">
-                            <strong>Số nhân viên </strong><span style="color:red"> *</span>
-                            <input id="driverNumCreate" placeholder="Nhập số nhân viên" class="form-control" type="number" />
-                        </div>
-
+                    <div class="mb-3">
+                        <strong>Ngày bắt đầu </strong><span style="color:red"> *</span>
+                        <input type="date" class="form-control" id="dtStartDate" placeholder="Chọn ngày bắt đầu" />
+                        <input hidden type="text" id="dtStartDateText" />
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="mb-3">
+                        <strong>Số admin</strong><span style="color:red"> *</span>
+                        <input id="adminNumCreate" placeholder="Nhập số admin" class="form-control" type="number" />
+                    </div>
 
-                        <div class="mb-3">
-                            <strong>Ngày hết hạn </strong><span style="color:red"> *</span>
-                            <input type="date" class="form-control" id="dtEndDate" placeholder="Chọn ngày hết hạn" />
-                            <input hidden type="text" id="dtEndDateText" />
-                        </div>
+                    <div class="mb-3">
+                        <strong>Số nhân viên </strong><span style="color:red"> *</span>
+                        <input id="driverNumCreate" placeholder="Nhập số nhân viên" class="form-control" type="number" />
+                    </div>
 
-                        <div class="mb-3">
-                            <strong>Số chi nhánh</strong><span style="color:red"> *</span>
-                            <input id="shopNumCreate" placeholder="Nhập số chi nhánh" class="form-control" type="number" />
-                        </div>
+                </div>
 
-                        <div class="mb-3">
-                            <strong>Số khách hàng được phép đăng ký </strong><span style="color:red"> *</span>
-                            <input id="customerNumCreate" placeholder="Nhập số khách hàng được phép đăng ký" class="form-control" type="number" />
-                        </div>
+                <div class="col-sm-6">
 
+                    <div class="mb-3">
+                        <strong>Ngày hết hạn </strong><span style="color:red"> *</span>
+                        <input type="date" class="form-control" id="dtEndDate" placeholder="Chọn ngày hết hạn" />
+                        <input hidden type="text" id="dtEndDateText" />
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Số chi nhánh</strong><span style="color:red"> *</span>
+                        <input id="shopNumCreate" placeholder="Nhập số chi nhánh" class="form-control" type="number" />
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Số khách hàng được phép đăng ký </strong><span style="color:red"> *</span>
+                        <input id="customerNumCreate" placeholder="Nhập số khách hàng được phép đăng ký" class="form-control" type="number" />
+                    </div>
+
+                </div>
+            </div>
+        </div>*@
+
+        <div class="p-3 mt-1 card mb-4">
+            <h5 class="card-header">Ngừng hoạt động tài khoản</h5>
+            <div class="card-body">
+                <div class="mb-3 col-12 mb-0">
+                    <div class="alert alert-warning">
+                        <h6 class="alert-heading fw-medium mb-1">Bạn có chắc muốn ngừng hoạt động tài khoản này?</h6>
+                        <p class="mb-0">Khi tài khoản bị ngừng hoạt động, tài khoản sẽ không được quyền đăng nhập hệ thống nữa.</p>
                     </div>
                 </div>
-            </div>*@
+                <form id="formAccountDeactivation" onsubmit="return false">
+                    <div class="form-check mb-3">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="accountActivation"
+                               id="accountActivation" />
+                        <label class="form-check-label" for="accountActivation">Tôi xác nhận ngừng hoạt động tài khoản này</label>
+                    </div>
+                    <button type="submit" class="btn btn-danger deactivate-account">Ngừng hoạt động</button>
+                </form>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-12 col-xs-12">
@@ -114,3 +136,91 @@
 </div>
 
 <script src="~/Scripts/ScriptModel/user-script.js"></script>
+
+<script>
+    const deactivateAcc = document.querySelector('#formAccountDeactivation'),
+        deactivateButton = deactivateAcc.querySelector('.deactivate-account');
+
+    if (deactivateAcc) {
+        const fv = FormValidation.formValidation(deactivateAcc, {
+            fields: {
+                accountActivation: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Please confirm you want to delete account'
+                        }
+                    }
+                }
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap5: new FormValidation.plugins.Bootstrap5({
+                    eleValidClass: ''
+                }),
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                fieldStatus: new FormValidation.plugins.FieldStatus({
+                    onStatusChanged: function (areFieldsValid) {
+                        areFieldsValid
+                            ? // Enable the submit button
+                            // so user has a chance to submit the form again
+                            deactivateButton.removeAttribute('disabled')
+                            : // Disable the submit button
+                            deactivateButton.setAttribute('disabled', 'disabled');
+                    }
+                }),
+                // Submit the form when all fields are valid
+                // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                autoFocus: new FormValidation.plugins.AutoFocus()
+            },
+            init: instance => {
+                instance.on('plugins.message.placed', function (e) {
+                    if (e.element.parentElement.classList.contains('input-group')) {
+                        e.element.parentElement.insertAdjacentElement('afterend', e.messageElement);
+                    }
+                });
+            }
+        });
+    }
+
+    // Deactivate account alert
+    const accountActivation = document.querySelector('#accountActivation');
+
+    // Alert With Functional Confirm Button
+    if (deactivateButton) {
+        deactivateButton.onclick = function () {
+            if (accountActivation.checked == true) {
+                Swal.fire({
+                    text: 'Are you sure you would like to deactivate your account?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    customClass: {
+                        confirmButton: 'btn btn-primary me-2',
+                        cancelButton: 'btn btn-label-secondary'
+                    },
+                    buttonsStyling: false
+                }).then(function (result) {
+                    if (result.value) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Deleted!',
+                            text: 'Your file has been deleted.',
+                            customClass: {
+                                confirmButton: 'btn btn-success'
+                            }
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire({
+                            title: 'Cancelled',
+                            text: 'Deactivation Cancelled!!',
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'btn btn-success'
+                            }
+                        });
+                    }
+                });
+            }
+        };
+    }
+</script>

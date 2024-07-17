@@ -256,11 +256,13 @@ namespace Sneat.MVC.Services
                 user.Password = Utils.GenPass(newPass);
                 await _dbContext.SaveChangesAsync();
 
+                var loginUrl = Utils.getFullUrl();
+
                 // HTML content for the email
-                string htmlContent = SendMailTemplate.ForgotPasswordTemplate(newPass);
+                string htmlContent = SendMailTemplate.ForgotPasswordTemplate(user.UserName, newPass, loginUrl);
 
                 // Send the email asynchronously
-                emailService.configClient(email, SystemParam.EMAIL_TITLE, "Mật khẩu mới của bạn là " + htmlContent);
+                emailService.configClient(email, SystemParam.EMAIL_TITLE, htmlContent);
 
                 return SystemParam.RETURN_TRUE;
             }
