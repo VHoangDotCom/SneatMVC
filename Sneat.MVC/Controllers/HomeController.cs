@@ -1,5 +1,6 @@
 ﻿using Sneat.MVC.App_Start;
 using Sneat.MVC.Common;
+using Sneat.MVC.Models.DTO.User;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,7 @@ namespace Sneat.MVC.Controllers
         [UserAuthenticationFilter]
         public ActionResult Index()
         {
+            UserDetailOutputModel userLogin = UserLogins;
             return View();
         }
 
