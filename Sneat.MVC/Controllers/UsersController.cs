@@ -42,6 +42,13 @@ namespace Sneat.MVC.Controllers
             return View(userDetail);
         }
 
+        [UserAuthenticationFilter]
+        [HttpGet]
+        public ActionResult UserProfile()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<int> UpdateUser(UpdateUserInputModel input)
         {
