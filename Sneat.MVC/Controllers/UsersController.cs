@@ -44,9 +44,10 @@ namespace Sneat.MVC.Controllers
 
         [UserAuthenticationFilter]
         [HttpGet]
-        public ActionResult UserProfile()
+        public async Task<ActionResult> UserProfile(int? ID)
         {
-            return View();
+            var userDetail = await _userService.DetailUser((int)ID);
+            return View(userDetail);
         }
 
         [HttpPost]
