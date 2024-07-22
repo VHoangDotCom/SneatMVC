@@ -728,3 +728,97 @@ function activateAccount(id) {
     });
 
 }
+
+function changePassword() {
+
+    if (!navigator.onLine) {
+        Swal.fire({
+            title: 'Thông báo!',
+            text: 'Kiểm tra kết nối internet!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+    var currentPassword = $.trim($("#txtCurrentPassword").val());
+    var newPassword = $.trim($("#txtNewPassword").val());
+    var confirmPassword = $.trim($("#txtConfirmPassword").val());
+
+    if (currentPassword == "" || newPassword == "" || confirmPassword == "") {
+        Swal.fire({
+            title: 'Thông báo!',
+            text: 'Vui lòng điền đầy đủ thông tin!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+    if (newPassword != confirmPassword) {
+        $("#txtConfirmPassword").val("");
+        Swal.fire({
+            title: 'Thông báo!',
+            text: 'Xác nhận mật khẩu không đúng!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+    $.ajax({
+        url: '/Users/ChangePassword',
+        data: {
+            currentPass: currentPassword,
+            newPass: newPassword
+        },
+        beforeSend: function () {
+            $("#modalLoad").modal('show');
+        },
+        type: 'POST',
+        success: function (response) {
+            $("#modalLoad").modal('hide');
+            if (response == 1) {
+                Swal.fire({
+                    title: 'Thành công!',
+                    text: 'Đổi mật khẩu tài khoản thành công!',
+                    icon: 'success',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+                setTimeout(function () {
+                    return;
+                }, 2000);
+            } else {
+                Swal.fire({
+                    title: 'Có lỗi xảy ra!',
+                    text: ' Không thể đổi mật khẩu tài khoản!',
+                    icon: 'error',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+        },
+        error: function (response) {
+            Swal.fire({
+                title: 'Có lỗi xảy ra!',
+                text: ' Không thể đổi mật khẩu tài khoản!',
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+        }
+    });
+}
