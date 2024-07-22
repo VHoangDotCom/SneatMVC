@@ -15,14 +15,10 @@ namespace Sneat.MVC.Models.Entity
         public string Email { get; set; }
         public string Password { get; set; }
         public string Avatar { get; set; }
-        public int Role { get; set; }
         public int IsDeleted { get; set; }
         public Status? Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
-
-        [ForeignKey(nameof(District))]
-        public int? DistrictID { get; set; }
-        public virtual District District { get; set; }
+        
     }
 }

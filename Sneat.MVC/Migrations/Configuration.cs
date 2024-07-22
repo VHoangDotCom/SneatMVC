@@ -42,7 +42,6 @@
                         Password = Utils.GenPass("123456"),
                         CreatedDate = DateTime.Now,
                         UpdatedDate = DateTime.Now,
-                        Role = 1,
                         IsDeleted = 0,
                         Status = Status.ACTIVE,
                     }
@@ -50,6 +49,17 @@
 
             context.Users.AddRange(users);
             context.SaveChanges();
+        }
+
+        private void SeedBanks(Sneat.MVC.DAL.SneatContext context)
+        {
+            if (context.Banks.Any())
+                return;
+
+            var banks = new List<Bank>()
+            {
+
+            };
         }
 
         private void SeedProvinces(Sneat.MVC.DAL.SneatContext context)

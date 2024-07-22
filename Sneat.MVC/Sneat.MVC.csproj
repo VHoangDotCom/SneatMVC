@@ -167,13 +167,20 @@
     <Compile Include="Migrations\202407140841060_add-user-avatar.designer.cs">
       <DependentUpon>202407140841060_add-user-avatar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202407221647474_user-detail table.cs" />
+    <Compile Include="Migrations\202407221647474_user-detail table.designer.cs">
+      <DependentUpon>202407221647474_user-detail table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserInputModel.cs" />
+    <Compile Include="Models\Entity\Bank.cs" />
     <Compile Include="Models\Entity\District.cs" />
     <Compile Include="Models\Entity\Province.cs" />
     <Compile Include="Models\Entity\User.cs" />
+    <Compile Include="Models\Entity\UserDetail.cs" />
     <Compile Include="Models\Entity\Ward.cs" />
+    <Compile Include="Models\Enum\Gender.cs" />
     <Compile Include="Models\Enum\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EmailService.cs" />
@@ -1938,6 +1945,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407140841060_add-user-avatar.resx">
       <DependentUpon>202407140841060_add-user-avatar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407221647474_user-detail table.resx">
+      <DependentUpon>202407221647474_user-detail table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

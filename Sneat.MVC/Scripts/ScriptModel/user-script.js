@@ -784,6 +784,9 @@ function changePassword() {
         type: 'POST',
         success: function (response) {
             $("#modalLoad").modal('hide');
+            $("#txtConfirmPassword").val("");
+            $("#txtCurrentPassword").val("");
+            $("#txtNewPassword").val("");
             if (response == 1) {
                 Swal.fire({
                     title: 'Thành công!',
@@ -797,7 +800,19 @@ function changePassword() {
                 setTimeout(function () {
                     return;
                 }, 2000);
-            } else {
+            }
+            else if (response == -4) {
+                Swal.fire({
+                    title: 'Có lỗi xảy ra!',
+                    text: ' Mật khẩu cũ không đúng!',
+                    icon: 'warning',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+            else {
                 Swal.fire({
                     title: 'Có lỗi xảy ra!',
                     text: ' Không thể đổi mật khẩu tài khoản!',
