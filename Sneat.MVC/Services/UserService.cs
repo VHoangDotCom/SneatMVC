@@ -224,6 +224,7 @@ namespace Sneat.MVC.Services
                 return SystemParam.RETURN_FALSE;
             }
         }
+
         #endregion
 
         #region Authentication
@@ -290,6 +291,26 @@ namespace Sneat.MVC.Services
                 emailService.configClient(email, SystemParam.EMAIL_TITLE, htmlContent);
 
                 return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
+            }
+        }
+
+        public async Task<int> ChangePassword(int ID, string currentPass, string newPass)
+        {
+            try
+            {
+                var user = await _dbContext.Users.FindAsync(ID);
+                if(Utils.CheckPass(currentPass, user.Password))
+                {
+                    user.Password = Utils.GenPass(newPass);
+                    await _dbContext.SaveChangesAsync();
+                    return SystemParam.RETURN_TRUE;
+                }
+                return SystemParam.RETURN_FALSE;
             }
             catch (Exception ex)
             {

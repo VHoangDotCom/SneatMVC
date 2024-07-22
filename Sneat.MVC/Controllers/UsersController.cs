@@ -74,5 +74,12 @@ namespace Sneat.MVC.Controllers
             return await _userService.ChangeUserStatus(ID, SystemParam.ACTIVE);
         }
 
+        [HttpPost]
+        public async Task<int> ChangePassword(string currentPass, string newPass)
+        {
+            UserDetailOutputModel userLogin = UserLogins;
+            return await _userService.ChangePassword(userLogin.ID, currentPass, newPass);
+        }
+
     }
 }

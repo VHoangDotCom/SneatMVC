@@ -114,58 +114,61 @@
                     <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
                         <div id="formChangePassword">
                            
-                            <div class="mb-3 col-12 col-sm-6">
-                                <div class="alert alert-warning" role="alert">
-                                    <h6 class="alert-heading mb-2 pb-1">Đảm bảo mật khẩu đủ các điều kiện sau</h6>
-                                    <span>Có ít nhất 8 ký tự</span>
+                            <div class="row">
+                                <div class="mb-3 col-6 col-sm-6">
+                                    <div class="alert alert-warning" role="alert">
+                                        <h6 class="alert-heading mb-2 pb-1">Đảm bảo mật khẩu đủ các điều kiện sau</h6>
+                                        <span>Có ít nhất 6 ký tự</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mb-3 col-12 col-sm-6">
-                                <div class="row">
-                                    <div class="mb-3 col-12 col-sm-12 form-password-toggle">
-                                        <label class="form-label" for="newPassword">Mật khẩu cũ</label>
-                                        <div class="input-group input-group-merge">
-                                            <input class="form-control"
-                                                   type="password"
-                                                   id="oldPassword"
-                                                   name="newPassword"
-                                                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-                                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                <div class="mb-3 col-6 col-sm-6">
+                                    <div class="row">
+                                        <div class="mb-3 col-12 col-sm-12 form-password-toggle">
+                                            <label class="form-label" for="newPassword">Mật khẩu cũ</label>
+                                            <div class="input-group input-group-merge">
+                                                <input class="form-control"
+                                                       type="password"
+                                                       id="txtCurrentPassword"
+                                                       name="newPassword"
+                                                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-12 col-sm-12 form-password-toggle">
+                                            <label class="form-label" for="newPassword">Mật khẩu mới</label>
+                                            <div class="input-group input-group-merge">
+                                                <input class="form-control"
+                                                       type="password"
+                                                       id="txtNewPassword"
+                                                       name="newPassword"
+                                                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-12 col-sm-12 form-password-toggle">
+                                            <label class="form-label" for="confirmPassword">Xác nhận mật khẩu mới</label>
+                                            <div class="input-group input-group-merge">
+                                                <input class="form-control"
+                                                       type="password"
+                                                       name="confirmPassword"
+                                                       id="txtConfirmPassword"
+                                                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                            </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="row">
-                                    <div class="mb-3 col-12 col-sm-12 form-password-toggle">
-                                        <label class="form-label" for="newPassword">Mật khẩu mới</label>
-                                        <div class="input-group input-group-merge">
-                                            <input class="form-control"
-                                                   type="password"
-                                                   id="newPassword"
-                                                   name="newPassword"
-                                                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-                                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="mb-3 col-12 col-sm-12 form-password-toggle">
-                                        <label class="form-label" for="confirmPassword">Xác nhận mật khẩu mới</label>
-                                        <div class="input-group input-group-merge">
-                                            <input class="form-control"
-                                                   type="password"
-                                                   name="confirmPassword"
-                                                   id="confirmPassword"
-                                                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
-                                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
+                          
                             <div class="row">
                                 <div>
-                                    <button class="btn btn-primary me-2">Thay đổi mật khẩu</button>
+                                    <button onclick="changePassword()" class="btn btn-primary me-2">Thay đổi mật khẩu</button>
                                 </div>
                             </div>
 
