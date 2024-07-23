@@ -175,6 +175,10 @@
     <Compile Include="Migrations\202407230930465_update_database.Designer.cs">
       <DependentUpon>202407230930465_update_database.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202407231455119_update_user_detail.cs" />
+    <Compile Include="Migrations\202407231455119_update_user_detail.designer.cs">
+      <DependentUpon>202407231455119_update_user_detail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DTO\Bank\BankVietQROutputModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
@@ -1956,6 +1960,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407230930465_update_database.resx">
       <DependentUpon>202407230930465_update_database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407231455119_update_user_detail.resx">
+      <DependentUpon>202407231455119_update_user_detail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

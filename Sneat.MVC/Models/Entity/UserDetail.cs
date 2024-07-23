@@ -18,6 +18,11 @@ namespace Sneat.MVC.Models.Entity
         public string Identity { get; set; }
         public string IdentityImages { get; set; }
 
+        [ForeignKey(nameof(Bank))]
+        public int? BankID { get; set; }
+        public virtual Bank Bank { get; set; }
+        public string BankAccountName { get; set; }
+        public string BankAccountNo { get; set; }
 
 
         [ForeignKey(nameof(DistrictHome))]
