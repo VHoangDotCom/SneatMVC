@@ -37,7 +37,7 @@ namespace Sneat.MVC.Services
                              {
                                  IsDeleted = u.IsDeleted,
                                  ID = u.ID,
-                                 Role = u.Role,
+                                 //Role = u.Role,
                                  Status = (int?)u.Status,
                                  UserName = u.UserName,
                                  Phone = u.Phone,
@@ -49,7 +49,7 @@ namespace Sneat.MVC.Services
                              {
                                  ID = u.ID,
                                  IsDeleted = u.IsDeleted,
-                                 Role = u.Role,
+                                 //Role = u.Role,
                                  Status = (int?)u.Status,
                                  UserName = u.UserName,
                                  Phone = u.Phone,
@@ -95,7 +95,7 @@ namespace Sneat.MVC.Services
                     CreatedDate = DateTime.Now,
                     IsDeleted = SystemParam.IS_NOT_DELETED,
                     Status = Status.ACTIVE,
-                    DistrictID = input.DistrictID,
+                    //DistrictID = input.DistrictID,
                 };
                 _dbContext.Users.Add(user);
                 await _dbContext.SaveChangesAsync();
@@ -135,7 +135,7 @@ namespace Sneat.MVC.Services
                 user.Phone = input.Phone;
                 user.Avatar = input.Avatar;
                 user.UpdatedDate = DateTime.Now;
-                user.DistrictID = input.DistrictID;
+                //user.DistrictID = input.DistrictID;
 
                 await _dbContext.SaveChangesAsync();
 
@@ -161,15 +161,15 @@ namespace Sneat.MVC.Services
                 var userDetail = new UserDetailOutputModel
                 {
                     ID = ID,
-                    Role = user.Role,
+                    //Role = user.Role,
                     Status = (int?)user.Status,
                     UserName = user.UserName,
                     Phone = user.Phone,
                     Email = user.Email,
                     Avatar = user.Avatar,
                     CreateDate = user.CreatedDate,
-                    DistrictID = user.DistrictID,
-                    ProvinceID = user.District != null ? user.District.ProvinceID : default,
+                    //DistrictID = user.DistrictID,
+                    //ProvinceID = user.District != null ? user.District.ProvinceID : default,
                 };
 
                 return userDetail;
@@ -246,13 +246,13 @@ namespace Sneat.MVC.Services
                     var userDetail = new UserDetailOutputModel
                     {
                         UserName = user.UserName,
-                        Role = user.Role,
+                        //Role = user.Role,
                         ID = user.ID,
                         Phone = user.Phone,
                         Email = user.Email,
                         Avatar = user.Avatar,
                         Status = (int?)user.Status,
-                        DistrictID = user.DistrictID,
+                        //DistrictID = user.DistrictID,
                     };
                     HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;
                     return SystemParam.RETURN_TRUE;
@@ -310,7 +310,7 @@ namespace Sneat.MVC.Services
                     await _dbContext.SaveChangesAsync();
                     return SystemParam.RETURN_TRUE;
                 }
-                return SystemParam.RETURN_FALSE;
+                return SystemParam.INVALID_PASSWORD_ERR;
             }
             catch (Exception ex)
             {

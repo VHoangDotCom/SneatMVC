@@ -60,6 +60,7 @@ namespace Sneat.MVC.Common
         public const int INVALID_EMAIL_OR_PASSWORD_ERR = -1;
         public const int ACCOUNT_HAD_BEEN_BLOCKED_ERR = -2;
         public const int INVALID_EMAIL_ERR = -3;
+        public const int INVALID_PASSWORD_ERR = -4;
         #endregion
 
         #region User
