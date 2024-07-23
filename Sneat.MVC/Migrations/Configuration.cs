@@ -1,15 +1,20 @@
 ﻿namespace Sneat.MVC.Migrations
 {
+    using Newtonsoft.Json;
     using Sneat.MVC.Common;
+    using Sneat.MVC.Models.DTO.Bank;
     using Sneat.MVC.Models.Entity;
     using Sneat.MVC.Models.Enum;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
     using System.Linq;
+    using System.Net.Http;
+    using System.Threading.Tasks;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Sneat.MVC.DAL.SneatContext>
     {
+        private static readonly HttpClient client = new HttpClient();
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
@@ -25,6 +30,8 @@
             SeedProvinces(context);
             SeedDistricts(context);
             SeedUsers(context);
+
+            SeedBanks(context).GetAwaiter().GetResult();
         }
 
         private void SeedUsers(Sneat.MVC.DAL.SneatContext context)
@@ -51,15 +58,33 @@
             context.SaveChanges();
         }
 
-        private void SeedBanks(Sneat.MVC.DAL.SneatContext context)
+        private async Task SeedBanks(Sneat.MVC.DAL.SneatContext context)
         {
             if (context.Banks.Any())
                 return;
 
-            var banks = new List<Bank>()
-            {
+            string url = SystemParam.VIET_QR_API_ROOT_V2 + SystemParam.VIET_QR_API_LIST_BANK_V2;
+            var response = await client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            var bankApiResponse = JsonConvert.DeserializeObject<BankApiResponse>(responseBody);
 
-            };
+            var banks = new List<Bank>();
+            foreach (var bank in bankApiResponse.Data)
+            {
+                banks.Add(new Bank
+                {
+                    Name = bank.Name,
+                    ShortName = bank.ShortName,
+                    Bin = bank.Bin,
+                    Logo = bank.Logo,
+                    Code = bank.Code,
+                    SwiftCode = bank.SwiftCode
+                });
+            }
+
+            context.Banks.AddRange(banks);
+            await context.SaveChangesAsync();
         }
 
         private void SeedProvinces(Sneat.MVC.DAL.SneatContext context)

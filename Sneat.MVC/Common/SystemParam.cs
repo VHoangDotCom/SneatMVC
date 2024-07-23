@@ -68,5 +68,11 @@ namespace Sneat.MVC.Common
         public const int PHONE_USED_ERR = -2;
         public const int ACCOUNT_NOT_FOUND_ERR = -3;
         #endregion
+
+        #region Viet QR
+        public const string VIET_QR_API_ROOT_V2 = "https://api.vietqr.io/v2/";
+        public const string VIET_QR_API_LIST_BANK_V2 = "banks";
+        public const string VIET_QR_API_GENERATE_QR_V2 = "generate";
+        #endregion
     }
 }
