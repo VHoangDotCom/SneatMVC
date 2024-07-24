@@ -56,11 +56,11 @@
                         <strong>Mật khẩu</strong><span style="color:red"> *</span>
                         <div class="col-md-12 col-xs-12 col-sm-12 input-group input-group-merge">
                             <input type="password"
-                                    id="txt-pass"
-                                    class="form-control"
-                                    name="password"
-                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                    aria-describedby="password" />
+                                   id="txt-pass"
+                                   class="form-control"
+                                   name="password"
+                                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                   aria-describedby="password" />
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
                     </div>
@@ -69,11 +69,11 @@
                         <strong>Xác nhận mật khẩu</strong><span style="color:red"> *</span>
                         <div class="col-md-12 col-xs-12 col-sm-12 input-group input-group-merge">
                             <input type="password"
-                                    id="txt-pass-confirm"
-                                    class="form-control"
-                                    name="password"
-                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                    aria-describedby="password" />
+                                   id="txt-pass-confirm"
+                                   class="form-control"
+                                   name="password"
+                                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                   aria-describedby="password" />
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
                     </div>
@@ -82,50 +82,188 @@
             </div>
         </div>
 
-        @*<div class="p-3 mt-1 card mb-4">
-                <h5 class="card-header">Thông tin gói dịch vụ</h5>
-                <div class="row mt-2">
-                    <div class="col-sm-6">
-
-                        <div class="mb-3">
-                            <strong>Ngày bắt đầu </strong><span style="color:red"> *</span>
-                            <input type="date" class="form-control" id="dtStartDate" placeholder="Chọn ngày bắt đầu" />
-                            <input hidden type="text" id="dtStartDateText" />
-                        </div>
-
-                        <div class="mb-3">
-                            <strong>Số admin</strong><span style="color:red"> *</span>
-                            <input id="adminNumCreate" placeholder="Nhập số admin" class="form-control" type="number" />
-                        </div>
-
-                        <div class="mb-3">
-                            <strong>Số nhân viên </strong><span style="color:red"> *</span>
-                            <input id="driverNumCreate" placeholder="Nhập số nhân viên" class="form-control" type="number" />
-                        </div>
-
+        <div class="col-12 mb-4">
+            <div class="bs-stepper wizard-numbered mt-2">
+                <div class="bs-stepper-header">
+                    <div class="step" data-target="#account-details">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-circle">1</span>
+                            <span class="bs-stepper-label mt-1">
+                                <span class="bs-stepper-title">Chi tiết tài khoản</span>
+                                <span class="bs-stepper-subtitle">Thông tin chi tiết cá nhân</span>
+                            </span>
+                        </button>
                     </div>
-
-                    <div class="col-sm-6">
-
-                        <div class="mb-3">
-                            <strong>Ngày hết hạn </strong><span style="color:red"> *</span>
-                            <input type="date" class="form-control" id="dtEndDate" placeholder="Chọn ngày hết hạn" />
-                            <input hidden type="text" id="dtEndDateText" />
-                        </div>
-
-                        <div class="mb-3">
-                            <strong>Số chi nhánh</strong><span style="color:red"> *</span>
-                            <input id="shopNumCreate" placeholder="Nhập số chi nhánh" class="form-control" type="number" />
-                        </div>
-
-                        <div class="mb-3">
-                            <strong>Số khách hàng được phép đăng ký </strong><span style="color:red"> *</span>
-                            <input id="customerNumCreate" placeholder="Nhập số khách hàng được phép đăng ký" class="form-control" type="number" />
-                        </div>
-
+                    <div class="line">
+                        <i class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="step" data-target="#personal-info">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-circle">2</span>
+                            <span class="bs-stepper-label mt-1">
+                                <span class="bs-stepper-title">CCCD/CMT</span>
+                                <span class="bs-stepper-subtitle">Căn cước công dân/Chứng minh thư</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="line">
+                        <i class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="step" data-target="#social-links">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-circle">3</span>
+                            <span class="bs-stepper-label mt-1">
+                                <span class="bs-stepper-title">Tài khoản giao dịch</span>
+                                <span class="bs-stepper-subtitle">Thông tin tài khoản ngân hàng</span>
+                            </span>
+                        </button>
                     </div>
                 </div>
-            </div>*@
+                <div class="bs-stepper-content">
+                    <div autocomplete="off">
+                        <!-- Account Details -->
+                        <div id="account-details" class="content">
+                            <div class="content-header mb-3">
+                                <h6 class="mb-0">Chi tiết tài khoản</h6>
+                                <small>Thông tin chi tiết cá nhân</small>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label class="form-label">Tên họ</label>
+                                    <input type="text" id="txtFirstName" class="form-control" placeholder="Nhâp tên họ" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label">Tên đệm</label>
+                                    <input type="text" id="txtLastName" class="form-control" placeholder="Nhâp tên đệm" />
+                                </div>
+                                <div class="col-md-6 col-12 mb-4">
+                                    <label for="flatpickr-date" class="form-label">Ngày sinh</label>
+                                    <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="flatpickr-date" />
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="selectpickerBasic" class="form-label">Giớ tính</label>
+                                    <select id="selectpickerBasic" class="selectpicker w-100" data-style="btn-default">
+                                        <option>Nam</option>
+                                        <option>Nữ</option>
+                                        <option>Khác</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 d-flex justify-content-between">
+                                    <button class="btn btn-label-secondary btn-prev" disabled>
+                                        <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+                                        <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Personal Info -->
+                        <div id="personal-info" class="content">
+                            <div class="content-header mb-3">
+                                <h6 class="mb-0">Personal Info</h6>
+                                <small>Enter Your Personal Info.</small>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="first-name">First Name</label>
+                                    <input type="text" id="first-name" class="form-control" placeholder="John" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="last-name">Last Name</label>
+                                    <input type="text" id="last-name" class="form-control" placeholder="Doe" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="country">Country</label>
+                                    <select class="select2" id="country">
+                                        <option label=" "></option>
+                                        <option>UK</option>
+                                        <option>USA</option>
+                                        <option>Spain</option>
+                                        <option>France</option>
+                                        <option>Italy</option>
+                                        <option>Australia</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="language">Language</label>
+                                    <select class="selectpicker w-auto"
+                                            id="language"
+                                            data-style="btn-transparent"
+                                            data-icon-base="bx"
+                                            data-tick-icon="bx-check text-white"
+                                            multiple>
+                                        <option>English</option>
+                                        <option>French</option>
+                                        <option>Spanish</option>
+                                    </select>
+                                </div>
+                                <div class="col-12 d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+                                        <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Social Links -->
+                        <div id="social-links" class="content">
+                            <div class="content-header mb-3">
+                                <h6 class="mb-0">Social Links</h6>
+                                <small>Enter Your Social Links.</small>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="twitter">Twitter</label>
+                                    <input type="text"
+                                           id="twitter"
+                                           class="form-control"
+                                           placeholder="https://twitter.com/abc" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="facebook">Facebook</label>
+                                    <input type="text"
+                                           id="facebook"
+                                           class="form-control"
+                                           placeholder="https://facebook.com/abc" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="google">Google+</label>
+                                    <input type="text"
+                                           id="google"
+                                           class="form-control"
+                                           placeholder="https://plus.google.com/abc" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label" for="linkedin">LinkedIn</label>
+                                    <input type="text"
+                                           id="linkedin"
+                                           class="form-control"
+                                           placeholder="https://linkedin.com/abc" />
+                                </div>
+                                <div class="col-12 d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-label-secondary btn-next" disabled>
+                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+                                        <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-12 col-xs-12">
