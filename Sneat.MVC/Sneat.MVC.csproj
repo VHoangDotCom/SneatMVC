@@ -185,6 +185,7 @@
       <DependentUpon>202407240216169_user-detail-identity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DTO\Address\ProvinceModel.cs" />
     <Compile Include="Models\DTO\Bank\BankVietQROutputModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserInputModel.cs" />
@@ -197,6 +198,8 @@
     <Compile Include="Models\Enum\Gender.cs" />
     <Compile Include="Models\Enum\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AddressService.cs" />
+    <Compile Include="Services\BankService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Templates\SendMailTemplate.cs" />

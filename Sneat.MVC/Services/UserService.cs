@@ -95,9 +95,30 @@ namespace Sneat.MVC.Services
                     CreatedDate = DateTime.Now,
                     IsDeleted = SystemParam.IS_NOT_DELETED,
                     Status = Status.ACTIVE,
-                    //DistrictID = input.DistrictID,
                 };
                 _dbContext.Users.Add(user);
+
+                var userDetail = new UserDetail
+                {
+                    FirstName = input.FirstName,
+                    LastName = input.LastName,
+                    DateOfBirth = input.DOB,
+                    Gender = input.Gender,
+                    Identity = input.Identity,
+                    IdentityReceivedDate = input.IdentityReceivedDate,
+                    IdentityReceivedPlace = input.IdentityReceivedPlace,
+                    IdentityImages = string.Join(", ", input.IdentityImages),
+                    BankID = input.BankID,
+                    BankAccountName = input.BankAccountName,
+                    BankAccountNo = input.BankAccountNo,
+                    DistrictHomeID = input.DistrictHomeID,
+                    HomeAddress = input.HomeAddress,
+                    DistrictOfficeID = input.DistrictOfficeID,
+                    OfficeAddress = input.OfficeAddress,
+                    UserID = user.ID,
+                };
+                _dbContext.UserDetails.Add(userDetail);
+
                 await _dbContext.SaveChangesAsync();
 
                 return SystemParam.RETURN_TRUE;

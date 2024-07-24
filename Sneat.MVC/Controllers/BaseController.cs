@@ -10,10 +10,14 @@ namespace Sneat.MVC.Controllers
     {
         protected SneatContext Context;
         public UserService _userService;
+        public AddressService _addressService;
+        public BankService _bankService;
 
         public BaseController() : base()
         {
             _userService = new UserService(this.GetContext());
+            _addressService = new AddressService(this.GetContext());
+            _bankService = new BankService(this.GetContext());
         }
 
         public SneatContext GetContext()
