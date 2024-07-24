@@ -31,6 +31,8 @@ namespace Sneat.MVC.Controllers
         public async Task<int> CreateUser(UserInputModel input)
         {
             UserDetailOutputModel userLogin = UserLogins;
+            ViewBag.ListProvince = await _addressService.ListProvince();
+            ViewBag.ListBank = await _bankService.GetListBanks();
             return await _userService.CreateUser(input);
         }
 
