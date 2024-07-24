@@ -7,7 +7,10 @@
 (function () {
   // Flat Picker
   // --------------------------------------------------------------------
-  const flatpickrDate = document.querySelector('#flatpickr-date'),
+    const flatpickrDate = document.querySelector('#flatpickr-date'),
+    //Date for identity of user 
+    flatpickrDateIdentity = document.querySelector('#flatpickr-date-identity'),
+
     flatpickrTime = document.querySelector('#flatpickr-time'),
     flatpickrDateTime = document.querySelector('#flatpickr-datetime'),
     flatpickrMulti = document.querySelector('#flatpickr-multi'),
@@ -21,7 +24,14 @@
     flatpickrDate.flatpickr({
       monthSelectorType: 'static'
     });
-  }
+    }
+
+    // IdentityDate
+    if (flatpickrDateIdentity) {
+        flatpickrDateIdentity.flatpickr({
+            monthSelectorType: 'static'
+        });
+    }
 
   // Time
   if (flatpickrTime) {

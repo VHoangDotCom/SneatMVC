@@ -15,7 +15,10 @@ namespace Sneat.MVC.Models.Entity
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public Gender Gender { get; set; }
+
         public string Identity { get; set; }
+        public DateTime? IdentityReceivedDate { get; set; }
+        public string IdentityReceivedPlace { get; set; }
         public string IdentityImages { get; set; }
 
         [ForeignKey(nameof(Bank))]

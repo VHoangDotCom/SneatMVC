@@ -156,6 +156,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\SneatContext.cs" />
+    <Compile Include="DAL\VirtualSeed.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -178,6 +179,10 @@
     <Compile Include="Migrations\202407231455119_update_user_detail.cs" />
     <Compile Include="Migrations\202407231455119_update_user_detail.designer.cs">
       <DependentUpon>202407231455119_update_user_detail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202407240216169_user-detail-identity.cs" />
+    <Compile Include="Migrations\202407240216169_user-detail-identity.Designer.cs">
+      <DependentUpon>202407240216169_user-detail-identity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DTO\Bank\BankVietQROutputModel.cs" />
@@ -1963,6 +1968,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407231455119_update_user_detail.resx">
       <DependentUpon>202407231455119_update_user_detail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407240216169_user-detail-identity.resx">
+      <DependentUpon>202407240216169_user-detail-identity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
