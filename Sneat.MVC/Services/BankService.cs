@@ -25,6 +25,7 @@ namespace Sneat.MVC.Services
                 var banks = await _dbContext.Banks
                     .Select(x =>  new BankVietQROutputModel
                     {
+                        ID = x.ID,
                         Name = x.Name,
                         ShortName = x.ShortName,
                         Bin = x.Bin,

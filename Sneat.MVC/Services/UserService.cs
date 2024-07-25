@@ -98,6 +98,8 @@ namespace Sneat.MVC.Services
                 };
                 _dbContext.Users.Add(user);
 
+                var bank = await _dbContext.Banks.Where(x => x.Bin == input.BankBin).FirstOrDefaultAsync();
+
                 var userDetail = new UserDetail
                 {
                     FirstName = input.FirstName,
@@ -108,9 +110,10 @@ namespace Sneat.MVC.Services
                     IdentityReceivedDate = input.IdentityReceivedDate,
                     IdentityReceivedPlace = input.IdentityReceivedPlace,
                     IdentityImages = string.Join(", ", input.IdentityImages),
-                    BankID = input.BankID,
+                    BankID = bank != null ? bank.ID : default(int),
                     BankAccountName = input.BankAccountName,
                     BankAccountNo = input.BankAccountNo,
+                    BankQRImage = input.BankQRImage,
                     DistrictHomeID = input.DistrictHomeID,
                     HomeAddress = input.HomeAddress,
                     DistrictOfficeID = input.DistrictOfficeID,
