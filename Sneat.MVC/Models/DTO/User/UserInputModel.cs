@@ -20,7 +20,7 @@ namespace Sneat.MVC.Models.DTO.User
         public string Identity { get; set; }
         public DateTime? IdentityReceivedDate { get; set; }
         public string IdentityReceivedPlace { get; set; }
-        public List<string> IdentityImages { get; set; }
+        public string IdentityImages { get; set; }
 
         public string BankBin { get; set; }
         public string BankAccountName { get; set; }
@@ -32,10 +32,13 @@ namespace Sneat.MVC.Models.DTO.User
 
         public int? DistrictOfficeID { get; set; }
         public string OfficeAddress { get; set; }
+
+        public int Status { get; set; }
     }
 
     public class UpdateUserInputModel : UserInputModel
     {
         public int ID { get; set; }
+        public DateTime CreateDate { get; set; }
     }
 }

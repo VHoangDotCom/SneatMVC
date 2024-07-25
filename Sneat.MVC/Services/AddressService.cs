@@ -32,7 +32,7 @@ namespace Sneat.MVC.Services
                             .Select(y => new DistrictModel 
                             {
                                 ID = y.ID,
-                                Name = y.Name,
+                                Name = y.Name + " - " + x.Name,
                             }).ToList(),
                     })
                     .ToListAsync();
