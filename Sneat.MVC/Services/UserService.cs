@@ -109,7 +109,7 @@ namespace Sneat.MVC.Services
                     Identity = input.Identity,
                     IdentityReceivedDate = input.IdentityReceivedDate,
                     IdentityReceivedPlace = input.IdentityReceivedPlace,
-                    IdentityImages = string.Join(", ", input.IdentityImages),
+                    IdentityImages = input.IdentityImages,
                     BankID = bank != null ? bank.ID : default(int),
                     BankAccountName = input.BankAccountName,
                     BankAccountNo = input.BankAccountNo,
@@ -172,7 +172,7 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public async Task<UserDetailOutputModel> DetailUser(int ID)
+        public async Task<UpdateUserInputModel> DetailUser(int ID)
         {
             try
             {
@@ -180,28 +180,51 @@ namespace Sneat.MVC.Services
                     .Where(u => u.ID == ID && u.IsDeleted == SystemParam.IS_NOT_DELETED)
                     .FirstOrDefaultAsync();
                 if (user == null)
-                    return new UserDetailOutputModel();
+                    return new UpdateUserInputModel();
 
-                var userDetail = new UserDetailOutputModel
+                var userDetal = await _dbContext.UserDetails
+                    .Where(ud => ud.UserID == ID)
+                    .FirstOrDefaultAsync();
+                if (userDetal == null)
+                    userDetal = new UserDetail();
+
+                var result = new UpdateUserInputModel
                 {
                     ID = ID,
-                    //Role = user.Role,
-                    Status = (int?)user.Status,
-                    UserName = user.UserName,
+                    Status = (int)user.Status,
+                    Name = user.UserName,
                     Phone = user.Phone,
                     Email = user.Email,
                     Avatar = user.Avatar,
                     CreateDate = user.CreatedDate,
-                    //DistrictID = user.DistrictID,
-                    //ProvinceID = user.District != null ? user.District.ProvinceID : default,
+                   
+                    FirstName = userDetal.FirstName,
+                    LastName = userDetal.LastName,
+                    DOB = userDetal.DateOfBirth,
+                    Gender = userDetal.Gender,
+
+                    Identity = userDetal.Identity,
+                    IdentityReceivedDate = userDetal.IdentityReceivedDate,
+                    IdentityReceivedPlace = userDetal.IdentityReceivedPlace,
+                    IdentityImages = userDetal.IdentityImages,
+
+                    BankBin = userDetal.Bank != null ? userDetal.Bank.Bin : "",
+                    BankAccountName = userDetal.BankAccountName,
+                    BankAccountNo = userDetal.BankAccountNo,
+                    BankQRImage = userDetal.BankQRImage,
+
+                    DistrictHomeID = userDetal.DistrictHomeID,
+                    HomeAddress = userDetal.HomeAddress,
+                    DistrictOfficeID = userDetal.DistrictOfficeID,
+                    OfficeAddress = userDetal.OfficeAddress,
                 };
 
-                return userDetail;
+                return result;
             }
             catch (Exception ex)
             {
                 ex.ToString();
-                return new UserDetailOutputModel();
+                return new UpdateUserInputModel();
             }
         }
 

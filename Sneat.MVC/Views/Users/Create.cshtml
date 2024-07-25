@@ -123,10 +123,6 @@
                     <div autocomplete="off">
                         <!-- Account Details -->
                         <div id="account-details" class="content">
-                            <div class="content-header mb-3">
-                                <h6 class="mb-0">Chi tiết tài khoản</h6>
-                                <small>Thông tin chi tiết cá nhân</small>
-                            </div>
                             <div class="row g-3">
                                 <div class="col-sm-6">
                                     <label class="form-label">Tên họ</label>
@@ -141,11 +137,11 @@
                                     <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="flatpickr-date" />
                                 </div>
                                 <div class="col-md-6 mb-4">
-                                    <label for="selectpickerBasic" class="form-label">Giới tính</label>
-                                    <select id="selectpickerBasic" class="selectpicker w-100" data-style="btn-default">
-                                        <option>Nam</option>
-                                        <option>Nữ</option>
-                                        <option>Khác</option>
+                                    <label for="slGender" class="form-label">Giới tính</label>
+                                    <select id="slGender" class="selectpicker w-100" data-style="btn-default">
+                                        <option value="1">Nam</option>
+                                        <option value="2">Nữ</option>
+                                        <option value="3">Khác</option>
                                     </select>
                                 </div>
 
@@ -163,10 +159,6 @@
                         </div>
                         <!-- Personal Info -->
                         <div id="personal-info" class="content">
-                            <div class="content-header mb-3">
-                                <h6 class="mb-0">CCCD/CMT</h6>
-                                <small>Căn cước công dân/Chứng minh thư</small>
-                            </div>
                             <div class="row g-3">
                                 <div class="col-sm-6">
                                     <label class="form-label">Mã CCCD/CMT</label>
@@ -178,7 +170,7 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label for="flatpickr-date-identity" class="form-label">Nơi cấp</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+                                    <textarea class="form-control" id="txtReceivePlace" rows="2"></textarea>
                                 </div>
                                 <div class="col-12">
                                     <div class="card">
@@ -214,10 +206,6 @@
                         </div>
                         <!-- Social Links -->
                         <div id="social-links" class="content">
-                            <div class="content-header mb-3">
-                                <h6 class="mb-0">Tài khoản giao dịch</h6>
-                                <small>Thông tin tài khoản ngân hàng</small>
-                            </div>
                             <div class="row g-3">
                                 <div class="col-ms-12 col-md-12 col-lg-12 col-xl-12">
                                     <div class="row mt-3">
@@ -322,12 +310,32 @@
                 <div class="bs-stepper-content">
                     <div autocomplete="off">
                         <div id="home-address" class="content">
-                            <div class="content-header mb-3">
-                                <h6 class="mb-0">Địa chỉ nhà</h6>
-                                <small>Địa chỉ thường trú</small>
-                            </div>
                             <div class="row g-3">
-                              Hello
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <label class="text-dark">
+                                            Quận/huyện:
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div id="slProvinceHome"
+                                             name="native-select"
+                                             placeholder="Chọn quận/huyện"
+                                             data-search="true"
+                                             data-silent-initial-value-set="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <label class="text-dark">
+                                            Địa chỉ chi tiết:
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control" id="txtHomeAddress" rows="2"></textarea>
+                                    </div>
+                                </div>
 
                                 <div class="col-12 d-flex justify-content-between">
                                     <button class="btn btn-label-secondary btn-prev" disabled>
@@ -342,12 +350,32 @@
                             </div>
                         </div>
                         <div id="office-address" class="content">
-                            <div class="content-header mb-3">
-                                <h6 class="mb-0">Địa chỉ văn phòng</h6>
-                                <small>Thông tin địa chỉ công ty</small>
-                            </div>
                             <div class="row g-3">
-                              Hi there
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <label class="text-dark">
+                                            Quận/huyện:
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div id="slProvinceOffice"
+                                             name="native-select"
+                                             placeholder="Chọn quận/huyện"
+                                             data-search="true"
+                                             data-silent-initial-value-set="true">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <label class="text-dark">
+                                            Địa chỉ chi tiết:
+                                        </label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control" id="txtOfficeAddress" rows="2"></textarea>
+                                    </div>
+                                </div>
                                 <div class="col-12 d-flex justify-content-between">
                                     <button class="btn btn-primary btn-prev">
                                         <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
@@ -398,6 +426,42 @@
         options: optionBanks
     });
 
+     var optionsTree = JSON.parse('@Html.Raw(Json.Encode(ViewBag.ListProvince))');
+     const optionsTreeRender = optionsTree.map(child => {
+         return {
+             value: child.ID,
+             label: child.Name,
+             options: child.Districts.length ? child.Districts.map(grandChild => ({
+                 label: grandChild.Name,
+                 value: grandChild.ID.toString()
+             })) : null
+         };
+     });
+    VirtualSelect.init({
+        ele: '#slProvinceHome',
+        multiple: false,
+        allOptionsSelectedText: 'All',
+        showValueAsTags: false,
+        autoSelectFirstOption: false,
+        noOfDisplayValues: 5,
+        markSearchResults: true,
+        searchGroup: true,
+        searchNormalize: true,
+        options: optionsTreeRender,
+    });
+
+    VirtualSelect.init({
+        ele: '#slProvinceOffice',
+        multiple: false,
+        allOptionsSelectedText: 'All',
+        showValueAsTags: false,
+        autoSelectFirstOption: false,
+        noOfDisplayValues: 5,
+        markSearchResults: true,
+        searchGroup: true,
+        searchNormalize: true,
+        options: optionsTreeRender,
+    });
 
    /* var optionBanks = [];
     fetch('https://api.vietqr.io/v2/banks')

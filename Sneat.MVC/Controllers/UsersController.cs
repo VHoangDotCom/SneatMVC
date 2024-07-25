@@ -40,6 +40,8 @@ namespace Sneat.MVC.Controllers
         [HttpGet]
         public async Task<ActionResult> Update(int ID)
         {
+            ViewBag.ListProvince = await _addressService.ListProvince();
+            ViewBag.ListBank = await _bankService.GetListBanks();
             var userDetail = await _userService.DetailUser(ID);
             return View(userDetail);
         }
