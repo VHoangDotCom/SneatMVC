@@ -76,7 +76,7 @@
   
   // Multiple Dropzone
   // --------------------------------------------------------------------
-  const dropzoneMulti = document.querySelector('#dropzone-multi');
+  /*const dropzoneMulti = document.querySelector('#dropzone-multi');
   if (dropzoneMulti) {
     const myDropzoneMulti = new Dropzone(dropzoneMulti, {
       previewTemplate: previewTemplate,
@@ -84,5 +84,53 @@
       maxFilesize: 5,
       addRemoveLinks: true
     });
-  }
+  }*/
+
+    const dropzoneMulti = document.querySelector('#dropzone-multi');
+    if (dropzoneMulti) {
+        const myDropzoneMulti = new Dropzone(dropzoneMulti, {
+            previewTemplate: previewTemplate,
+            parallelUploads: 1,
+            maxFilesize: 5,
+            addRemoveLinks: true
+        });
+
+        // Add existing images as mock files
+        const currentImageUrls = document.getElementById('currentMultilImage').value;
+        if (currentImageUrls != "") {
+            currentImageUrls.split(',').forEach((url, index) => {
+                const mockFile = { name: `Existing Image ${index + 1}`, size: 12345 }; // Mock file name and size
+                myDropzoneMulti.emit("addedfile", mockFile);
+                myDropzoneMulti.emit("thumbnail", mockFile, url);
+                myDropzoneMulti.emit("complete", mockFile);
+
+                // Set the existing file as preview
+                myDropzoneMulti.files.push(mockFile);
+            });
+        }
+
+        myDropzoneMulti.on('success', function (file) {
+            const formData = new FormData();
+            formData.append('files', file);
+
+            fetch('/Home/UploadFiles', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(url => {
+                        // Assuming currentImage should store all URLs as a comma-separated string
+                        let currentImages = $('#currentMultilImage').val();
+                        currentImages = currentImages ? currentImages.split(',') : [];
+                        currentImages.push(url);
+                        $('#currentMultilImage').val(currentImages.join(','));
+                        console.log($('#currentMultilImage').val());
+                    });
+                })
+                .catch(error => {
+                    console.error('Error uploading files:', error);
+                });
+        });
+    }
 })();

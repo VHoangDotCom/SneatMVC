@@ -837,3 +837,127 @@ function changePassword() {
         }
     });
 }
+
+function checkBankAccount() {
+    var BankBin = $('#slBank').val();
+    var AccountNo = $('#valAccountNo').val();
+
+    if (BankBin == "") {
+        Swal.fire({
+            title: 'Thông báo!',
+            text: 'Vui lòng chọn ngân hàng!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+    if (AccountNo == "") {
+        Swal.fire({
+            title: 'Thông báo!',
+            text: 'Vui lòng nhập số tài khoản!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+
+    var data = JSON.stringify({
+        "bin": BankBin,
+        "accountNumber": AccountNo
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: {
+            /*
+             ShopShip acc:
+                 Client-ID: 1b98c74b-49aa-4e5a-b022-471c91f4e1de
+                 API-Key: 42be61eb-d839-4522-9213-6381268ae8e6
+             Backup-1 acc:
+                 Client-ID: e4057385-f918-4882-a4ca-da9a135bdde6
+                 API-Key: 2889cc0b-89d3-4f61-8fe0-75365698e2c7
+             Backup-2 acc:
+                 Client-ID: 0bf74c69-dceb-47a0-97a6-7711b9c78e5e
+                 API-Key: e125e141-041c-4011-931b-a9b431c6418d
+             */
+            'x-client-id': '1b98c74b-49aa-4e5a-b022-471c91f4e1de',
+            'x-api-key': '42be61eb-d839-4522-9213-6381268ae8e6',
+            'Content-Type': 'application/json'
+        },
+        body: data
+    };
+
+    $("#modalLoad").modal('show');
+
+    fetch('https://api.vietqr.io/v2/lookup', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            $("#modalLoad").modal('hide');
+            if (data.code === "42") {
+                //{"code":"42","desc":"Account number Invalid - Số tài khoản không hợp lệ","data":null}
+                //Invalid
+                Swal.fire({
+                    title: 'Thông báo!',
+                    text: 'Account number Invalid - Số tài khoản không hợp lệ!',
+                    icon: 'warning',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+                console.log(JSON.stringify(data));
+            } else if (data.code === "00") {
+                //{"code":"00","desc":"Success - Thành công","data":{"accountName":"NGUYEN VIET HOANG"}}
+                // Success
+                Swal.fire({
+                    title: 'Thành công!',
+                    text: `Tên tài khoản: '${data.data.accountName}'`,
+                    icon: 'success',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+                $('#valAccountName').val(data.data.accountName);
+                // Update image source
+                const imgSrc = `https://img.vietqr.io/image/${BankBin}-${AccountNo}-L4OvGuX.jpg?accountName=${encodeURIComponent(data.data.accountName)}`;
+                $('#imgVietQR').attr('src', imgSrc);
+                console.log($("#imgVietQR").attr('src'))
+            }
+            else if (data.code === "44") {
+                //{"code":"44","desc":"Free API Key. Limit exceed. Please contact us(https://casso.vn) to get production Api Key."}
+                //Expire request search
+                Swal.fire({
+                    title: 'Thông báo - Limit exceed!',
+                    text: "Bạn đã đến giới hạn 25 lượt kiểm tra trong một tuần (số lượt kiểm tra sẽ được reset sau vài ngày hoặc bạn có thể nâng cấp tài khoản VietQR)",
+                    icon: "error",
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+            else {
+                console.log(JSON.stringify(data));
+                // Handle the success case here
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Có lỗi xảy ra!',
+                text: 'Error:', error,
+                icon: 'error',
+                customClass: {
+                    confirmButton: 'btn btn-primary'
+                },
+                buttonsStyling: false
+            });
+        });
+}

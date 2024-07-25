@@ -22,9 +22,10 @@ namespace Sneat.MVC.Models.DTO.User
         public string IdentityReceivedPlace { get; set; }
         public List<string> IdentityImages { get; set; }
 
-        public int? BankID { get; set; }
+        public string BankBin { get; set; }
         public string BankAccountName { get; set; }
         public string BankAccountNo { get; set; }
+        public string BankQRImage { get; set; }
 
         public int? DistrictHomeID { get; set; }
         public string HomeAddress { get; set; }

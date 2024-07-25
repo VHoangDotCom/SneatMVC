@@ -26,6 +26,7 @@ namespace Sneat.MVC.Models.Entity
         public virtual Bank Bank { get; set; }
         public string BankAccountName { get; set; }
         public string BankAccountNo { get; set; }
+        public string BankQRImage { get; set; }
 
 
         [ForeignKey(nameof(DistrictHome))]

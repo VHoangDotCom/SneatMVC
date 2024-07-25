@@ -56,7 +56,37 @@ $(function () {
         alert('Submitted..!!');
       });
     }
-  }
+    }
+
+    const wizardNumberedAddress = document.querySelector('.wizard-numbered-address'),
+        wizardNumberedAddressBtnNextList = [].slice.call(wizardNumberedAddress.querySelectorAll('.btn-next')),
+        wizardNumberedAddressBtnPrevList = [].slice.call(wizardNumberedAddress.querySelectorAll('.btn-prev')),
+        wizardNumberedAddressBtnSubmit = wizardNumberedAddress.querySelector('.btn-submit');
+
+    if (typeof wizardNumberedAddress !== undefined && wizardNumberedAddress !== null) {
+        const numberedStepper = new Stepper(wizardNumberedAddress, {
+            linear: false
+        });
+        if (wizardNumberedAddressBtnNextList) {
+            wizardNumberedAddressBtnNextList.forEach(wizardNumberedBtnNext => {
+                wizardNumberedBtnNext.addEventListener('click', event => {
+                    numberedStepper.next();
+                });
+            });
+        }
+        if (wizardNumberedAddressBtnPrevList) {
+            wizardNumberedAddressBtnPrevList.forEach(wizardNumberedBtnPrev => {
+                wizardNumberedBtnPrev.addEventListener('click', event => {
+                    numberedStepper.previous();
+                });
+            });
+        }
+        if (wizardNumberedAddressBtnSubmit) {
+            wizardNumberedAddressBtnSubmit.addEventListener('click', event => {
+                alert('Submitted..!!');
+            });
+        }
+    }
 
   // Vertical Wizard
   // --------------------------------------------------------------------

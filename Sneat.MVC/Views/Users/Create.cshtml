@@ -184,7 +184,7 @@
                                     <div class="card">
                                         <h5 class="card-header">Ảnh CCCD/CMT</h5>
                                         <div class="card-body">
-                                            <form action="/upload" class="dropzone needsclick" id="dropzone-multi">
+                                            <div action="/Home/UploadFiles" class="dropzone needsclick" id="dropzone-multi">
                                                 <div class="dz-message needsclick">
                                                     Drop files here or click to upload
                                                     <span class="note needsclick">
@@ -194,7 +194,9 @@
                                                 <div class="fallback">
                                                     <input name="file" type="file" />
                                                 </div>
-                                            </form>
+                                                <input type="hidden" id="currentMultilImage" value="">
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -266,15 +268,86 @@
                                                 <input name="AccountNameValue" id="valAccountName" class="form-control " type="text" />
                                             </div>
                                         </div>
-                                      
+
                                     </div>
                                 </div>
                                 <div class="col-ms-3 col-md-3 col-lg-3 col-xl-3">
                                     <div class="col-md-12 mt-3" style="text-align: center">
-                                        <img src="~/Content/sneat-admin-pro/img/avatars/2.png" class="w-px-90 " />
+                                        <img id="imgVietQR" src="" style="max-height: 300px; max-width: 300px;" class="w-px-90 " />
                                     </div>
 
                                 </div>
+                                <div class="col-12 d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-label-secondary btn-next" disabled>
+                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+                                        <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mb-4">
+            <div class="bs-stepper wizard-numbered-address mt-2">
+                <div class="bs-stepper-header">
+                    <div class="step" data-target="#home-address">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-circle"><i class='bx bx-home'></i></span>
+                            <span class="bs-stepper-label mt-1">
+                                <span class="bs-stepper-title">Địa chỉ nhà</span>
+                                <span class="bs-stepper-subtitle">Địa chỉ thường trú</span>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="line">
+                        <i class="bx bx-chevron-right"></i>
+                    </div>
+                    <div class="step" data-target="#office-address">
+                        <button type="button" class="step-trigger">
+                            <span class="bs-stepper-circle"><i class='bx bxs-buildings'></i></span>
+                            <span class="bs-stepper-label mt-1">
+                                <span class="bs-stepper-title">Địa chỉ văn phòng</span>
+                                <span class="bs-stepper-subtitle">Thông tin địa chỉ công ty</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="bs-stepper-content">
+                    <div autocomplete="off">
+                        <div id="home-address" class="content">
+                            <div class="content-header mb-3">
+                                <h6 class="mb-0">Địa chỉ nhà</h6>
+                                <small>Địa chỉ thường trú</small>
+                            </div>
+                            <div class="row g-3">
+                              Hello
+
+                                <div class="col-12 d-flex justify-content-between">
+                                    <button class="btn btn-label-secondary btn-prev" disabled>
+                                        <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+                                        <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="office-address" class="content">
+                            <div class="content-header mb-3">
+                                <h6 class="mb-0">Địa chỉ văn phòng</h6>
+                                <small>Thông tin địa chỉ công ty</small>
+                            </div>
+                            <div class="row g-3">
+                              Hi there
                                 <div class="col-12 d-flex justify-content-between">
                                     <button class="btn btn-primary btn-prev">
                                         <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
@@ -303,3 +376,57 @@
 </div>
 
 <script src="~/Scripts/ScriptModel/user-script.js"></script>
+@Scripts.Render("~/Content/multiselect-dropdown/virtual-select.min.js")
+<script>
+    //Set config for multiple select
+    var optionBanks = JSON.parse('@Html.Raw(Json.Encode(ViewBag.ListBank))').map(function (item) {
+      return {
+          label: `<img src="${item.Logo}" class="ml-2" style=" width="55" height="25">` + `${item.ShortName} - ` + item.Name,
+          value: item.Bin
+      }
+  });
+    VirtualSelect.init({
+        ele: '#slBank',
+        multiple: false,
+        allOptionsSelectedText: 'All',
+        showValueAsTags: true,
+        autoSelectFirstOption: false,
+        noOfDisplayValues: 5,
+        markSearchResults: true,
+        searchGroup: true,
+        searchNormalize: true,
+        options: optionBanks
+    });
+
+
+   /* var optionBanks = [];
+    fetch('https://api.vietqr.io/v2/banks')
+        .then(response => response.json())
+        .then(data => {
+             optionBanks = data.data.map(function (item) {
+                return {
+                    value: item.bin,
+                    label: `<img src="${item.logo}" class="ml-2" style=" width="55" height="25">` + `${item.shortName} - ` + item.name ,
+                };
+            });
+
+            VirtualSelect.init({
+                ele: '#slBank',
+                multiple: false,
+                allOptionsSelectedText: 'All',
+                markSearchResults: true,
+                hasOptionDescription: true,
+                searchPlaceholderText: "Nhập tên ngân hàng",
+                options: optionBanks,
+                searchNormalize: true,
+                //selectedValue: "",
+            });
+
+            console.log(optionBanks);
+        })
+        .catch(error => {
+            console.error('Error fetching the bank data:', error);
+        });*/
+
+
+</script>
