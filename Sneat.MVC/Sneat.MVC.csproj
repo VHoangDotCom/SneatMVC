@@ -188,6 +188,10 @@
     <Compile Include="Migrations\202407251020527_add-qr-url-user-detail.Designer.cs">
       <DependentUpon>202407251020527_add-qr-url-user-detail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202407260637289_update-dob-user-detail.cs" />
+    <Compile Include="Migrations\202407260637289_update-dob-user-detail.Designer.cs">
+      <DependentUpon>202407260637289_update-dob-user-detail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DTO\Address\ProvinceModel.cs" />
     <Compile Include="Models\DTO\Bank\BankVietQROutputModel.cs" />
@@ -1981,6 +1985,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407251020527_add-qr-url-user-detail.resx">
       <DependentUpon>202407251020527_add-qr-url-user-detail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407260637289_update-dob-user-detail.resx">
+      <DependentUpon>202407260637289_update-dob-user-detail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
