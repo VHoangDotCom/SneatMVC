@@ -242,6 +242,26 @@ function saveUpdateUser(ID) {
     var phone = $('#input-add-phone').val();
     var avatar = $('#currentImage').val();
 
+    var firstName = $('#txtFirstName').val();
+    var lastName = $('#txtLastName').val();
+    var DOB = $('#flatpickr-date').val();
+    var gender = $('#slGender').val();
+
+    var identity = $('#txtIdentity').val();
+    var identityReceivedDate = $('#flatpickr-date-identity').val();
+    var identityReceivedPlace = $('#txtReceivePlace').val();
+    var identityImages = $('#currentMultilImage').val();
+
+    var bankBin = $('#slBank').val();
+    var bankAccountName = $('#valAccountName').val();
+    var bankAccountNo = $('#valAccountNo').val();
+    var bankQRImage = $("#imgVietQR").attr('src');
+
+    var districtHomeID = $('#slProvinceHome').val();
+    var homeAddress = $('#txtHomeAddress').val();
+    var districtOfficeID = $('#slProvinceOffice').val();
+    var officeAddress = $('#txtOfficeAddress').val();
+
     if (name == "") {
         Swal.fire({
             title: 'Thông báo!',
@@ -319,6 +339,26 @@ function saveUpdateUser(ID) {
             phone: phone,
             email: email,
             avatar: avatar,
+
+            firstName: firstName,
+            lastName: lastName,
+            DOB: DOB,
+            gender: gender,
+
+            identity: identity,
+            identityReceivedDate: identityReceivedDate,
+            identityReceivedPlace: identityReceivedPlace,
+            identityImages: identityImages,
+
+            bankBin: bankBin,
+            bankAccountName: bankAccountName,
+            bankAccountNo: bankAccountNo,
+            bankQRImage: bankQRImage,
+
+            districtHomeID: districtHomeID,
+            homeAddress: homeAddress,
+            districtOfficeID: districtOfficeID,
+            officeAddress: officeAddress
         }),
         beforeSend: function () {
             $("#modalLoad").modal("show");

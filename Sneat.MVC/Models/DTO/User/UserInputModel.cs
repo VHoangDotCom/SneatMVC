@@ -1,7 +1,6 @@
-﻿using Sneat.MVC.Models.Enum;
+﻿using Sneat.MVC.Common;
+using Sneat.MVC.Models.Enum;
 using System;
-using System.Collections.Generic;
-
 namespace Sneat.MVC.Models.DTO.User
 {
     public class UserInputModel
@@ -14,7 +13,7 @@ namespace Sneat.MVC.Models.DTO.User
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime DOB { get; set; }
+        public DateTime? DOB { get; set; }
         public Gender Gender { get; set; }
 
         public string Identity { get; set; }
@@ -40,5 +39,25 @@ namespace Sneat.MVC.Models.DTO.User
     {
         public int ID { get; set; }
         public DateTime CreateDate { get; set; }
+        public string IdentityReceivedDateStr 
+        {
+            get
+            {
+                if (IdentityReceivedDate != null)
+                    return IdentityReceivedDate.Value.ToString(SystemParam.CONVERT_DATETIME_DATE_PICKER_BASIC);
+                else
+                    return null;
+            }
+        }
+        public string DOBStr
+        {
+            get
+            {
+                if (DOB != null)
+                    return DOB.Value.ToString(SystemParam.CONVERT_DATETIME_DATE_PICKER_BASIC);
+                else
+                    return null;
+            }
+        }
     }
 }

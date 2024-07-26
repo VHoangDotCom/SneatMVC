@@ -159,7 +159,72 @@ namespace Sneat.MVC.Services
                 user.Phone = input.Phone;
                 user.Avatar = input.Avatar;
                 user.UpdatedDate = DateTime.Now;
-                //user.DistrictID = input.DistrictID;
+
+                // Validate DateOfBirth
+                DateTime validDOB = default(DateTime);
+                if (DateTime.TryParse(input.DOB.ToString(), out validDOB))
+                {
+                    if (validDOB < new DateTime(1753, 1, 1))
+                    {
+                        validDOB = new DateTime(1753, 1, 1);
+                    }
+                }
+
+                // Validate IdentityReceivedDate
+                DateTime validIdentityReceivedDate = default(DateTime);
+                if (DateTime.TryParse(input.IdentityReceivedDate.ToString(), out validIdentityReceivedDate))
+                {
+                    if (validIdentityReceivedDate < new DateTime(1753, 1, 1))
+                    {
+                        validIdentityReceivedDate = new DateTime(1753, 1, 1);
+                    }
+                }
+
+                var bank = await _dbContext.Banks.Where(x => x.Bin == input.BankBin).FirstOrDefaultAsync();
+                var userDetail = await _dbContext.UserDetails.Where(x => x.UserID == input.ID).FirstOrDefaultAsync();
+                if(userDetail != null)
+                {
+                    userDetail.FirstName = input.FirstName;
+                    userDetail.LastName = input.LastName;
+                    userDetail.DateOfBirth = input.DOB != null ? input.DOB : validDOB;
+                    userDetail.Gender = input.Gender;
+                    userDetail.Identity = input.Identity;
+                    userDetail.IdentityReceivedDate = input.IdentityReceivedDate != null ? input.IdentityReceivedDate : validIdentityReceivedDate;
+                    userDetail.IdentityReceivedPlace = input.IdentityReceivedPlace;
+                    userDetail.IdentityImages = input.IdentityImages;
+                    userDetail.BankID = bank != null ? bank.ID : (int?)null;
+                    userDetail.BankAccountName = input.BankAccountName;
+                    userDetail.BankAccountNo = input.BankAccountNo;
+                    userDetail.BankQRImage = input.BankQRImage;
+                    userDetail.DistrictHomeID = input.DistrictHomeID;
+                    userDetail.HomeAddress = input.HomeAddress;
+                    userDetail.DistrictOfficeID = input.DistrictOfficeID;
+                    userDetail.OfficeAddress = input.OfficeAddress;
+                }
+                else
+                {
+                    var newUserDetail = new UserDetail
+                    {
+                        FirstName = input.FirstName,
+                        LastName = input.LastName,
+                        DateOfBirth = input.DOB,
+                        Gender = input.Gender,
+                        Identity = input.Identity,
+                        IdentityReceivedDate = input.IdentityReceivedDate,
+                        IdentityReceivedPlace = input.IdentityReceivedPlace,
+                        IdentityImages = input.IdentityImages,
+                        BankID = bank != null ? bank.ID : (int?)null,
+                        BankAccountName = input.BankAccountName,
+                        BankAccountNo = input.BankAccountNo,
+                        BankQRImage = input.BankQRImage,
+                        DistrictHomeID = input.DistrictHomeID,
+                        HomeAddress = input.HomeAddress,
+                        DistrictOfficeID = input.DistrictOfficeID,
+                        OfficeAddress = input.OfficeAddress,
+                        UserID = user.ID,
+                    };
+                    _dbContext.UserDetails.Add(newUserDetail);
+                }
 
                 await _dbContext.SaveChangesAsync();
 
@@ -168,7 +233,7 @@ namespace Sneat.MVC.Services
             catch (Exception ex)
             {
                 ex.ToString();
-                return SystemParam.RETURN_TRUE;
+                return SystemParam.RETURN_FALSE;
             }
         }
 

@@ -9,6 +9,7 @@ namespace Sneat.MVC.Common
     {
         #region Datetime param
         public const string CONVERT_DATETIME = "dd/MM/yyyy";
+        public const string CONVERT_DATETIME_DATE_PICKER_BASIC = "yyyy-MM-dd";
         public const string CONVERT_DATETIME_HAVE_HOUR = "yyyy-MM-dd HH:mm";
         public const string CONVERT_DATETIME_HOUR = "HH:mm";
         public const string CONVERT_DATETIME_EXCEL = "dd_MM_yyyy";
