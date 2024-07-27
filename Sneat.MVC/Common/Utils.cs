@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Text;
 using System.Web;
+using System;
 
 namespace Sneat.MVC.Common
 {
@@ -53,7 +54,22 @@ namespace Sneat.MVC.Common
             var url = request.Url.Scheme + "://" + request.Url.Authority;
             return url;
         }
-      
+
+        #endregion
+
+        #region Handle DateTime
+        public static DateTime? DefaultDateTime(DateTime? dt)
+        {
+            if (dt.HasValue)
+            {
+                if (dt.Value < new DateTime(1753, 1, 1))
+                {
+                    return new DateTime(1753, 1, 1);
+                }
+                return dt.Value;
+            }
+            return null;
+        }
         #endregion
     }
 }
