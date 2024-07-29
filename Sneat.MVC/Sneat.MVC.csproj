@@ -154,6 +154,7 @@
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\SneatContext.cs" />
     <Compile Include="DAL\VirtualSeed.cs" />
@@ -192,16 +193,36 @@
     <Compile Include="Migrations\202407260637289_update-dob-user-detail.Designer.cs">
       <DependentUpon>202407260637289_update-dob-user-detail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202407290201281_add-role-permission.cs" />
+    <Compile Include="Migrations\202407290201281_add-role-permission.Designer.cs">
+      <DependentUpon>202407290201281_add-role-permission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202407290208419_add-user-role table.cs" />
+    <Compile Include="Migrations\202407290208419_add-user-role table.Designer.cs">
+      <DependentUpon>202407290208419_add-user-role table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202407290937016_update-permission-table.cs" />
+    <Compile Include="Migrations\202407290937016_update-permission-table.Designer.cs">
+      <DependentUpon>202407290937016_update-permission-table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Common\CommonTree.cs" />
+    <Compile Include="Models\Common\TreeItem.cs" />
     <Compile Include="Models\DTO\Address\ProvinceModel.cs" />
     <Compile Include="Models\DTO\Bank\BankVietQROutputModel.cs" />
+    <Compile Include="Models\DTO\Permission\PermissionOutputModel.cs" />
+    <Compile Include="Models\DTO\Role\RoleOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserInputModel.cs" />
     <Compile Include="Models\Entity\Bank.cs" />
     <Compile Include="Models\Entity\District.cs" />
+    <Compile Include="Models\Entity\Permission.cs" />
     <Compile Include="Models\Entity\Province.cs" />
+    <Compile Include="Models\Entity\Role.cs" />
+    <Compile Include="Models\Entity\RolePermission.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\Entity\UserDetail.cs" />
+    <Compile Include="Models\Entity\UserRole.cs" />
     <Compile Include="Models\Entity\Ward.cs" />
     <Compile Include="Models\Enum\Gender.cs" />
     <Compile Include="Models\Enum\Status.cs" />
@@ -209,6 +230,7 @@
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\BankService.cs" />
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Templates\SendMailTemplate.cs" />
   </ItemGroup>
@@ -1932,6 +1954,7 @@
     <Content Include="Views\Users\Update.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Users\UserProfile.cshtml" />
+    <Content Include="Views\Roles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1988,6 +2011,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407260637289_update-dob-user-detail.resx">
       <DependentUpon>202407260637289_update-dob-user-detail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407290201281_add-role-permission.resx">
+      <DependentUpon>202407290201281_add-role-permission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407290208419_add-user-role table.resx">
+      <DependentUpon>202407290208419_add-user-role table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407290937016_update-permission-table.resx">
+      <DependentUpon>202407290937016_update-permission-table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
