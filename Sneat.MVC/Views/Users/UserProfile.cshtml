@@ -4,10 +4,7 @@
 }
 @using Sneat.MVC.Models.DTO.User;
 @using Sneat.MVC.Common
-@model UserDetailOutputModel
-@{
-    UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
-}
+@model UpdateUserInputModel
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -63,7 +60,7 @@
                                              width="110"
                                              alt="User avatar" />
                                         <div class="customer-info text-center">
-                                            <h4 class="mb-1">@Model.UserName</h4>
+                                            <h4 class="mb-1">@Model.Name</h4>
                                             <small>Customer ID #634759</small>
                                         </div>
                                     </div>
@@ -74,7 +71,7 @@
                                     <ul class="list-unstyled">
                                         <li class="mb-3">
                                             <span class="fw-medium me-2">Tên đăng nhập:</span>
-                                            <span>@Model.UserName</span>
+                                            <span>@Model.Name</span>
                                         </li>
                                         <li class="mb-3">
                                             <span class="fw-medium me-2">Email:</span>
@@ -229,7 +226,7 @@
 
                             <div class="mb-3">
                                 <strong>Tên tài khoản</strong><span style="color:red"> *</span>
-                                <input type="text" value="@Model.UserName" class="form-control" id="nameCreate" name="name" required placeholder="Tên tài khoản">
+                                <input type="text" value="@Model.Name" class="form-control" id="nameCreate" name="name" required placeholder="Tên tài khoản">
                             </div>
 
                             <div class="mb-3">

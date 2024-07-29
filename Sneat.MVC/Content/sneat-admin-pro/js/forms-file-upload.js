@@ -107,6 +107,7 @@
                 // Set the existing file as preview
                 myDropzoneMulti.files.push(mockFile);
             });
+            //console.log(currentImageUrls)
         }
 
         myDropzoneMulti.on('success', function (file) {
@@ -129,7 +130,7 @@
                     });
                 })
                 .catch(error => {
-                    console.error('Error uploading files:', error);
+                    //console.error('Error uploading files:', error);
                 });
         });
     }

@@ -966,8 +966,8 @@ function checkBankAccount() {
                  Client-ID: 0bf74c69-dceb-47a0-97a6-7711b9c78e5e
                  API-Key: e125e141-041c-4011-931b-a9b431c6418d
              */
-            'x-client-id': '1b98c74b-49aa-4e5a-b022-471c91f4e1de',
-            'x-api-key': '42be61eb-d839-4522-9213-6381268ae8e6',
+            'x-client-id': 'e4057385-f918-4882-a4ca-da9a135bdde6',
+            'x-api-key': '2889cc0b-89d3-4f61-8fe0-75365698e2c7',
             'Content-Type': 'application/json'
         },
         body: data
@@ -991,6 +991,7 @@ function checkBankAccount() {
                     },
                     buttonsStyling: false
                 });
+                $('#imgVietQR').attr('src', "");
                 console.log(JSON.stringify(data));
             } else if (data.code === "00") {
                 //{"code":"00","desc":"Success - Thành công","data":{"accountName":"NGUYEN VIET HOANG"}}

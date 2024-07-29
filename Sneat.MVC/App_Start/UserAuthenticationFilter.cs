@@ -7,11 +7,14 @@ using System.Web;
 using System.Web.Mvc.Filters;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Sneat.MVC.DAL;
+using Sneat.MVC.Models.Entity;
 
 namespace Sneat.MVC.App_Start
 {
     public class UserAuthenticationFilter : ActionFilterAttribute, IAuthenticationFilter
     {
+        public SneatContext cnn = new SneatContext();
         readonly int Role1 = 0;
         readonly int Role2 = 0;
         public UserAuthenticationFilter()
@@ -29,7 +32,24 @@ namespace Sneat.MVC.App_Start
             UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
             if (ss != null)
             {
+                int currentUserID = ss.ID;
+                var us = cnn.Users.Where(u => u.ID == currentUserID && u.IsDeleted == SystemParam.IS_NOT_DELETED).FirstOrDefault();
+              
+                if (us != null)
+                {
+                    // Update the session with the latest user details
+                    UserDetailOutputModel data = new UserDetailOutputModel
+                    {
+                        UserName = us.UserName,
+                        ID = us.ID,
+                        Phone = us.Phone,
+                        Email = us.Email,
+                        Avatar = us.Avatar,
+                        Status = (int?)us.Status,
+                    };
 
+                    HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = data;
+                }
             }
 
             else

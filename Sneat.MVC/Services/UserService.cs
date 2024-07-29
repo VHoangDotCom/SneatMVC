@@ -100,14 +100,20 @@ namespace Sneat.MVC.Services
 
                 var bank = await _dbContext.Banks.Where(x => x.Bin == input.BankBin).FirstOrDefaultAsync();
 
+                // Validate DateOfBirth
+                var validDOB = Utils.DefaultDateTime(input.DOB);
+
+                // Validate IdentityReceivedDate
+                var validIdentityReceivedDate = Utils.DefaultDateTime(input.IdentityReceivedDate);
+
                 var userDetail = new UserDetail
                 {
                     FirstName = input.FirstName,
                     LastName = input.LastName,
-                    DateOfBirth = input.DOB,
+                    DateOfBirth = input.DOB != null ? input.DOB : validDOB,
                     Gender = input.Gender,
                     Identity = input.Identity,
-                    IdentityReceivedDate = input.IdentityReceivedDate,
+                    IdentityReceivedDate = input.IdentityReceivedDate != null ? input.IdentityReceivedDate : validIdentityReceivedDate,
                     IdentityReceivedPlace = input.IdentityReceivedPlace,
                     IdentityImages = input.IdentityImages,
                     BankID = bank != null ? bank.ID : default(int),
@@ -161,24 +167,10 @@ namespace Sneat.MVC.Services
                 user.UpdatedDate = DateTime.Now;
 
                 // Validate DateOfBirth
-                DateTime validDOB = default(DateTime);
-                if (DateTime.TryParse(input.DOB.ToString(), out validDOB))
-                {
-                    if (validDOB < new DateTime(1753, 1, 1))
-                    {
-                        validDOB = new DateTime(1753, 1, 1);
-                    }
-                }
+                var validDOB = Utils.DefaultDateTime(input.DOB);
 
                 // Validate IdentityReceivedDate
-                DateTime validIdentityReceivedDate = default(DateTime);
-                if (DateTime.TryParse(input.IdentityReceivedDate.ToString(), out validIdentityReceivedDate))
-                {
-                    if (validIdentityReceivedDate < new DateTime(1753, 1, 1))
-                    {
-                        validIdentityReceivedDate = new DateTime(1753, 1, 1);
-                    }
-                }
+                var validIdentityReceivedDate = Utils.DefaultDateTime(input.IdentityReceivedDate);
 
                 var bank = await _dbContext.Banks.Where(x => x.Bin == input.BankBin).FirstOrDefaultAsync();
                 var userDetail = await _dbContext.UserDetails.Where(x => x.UserID == input.ID).FirstOrDefaultAsync();

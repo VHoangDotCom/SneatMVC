@@ -49,7 +49,7 @@ namespace Sneat.MVC.Common
         #endregion
 
         #region Config System
-        public const string SESSION_LOGIN = "Login";
+        public const string SESSION_LOGIN = "LoginSneat";
         // Email
         public const string EMAIL_CONFIG = "viethoang2001gun@gmail.com";
         public const string PASS_CONFIG = "wjvs nvnr qigk tpjo";
