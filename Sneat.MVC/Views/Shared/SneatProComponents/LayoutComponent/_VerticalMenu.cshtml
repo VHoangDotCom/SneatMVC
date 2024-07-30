@@ -54,11 +54,18 @@
             <span class="menu-header-text" @*data-i18n="Apps & Pages"*@>Quản lý tài khoản</span>
         </li>
 
-        <li class='menu-item@(currentPage == "/Users/Index" 
+        <li class='menu-item@(currentPage == "/Users/Index"
                     || currentPage == "/Users/Create" ? " active" : "")'>
             <a href="/Users/Index" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div class="text-truncate" @*data-i18n="User"*@>Tài khoản</div>
+            </a>
+        </li>
+        <li class='menu-item@(currentPage == "/Roles/Index"
+               || currentPage == "/Roles/Create" ? " active" : "")'>
+            <a href="/Roles/Index" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-key"></i>
+                <div class="text-truncate" @*data-i18n="User"*@>Phân quyền</div>
             </a>
         </li>
 

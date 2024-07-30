@@ -71,7 +71,8 @@ namespace Sneat.MVC.Common
         #endregion
 
         #region Role - Permission
-        public const int EXISTED_ROLE_ERR = -1;
+        public const int EXISTED_ROLE_NAME_ERR = -1;
+        public const int ROLE_NOT_FOUND_ERR = -2;
         #endregion
 
         #region Viet QR
