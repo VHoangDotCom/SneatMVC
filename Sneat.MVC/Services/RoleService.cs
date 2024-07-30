@@ -72,7 +72,7 @@ namespace Sneat.MVC.Services
                         && x.Name.ToLower() == input.Name.ToLower())
                     .FirstOrDefaultAsync();
                 if (role != null)
-                    return SystemParam.EXISTED_ROLE_ERR;
+                    return SystemParam.EXISTED_ROLE_NAME_ERR;
 
                 var newRole = new Role
                 {
@@ -95,6 +95,78 @@ namespace Sneat.MVC.Services
                         _dbContext.RolePermissions.Add(rolePermission);
                     }
                 }
+
+                await _dbContext.SaveChangesAsync();
+                return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
+            }
+        }
+
+        public async Task<int> UpdateRole(RoleOutputModel input)
+        {
+            try
+            {
+                var existedRole = await _dbContext.Roles
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
+                        && x.Name.ToLower() == input.Name.ToLower()
+                        && x.ID != input.ID)
+                    .FirstOrDefaultAsync();
+                if (existedRole != null)
+                    return SystemParam.EXISTED_ROLE_NAME_ERR;
+
+                var role = await _dbContext.Roles
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
+                        && x.ID == input.ID)
+                    .FirstOrDefaultAsync();
+                if (role == null)
+                    return SystemParam.ROLE_NOT_FOUND_ERR;
+
+                role.Name = input.Name;
+                role.UpdatedDate = DateTime.Now;
+                role.Description = input.Description;
+
+                // Remove the old permission
+                _dbContext.RolePermissions.RemoveRange(role.RolePermissions);
+                if (input.PermissionIDs.Count > 0)
+                {
+                    foreach (var permissionID in input.PermissionIDs)
+                    {
+                        var rolePermission = new RolePermission
+                        {
+                            RoleID = role.ID,
+                            PermissionID = permissionID
+                        };
+                        _dbContext.RolePermissions.Add(rolePermission);
+                    }
+                }
+
+                await _dbContext.SaveChangesAsync();
+                return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
+            }
+        }
+
+        public async Task<int> RemoveRole(int ID)
+        {
+            try
+            {
+                var role = await _dbContext.Roles
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
+                        && x.ID == ID)
+                    .FirstOrDefaultAsync();
+                if (role == null)
+                    return SystemParam.ROLE_NOT_FOUND_ERR;
+
+                role.IsDeleted = SystemParam.IS_DELETED;
+                _dbContext.RolePermissions.RemoveRange (role.RolePermissions);
 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;
