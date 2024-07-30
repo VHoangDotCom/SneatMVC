@@ -63,6 +63,48 @@ namespace Sneat.MVC.Services
             }
         }
 
+        public async Task<int> CreateRole(RoleInputModel input)
+        {
+            try
+            {
+                var role = await _dbContext.Roles
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED 
+                        && x.Name.ToLower() == input.Name.ToLower())
+                    .FirstOrDefaultAsync();
+                if (role != null)
+                    return SystemParam.EXISTED_ROLE_ERR;
+
+                var newRole = new Role
+                {
+                    Name = input.Name,
+                    Description = input.Description,
+                    IsDeleted = SystemParam.IS_NOT_DELETED,
+                    CreatedDate = DateTime.Now
+                };
+                _dbContext.Roles.Add(newRole);
+
+                if(input.PermissionIDs.Count > 0)
+                {
+                    foreach (var permissionID in input.PermissionIDs)
+                    {
+                        var rolePermission = new RolePermission
+                        {
+                            RoleID = newRole.ID,
+                            PermissionID = permissionID
+                        };
+                        _dbContext.RolePermissions.Add(rolePermission);
+                    }
+                }
+
+                await _dbContext.SaveChangesAsync();
+                return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
+            }
+        }
         #endregion
 
         #region Permission management

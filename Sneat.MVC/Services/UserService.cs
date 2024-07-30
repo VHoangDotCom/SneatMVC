@@ -135,7 +135,7 @@ namespace Sneat.MVC.Services
             catch (Exception ex)
             {
                 ex.ToString();
-                return SystemParam.RETURN_TRUE;
+                return SystemParam.RETURN_FALSE;
             }
         }
 

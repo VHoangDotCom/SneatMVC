@@ -70,6 +70,10 @@ namespace Sneat.MVC.Common
         public const int ACCOUNT_NOT_FOUND_ERR = -3;
         #endregion
 
+        #region Role - Permission
+        public const int EXISTED_ROLE_ERR = -1;
+        #endregion
+
         #region Viet QR
         public const string VIET_QR_API_ROOT_V2 = "https://api.vietqr.io/v2/";
         public const string VIET_QR_API_LIST_BANK_V2 = "banks";
