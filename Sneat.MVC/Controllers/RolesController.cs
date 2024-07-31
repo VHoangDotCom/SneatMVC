@@ -10,9 +10,8 @@ namespace Sneat.MVC.Controllers
     public class RolesController : BaseController
     {
         [UserAuthenticationFilter]
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            ViewBag.PermissionOptionTree = await _roleService.GetAllPermissions();
             return View();
         }
 
@@ -41,6 +40,12 @@ namespace Sneat.MVC.Controllers
         public async Task<JsonResult> GetAllPermissions()
         {
             var result = await _roleService.GetAllPermissions();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<JsonResult> DetailRole(int ID)
+        {
+            var result = await _roleService.DetailRole(ID);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

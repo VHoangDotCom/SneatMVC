@@ -87,12 +87,15 @@ namespace Sneat.MVC.Services
                 {
                     foreach (var permissionID in input.PermissionIDs)
                     {
-                        var rolePermission = new RolePermission
+                        if (permissionID != 0)
                         {
-                            RoleID = newRole.ID,
-                            PermissionID = permissionID
-                        };
-                        _dbContext.RolePermissions.Add(rolePermission);
+                            var rolePermission = new RolePermission
+                            {
+                                RoleID = newRole.ID,
+                                PermissionID = permissionID
+                            };
+                            _dbContext.RolePermissions.Add(rolePermission);
+                        }
                     }
                 }
 
@@ -103,6 +106,32 @@ namespace Sneat.MVC.Services
             {
                 ex.ToString();
                 return SystemParam.RETURN_FALSE;
+            }
+        }
+
+        public async Task<RoleOutputModel> DetailRole(int ID)
+        {
+            try
+            {
+                var role = await _dbContext.Roles.FirstOrDefaultAsync(x => x.IsDeleted == SystemParam.IS_NOT_DELETED && x.ID == ID);
+                var permissinIds = role.RolePermissions.Select(x => x.PermissionID).ToList();
+
+                var roleDetail = new RoleOutputModel
+                {
+                    ID = role.ID,
+                    Name = role.Name,
+                    Description = role.Description,
+                    PermissionIDs = permissinIds,
+                    CreatedDate = role.CreatedDate,
+                    UpdatedDate = role.UpdatedDate,
+                };
+
+                return roleDetail;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new RoleOutputModel();
             }
         }
 

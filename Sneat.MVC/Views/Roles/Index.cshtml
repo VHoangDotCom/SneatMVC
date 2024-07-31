@@ -42,20 +42,34 @@
     <div class="content-backdrop fade"></div>
 </div>
 
+<!--modal add Role-->
 <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel4">Modal title</h5>
+                <h5 class="modal-title" id="exampleModalLabel4">Tạo mới vai trò</h5>
                 <button type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-md-12 col-12">
-                    <div class="card mb-md-0 mb-4">
-                        <h5 class="card-header">Checkboxes</h5>
+                <div class="row col-md-12 col-12">
+                    <div class="card mb-md-0 mb-4 col-md-6 col-6">
+                        <h5 class="card-header">Thông tin</h5>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <strong>Tên vai trò</strong><span style="color:red"> *</span>
+                                <input type="text" class="form-control" id="nameCreate" name="name" required placeholder="Tên vai trò">
+                            </div>
+                            <div class="mb-3">
+                                <strong>Mô tả</strong>
+                                <textarea class="form-control" id="txtDescription" rows="2" placeholder="Mô tả chi tiết..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-md-0 mb-4 col-md-6 col-6">
+                        <h5 class="card-header">Phân quyền</h5>
                         <div class="card-body">
                             <div id="tree-role"></div>
                         </div>
@@ -64,9 +78,54 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
-                    Close
+                    Đóng
                 </button>
-                <button type="button" onclick="treeData();" class="btn btn-primary">Save changes</button>
+                <button type="button" onclick="saveCreateRole();" class="btn btn-primary"><i class='menu-icon tf-icons bx bx-plus'></i> Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal update Role-->
+<div class="modal fade" id="updateRoleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel4">Cập nhật vai trò</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row col-md-12 col-12">
+                    <div class="card mb-md-0 mb-4 col-md-6 col-6">
+                        <h5 class="card-header">Thông tin</h5>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <strong>Tên vai trò</strong><span style="color:red"> *</span>
+                                <input type="text" class="form-control" id="nameEdit" name="name" required placeholder="Tên vai trò">
+                            </div>
+                            <div class="mb-3">
+                                <strong>Mô tả</strong>
+                                <textarea class="form-control" id="txtDescriptionEdit" rows="2" placeholder="Mô tả chi tiết..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-md-0 mb-4 col-md-6 col-6">
+                        <h5 class="card-header">Phân quyền</h5>
+                        <div class="card-body">
+                            <div id="update-tree-role"></div>
+                            <input type="hidden" id="listPermissonIds" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                    Đóng
+                </button>
+                <button type="button" onclick="saveCreateRole();" class="btn btn-primary"><i class='menu-icon tf-icons bx bx-plus'></i> Lưu</button>
             </div>
         </div>
     </div>
@@ -74,3 +133,4 @@
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 @Scripts.Render("~/Scripts/ScriptModel/permission-scipt.js")
+@Scripts.Render("~/Scripts/ScriptModel/role-script.js")

@@ -1926,6 +1926,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ScriptModel\home-script.js" />
     <Content Include="Scripts\ScriptModel\permission-scipt.js" />
+    <Content Include="Scripts\ScriptModel\role-script.js" />
     <Content Include="Scripts\ScriptModel\user-script.js" />
     <Content Include="Scripts\sweet-alert.js" />
     <Content Include="Web.config" />
