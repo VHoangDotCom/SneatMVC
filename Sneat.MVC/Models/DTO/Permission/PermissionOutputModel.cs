@@ -7,6 +7,7 @@ namespace Sneat.MVC.Models.DTO.Permission
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public string TabIcon { get; set; }
         public int? Level { get; set; }
         public int? IsLeaf { get; set; }
         public int? ParentID { get; set; }
@@ -15,8 +16,8 @@ namespace Sneat.MVC.Models.DTO.Permission
     public class PermissionTreeModel
     {
         public long Id => 0;
-        public string Code => "Root";
-        public string Name => "Root";
+        public string Code => "SneatRole";
+        public string Name => "Sneat Management";
         public bool IsLeaf => false;
         public IEnumerable<TreeItem<PermissionOutputModel>> Childrens { get; set; }
     }

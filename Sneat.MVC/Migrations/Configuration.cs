@@ -30,6 +30,7 @@
             SeedProvinces(context);
             SeedDistricts(context);
             SeedUsers(context);
+            SeedPermission(context);
 
             SeedBanks(context).GetAwaiter().GetResult();
         }
@@ -55,6 +56,84 @@
             };
 
             context.Users.AddRange(users);
+            context.SaveChanges();
+        }
+
+        private void SeedPermission(Sneat.MVC.DAL.SneatContext context)
+        {
+            var permissions = new List<Permission>()
+            {
+                // Home page ( => 1 )
+                new Permission
+                {
+                    ID = 1,
+                    Name = "HomePage",
+                    TabID = "homePageTab",
+                    TabIcon = "home",
+                    Level = 1,
+                    IsLeaf = 0,
+                    ParentID = null,
+                    IsDeleted = SystemParam.IS_NOT_DELETED,
+                    CreatedDate = DateTime.Now,
+                },
+
+                // User management ( 2 => 5)
+                new Permission
+                {
+                    ID = 2,
+                    Name = "User management",
+                    TabID = "userListTab",
+                    TabIcon = "user",
+                    Level = 1,
+                    IsLeaf = 0,
+                    ParentID = null,
+                    IsDeleted = SystemParam.IS_NOT_DELETED,
+                    CreatedDate = DateTime.Now,
+                },
+                new Permission
+                {
+                    ID = 3,
+                    Name = "Create",
+                    TabID = "createUserTab",
+                    TabIcon = "user",
+                    Level = 2,
+                    IsLeaf = 1,
+                    ParentID = 2,
+                    IsDeleted = SystemParam.IS_NOT_DELETED,
+                    CreatedDate = DateTime.Now,
+                },
+                new Permission
+                {
+                    ID = 4,
+                    Name = "Update",
+                    TabID = "updateUserTab",
+                    TabIcon = "user",
+                    Level = 2,
+                    IsLeaf = 1,
+                    ParentID = 2,
+                    IsDeleted = SystemParam.IS_NOT_DELETED,
+                    CreatedDate = DateTime.Now,
+                },
+                new Permission
+                {
+                    ID = 5,
+                    Name = "UpdateStatus",
+                    TabID = "updateStatusUserTab",
+                    TabIcon = "user",
+                    Level = 3,
+                    IsLeaf = 1,
+                    ParentID = 4,
+                    IsDeleted = SystemParam.IS_NOT_DELETED,
+                    CreatedDate = DateTime.Now,
+                },
+            };
+
+            foreach (var permission in permissions)
+            {
+                var existedPermission = context.Permissions.Where(x => x.TabID.Equals(permission.TabID)).FirstOrDefault();
+                if(existedPermission == null)
+                    context.Permissions.Add(permission);
+            }
             context.SaveChanges();
         }
 

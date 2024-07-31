@@ -1,6 +1,3 @@
-/**
- * Treeview (jquery)
- */
 
 'use strict';
 
@@ -8,104 +5,62 @@ $(function () {
     var theme = $('html').hasClass('light-style') ? 'default' : 'default-dark',
         checkboxTree = $('#tree-role');
 
-    
-    // Checkbox
-    // --------------------------------------------------------------------
+    //var preSelectedIds = [1, 3];
+
     if (checkboxTree.length) {
+        $.ajax({
+            url: '/Roles/GetAllPermissions', 
+            method: 'GET',
+            success: function (data) {
+                console.log(data)
+                var jsTreeData = transformToJsTreeFormat(data);
+                initializeJsTree(jsTreeData);
+            },
+            error: function (error) {
+                console.error('Error fetching permissions:', error);
+            }
+        });
+    }
+
+    function transformToJsTreeFormat(data) {
+        function transformNode(node) {
+            return {
+                id: node.Item.ID,       
+                text: node.Item.Name,    
+                children: node.Children ? node.Children.map(transformNode) : [], 
+                state: {
+                    opened: true,
+                    //selected: preSelectedIds.includes(node.Item.ID)
+                    selected: false
+                },
+                type: node.Item.TabIcon,//not work
+            };
+        }
+
+        return {
+            id: data.Id,
+            text: data.Name,
+            children: data.Childrens ? data.Childrens.map(transformNode) : [],
+            state: {
+                opened: true 
+            }
+        };
+    }
+
+    function initializeJsTree(data) {
         checkboxTree.jstree({
             core: {
                 themes: {
                     name: theme
                 },
-                data: [
-                    {
-                        id: 1,
-                        text: 'css',
-                        children: [
-                            {
-                                id: 5,
-                                text: 'app.css',
-                                type: 'css'
-                            },
-                            {
-                                id: 6,
-                                text: 'style.css',
-                                type: 'css'
-                            }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        text: 'img',
-                        state: {
-                            opened: false
-                        },
-                        children: [
-                            {
-                                text: 'bg.jpg',
-                                type: 'img'
-                            },
-                            {
-                                text: 'logo.png',
-                                type: 'img'
-                            },
-                            {
-                                text: 'avatar.png',
-                                type: 'img'
-                            }
-                        ]
-                    },
-                    {
-                        id: 3,
-                        text: 'js',
-                        state: {
-                            opened: false
-                        },
-                        children: [
-                            {
-                                text: 'jquery.js',
-                                type: 'js',
-                                children: [
-                                    {
-                                        text: 'jquery.js',
-                                        type: 'js',
-                                        children: [
-                                            {
-                                                text: 'jquery.js',
-                                                type: 'js'
-                                            },
-                                            {
-                                                text: 'app.js',
-                                                type: 'js'
-                                            }
-                                        ]
-                                    },
-                                    {
-                                        text: 'app.js',
-                                        type: 'js'
-                                    }
-                                ]
-                            },
-                            {
-                                text: 'app.js',
-                                type: 'js'
-                            }
-                        ]
-                    },
-                   
-                    {
-                        id: 4,
-                        text: 'page-one.html',
-                        type: 'html'
-                    }
-                ]
+                data: [data]
             },
             plugins: ['types', 'checkbox', 'wholerow'],
             types: {
                 default: {
-                    icon: 'bx bx-folder'
+                    icon: 'bx bxl-stripe text-primary'
                 },
-                html: {
+              /*  html: {
                     icon: 'bx bxl-html5 text-danger'
                 },
                 css: {
@@ -116,9 +71,27 @@ $(function () {
                 },
                 js: {
                     icon: 'bx bxl-nodejs text-warning'
+                },*/
+                user: {
+                    icon: 'bx bx-user text-secondary'
+                },
+                home: {
+                    icon: 'bx bx-home-circle text-info'
                 }
             }
         });
     }
 
+    window.treeData = function () {
+        // Get selected nodes
+        var selectedNodes = checkboxTree.jstree("get_selected", true);
+        var selectedItems = selectedNodes.map(function (node) {
+            return {
+                id: node.id,
+                text: node.text
+            };
+        });
+
+        console.log('Selected Items:', selectedItems);
+    }
 });

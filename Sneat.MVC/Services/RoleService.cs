@@ -196,6 +196,7 @@ namespace Sneat.MVC.Services
                         Level = x.Level,
                         IsLeaf = x.IsLeaf,
                         ParentID = x.ParentID,
+                        TabIcon = x.TabIcon,
                     })
                     .ToList();
 
