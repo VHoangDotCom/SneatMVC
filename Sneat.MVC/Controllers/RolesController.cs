@@ -1,5 +1,6 @@
 ﻿using Sneat.MVC.App_Start;
 using Sneat.MVC.Common;
+using Sneat.MVC.Models.DTO.Permission;
 using Sneat.MVC.Models.DTO.Role;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -35,6 +36,12 @@ namespace Sneat.MVC.Controllers
         public async Task<int> RemoveRole(int ID)
         {
             return await _roleService.RemoveRole(ID);
+        }
+
+        public async Task<JsonResult> GetAllPermissions()
+        {
+            var result = await _roleService.GetAllPermissions();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

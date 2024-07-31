@@ -74,10 +74,3 @@
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 @Scripts.Render("~/Scripts/ScriptModel/permission-scipt.js")
-
-<script>
-    function treeData() {
-        var permissionsTree = JSON.parse('@Html.Raw(Json.Encode(ViewBag.PermissionOptionTree))');
-        console.log(permissionsTree)
-    }
-</script>

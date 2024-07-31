@@ -13,6 +13,7 @@ namespace Sneat.MVC.Models.Entity
         public string Name { get; set; }
         public int IsDeleted { get; set; }
         public string TabID { get; set; }
+        public string TabIcon { get; set; }
         public int Level { get; set; }
         public int IsLeaf { get; set; }
         public int? ParentID { get; set; }

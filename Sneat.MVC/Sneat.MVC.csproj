@@ -205,6 +205,10 @@
     <Compile Include="Migrations\202407290937016_update-permission-table.Designer.cs">
       <DependentUpon>202407290937016_update-permission-table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202407310714596_add-permission-icon.cs" />
+    <Compile Include="Migrations\202407310714596_add-permission-icon.Designer.cs">
+      <DependentUpon>202407310714596_add-permission-icon.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common\CommonTree.cs" />
     <Compile Include="Models\Common\TreeItem.cs" />
@@ -2022,6 +2026,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407290937016_update-permission-table.resx">
       <DependentUpon>202407290937016_update-permission-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407310714596_add-permission-icon.resx">
+      <DependentUpon>202407310714596_add-permission-icon.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
