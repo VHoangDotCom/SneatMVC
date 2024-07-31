@@ -10,7 +10,6 @@
             <th>STT</th>
             <th>Tên </th>
             <th>Phân quyền </th>
-            <th>Ngày cập nhật</th>
             <th>Ngày tạo</th>
             <th>Action</th>
         </tr>
@@ -36,7 +35,6 @@
                         <td>@stt </td>
                         <td>@data.Name</td>
                         <td> </td>
-                        <td>@data.UpdatedDate.Value.ToString("dd/MM/yyyy")</td>
                         <td>@data.CreatedDate.ToString("dd/MM/yyyy")</td>
                         <td>
                             <div class="dropdown">
@@ -46,7 +44,7 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" onclick="updateUser(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa tài khoản</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateRoleModal" onclick="updateRole(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa tài khoản</a>
                                     <a class="dropdown-item" onclick="deleteUser(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa tài khoản</a>
                                 </div>
                             </div>
@@ -83,7 +81,86 @@
         });
             });
 
-    function updateUser(id) {
-        window.location.assign("/Users/Update?ID="+ id);
+    function updateRole(id) {
+        $.ajax({
+            url: '/Roles/DetailRole',
+            type: 'GET',
+            data: { id: id },
+            beforeSend: function () {
+                $("#listPermissonIds").val("");
+            },
+            success: function (res) {
+                $("#nameEdit").val(res.Name);
+                $("#txtDescriptionEdit").val(res.Description);
+                $("#listPermissonIds").val(res.PermissionIDs);
+
+                var theme = $('html').hasClass('light-style') ? 'default' : 'default-dark',
+                    checkboxTreeUpdate = $('#update-tree-role');
+
+                // List tree for updating
+                if (checkboxTreeUpdate.length) {
+                    $.ajax({
+                        url: '/Roles/GetAllPermissions',
+                        method: 'GET',
+                        success: function (data) {
+                            var jsTreeData = transformToJsTreeFormatUpdate(data);
+                            initializeJsTree(jsTreeData);
+                        },
+                        error: function (error) {
+                            console.error('Error fetching permissions:', error);
+                        }
+                    });
+                }
+
+                function transformToJsTreeFormatUpdate(data) {
+                    var listIds = $("#listPermissonIds").val();// 1,2,3,4,5
+                    var preSelectedIds = listIds.split(',').map(Number);// [1, 2, 3, 4, 5]
+                    function transformNode(node) {
+                        return {
+                            id: node.Item.ID,
+                            text: node.Item.Name,
+                            children: node.Children ? node.Children.map(transformNode) : [],
+                            state: {
+                                opened: true,
+                                selected: preSelectedIds.includes(node.Item.ID)
+                            },
+                            type: node.Item.TabIcon,//not work
+                        };
+                    }
+
+                    return {
+                        id: data.Id,
+                        text: data.Name,
+                        children: data.Childrens ? data.Childrens.map(transformNode) : [],
+                        state: {
+                            opened: true
+                        }
+                    };
+                }
+
+                function initializeJsTree(data) {
+                    checkboxTreeUpdate.jstree({
+                        core: {
+                            themes: {
+                                name: theme
+                            },
+                            data: [data]
+                        },
+                        plugins: ['types', 'checkbox', 'wholerow'],
+                        types: {
+                            default: {
+                                icon: 'bx bxl-stripe text-primary'
+                            },
+                            user: {
+                                icon: 'bx bx-user text-secondary'
+                            },
+                            home: {
+                                icon: 'bx bx-home-circle text-info'
+                            }
+                        }
+                    });
+                }
+            }
+        })
     }
 </script>
