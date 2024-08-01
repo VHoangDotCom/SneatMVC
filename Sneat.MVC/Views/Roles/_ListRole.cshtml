@@ -44,8 +44,8 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateRoleModal" onclick="updateRole(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa tài khoản</a>
-                                    <a class="dropdown-item" onclick="deleteUser(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa tài khoản</a>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateRoleModal" onclick="updateRoleModal(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa vai trò</a>
+                                    <a class="dropdown-item" onclick="deleteRole(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa vai trò</a>
                                 </div>
                             </div>
                         </td>
@@ -81,18 +81,17 @@
         });
             });
 
-    function updateRole(id) {
+    function updateRoleModal(id) {
         $.ajax({
             url: '/Roles/DetailRole',
             type: 'GET',
             data: { id: id },
-            beforeSend: function () {
-                $("#listPermissonIds").val("");
-            },
             success: function (res) {
+                $("#listPermissonIds").val("");
                 $("#nameEdit").val(res.Name);
                 $("#txtDescriptionEdit").val(res.Description);
                 $("#listPermissonIds").val(res.PermissionIDs);
+                $("#roleID").val(id);
 
                 var theme = $('html').hasClass('light-style') ? 'default' : 'default-dark',
                     checkboxTreeUpdate = $('#update-tree-role');
@@ -104,7 +103,7 @@
                         method: 'GET',
                         success: function (data) {
                             var jsTreeData = transformToJsTreeFormatUpdate(data);
-                            initializeJsTree(jsTreeData);
+                            initializeJsTreeUpdate(jsTreeData);
                         },
                         error: function (error) {
                             console.error('Error fetching permissions:', error);
@@ -113,8 +112,10 @@
                 }
 
                 function transformToJsTreeFormatUpdate(data) {
+                  
                     var listIds = $("#listPermissonIds").val();// 1,2,3,4,5
                     var preSelectedIds = listIds.split(',').map(Number);// [1, 2, 3, 4, 5]
+                    console.log(listIds)
                     function transformNode(node) {
                         return {
                             id: node.Item.ID,
@@ -124,7 +125,7 @@
                                 opened: true,
                                 selected: preSelectedIds.includes(node.Item.ID)
                             },
-                            type: node.Item.TabIcon,//not work
+                            type: node.Item.TabIcon,
                         };
                     }
 
@@ -138,7 +139,8 @@
                     };
                 }
 
-                function initializeJsTree(data) {
+                function initializeJsTreeUpdate(data) {
+                    checkboxTreeUpdate.jstree("destroy").empty(); 
                     checkboxTreeUpdate.jstree({
                         core: {
                             themes: {
@@ -159,6 +161,7 @@
                             }
                         }
                     });
+
                 }
             }
         })
