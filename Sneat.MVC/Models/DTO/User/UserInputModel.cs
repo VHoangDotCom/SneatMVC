@@ -1,6 +1,7 @@
 ﻿using Sneat.MVC.Common;
 using Sneat.MVC.Models.Enum;
 using System;
+using System.Collections.Generic;
 namespace Sneat.MVC.Models.DTO.User
 {
     public class UserInputModel
@@ -10,6 +11,7 @@ namespace Sneat.MVC.Models.DTO.User
         public string Password { get; set; }
         public string Phone { get; set; }
         public string Avatar { get; set; }
+        public List<int> RoleIds { get; set; }
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -57,6 +59,22 @@ namespace Sneat.MVC.Models.DTO.User
                     return DOB.Value.ToString(SystemParam.CONVERT_DATETIME_DATE_PICKER_BASIC);
                 else
                     return null;
+            }
+        }
+
+        public string StatusStr
+        {
+            get
+            {
+                switch (Status)
+                {
+                    case SystemParam.ACTIVE:
+                        return SystemParam.STATUS_ACTIVE_STR;
+                    case SystemParam.IN_ACTIVE:
+                        return SystemParam.STATUS_IN_ACTIVE_STR;
+                    default:
+                        return "Undefined Status";
+                }
             }
         }
     }

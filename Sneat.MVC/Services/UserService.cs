@@ -11,6 +11,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Security;
 
 namespace Sneat.MVC.Services
 {
@@ -128,6 +129,20 @@ namespace Sneat.MVC.Services
                 };
                 _dbContext.UserDetails.Add(userDetail);
 
+                // Add User authorization roles
+                if (input.RoleIds.Count > 0)
+                {
+                    foreach( var roleId in input.RoleIds )
+                    {
+                        var userRole = new UserRole
+                        {
+                            RoleID = roleId,
+                            UserID = user.ID,
+                        };
+                        _dbContext.UserRoles.Add(userRole);
+                    }
+                }
+
                 await _dbContext.SaveChangesAsync();
 
                 return SystemParam.RETURN_TRUE;
@@ -218,6 +233,21 @@ namespace Sneat.MVC.Services
                     _dbContext.UserDetails.Add(newUserDetail);
                 }
 
+                // Update user authorization roles
+                _dbContext.UserRoles.RemoveRange(user.UserRoles);
+                if ( input.RoleIds.Count > 0 )
+                {
+                    foreach (var roleId in input.RoleIds)
+                    {
+                        var userRole = new UserRole
+                        {
+                            RoleID = roleId,
+                            UserID = user.ID,
+                        };
+                        _dbContext.UserRoles.Add(userRole);
+                    }
+                }
+
                 await _dbContext.SaveChangesAsync();
 
                 return SystemParam.RETURN_TRUE;
@@ -254,6 +284,7 @@ namespace Sneat.MVC.Services
                     Email = user.Email,
                     Avatar = user.Avatar,
                     CreateDate = user.CreatedDate,
+                    RoleIds = user.UserRoles.Select(u => u.RoleID).ToList(),
                    
                     FirstName = userDetal.FirstName,
                     LastName = userDetal.LastName,
@@ -341,6 +372,13 @@ namespace Sneat.MVC.Services
                         && (u.Phone.Equals(phone) || u.Email.Equals(phone)))
                     .FirstOrDefaultAsync();
 
+             /*   var roleIds = user.UserRoles.Select(u => u.RoleID).ToList();
+                var listPermission = new List<string>();
+                foreach (var roleId in roleIds)
+                {
+                    
+                }*/
+
                 if (user == null)
                     return SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR;
                 if (user.Status == Status.IN_ACTIVE)
@@ -350,13 +388,11 @@ namespace Sneat.MVC.Services
                     var userDetail = new UserDetailOutputModel
                     {
                         UserName = user.UserName,
-                        //Role = user.Role,
                         ID = user.ID,
                         Phone = user.Phone,
                         Email = user.Email,
                         Avatar = user.Avatar,
                         Status = (int?)user.Status,
-                        //DistrictID = user.DistrictID,
                     };
                     HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;
                     return SystemParam.RETURN_TRUE;

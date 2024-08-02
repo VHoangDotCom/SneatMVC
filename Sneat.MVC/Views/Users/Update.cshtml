@@ -55,6 +55,17 @@
                         <input type="number" value="@Model.Phone" class="form-control" id="input-add-phone" name="phone" required placeholder="Nhập số điện thoại">
                     </div>
 
+                    <div class="mb-3">
+                        <strong>Phân quyền</strong><span style="color:red"> *</span>
+                        <div class="col-md-12">
+                            <div id="slRole"
+                                 name="native-select"
+                                 placeholder="Chọn vai trò"
+                                 data-search="true"
+                                 data-silent-initial-value-set="true">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -532,5 +543,25 @@
             console.error('Error fetching the bank data:', error);
         });*/
 
+    var optionRoles = JSON.parse('@Html.Raw(Json.Encode(ViewBag.ListRole))').map(function (item) {
+         return {
+             label: item.Name,
+             value: item.ID
+         }
+    });
+    var preSelectedRoleValue = JSON.parse('@Html.Raw(Json.Encode(Model.RoleIds))');
+    VirtualSelect.init({
+        ele: '#slRole',
+        multiple: true,
+        allOptionsSelectedText: 'All',
+        showValueAsTags: true,
+        autoSelectFirstOption: false,
+        noOfDisplayValues: 5,
+        markSearchResults: true,
+        searchGroup: true,
+        searchNormalize: true,
+        options: optionRoles,
+        selectedValue: preSelectedRoleValue
+    });
 
 </script>

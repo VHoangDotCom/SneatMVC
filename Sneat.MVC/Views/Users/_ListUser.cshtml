@@ -1,6 +1,8 @@
 ﻿@using Sneat.MVC.Models.DTO.User;
 @using PagedList;
 @using PagedList.Mvc;
+@using Sneat.MVC.Common
+@using Sneat.MVC.Models.Enum
 @model IPagedList<UserDetailOutputModel>
 
 
@@ -11,6 +13,7 @@
             <th>Tên </th>
             <th>Số điện thoại</th>
             <th>Email</th>
+            <th>Trạng thái</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -36,6 +39,14 @@
                         <td>@data.UserName</td>
                         <td>@data.Phone </td>
                         <td>@data.Email</td>
+                        @if (data.Status == SystemParam.ACTIVE)
+                        {
+                            <td style="font-size: 13px"><span class="badge bg-label-success me-1">@data.StatusStr</span></td>
+                        }
+                        else if (data.Status == SystemParam.IN_ACTIVE)
+                        {
+                            <td style="font-size: 13px"><span class="badge bg-label-danger me-1">@data.StatusStr</span></td>
+                        }
                         <td>
                             <div class="dropdown">
                                 <button type="button"

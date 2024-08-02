@@ -30,25 +30,8 @@ namespace Sneat.MVC.Services
             try
             {
                 search = Utils.RemoveDiacritics(search);
-                var query = _dbContext.Roles
-                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED)
-                    .Select(x => new
-                    {
-                        x.ID,
-                        x.Name,
-                        x.Description,
-                        x.CreatedDate,
-                        x.UpdatedDate
-                    })
-                    .AsEnumerable()
-                    .Select(x => new RoleOutputModel
-                    {
-                        ID = x.ID,
-                        Name = x.Name,
-                        Description = x.Description,
-                        CreatedDate = x.CreatedDate,
-                        UpdatedDate = x.UpdatedDate
-                    })
+                var list = await ListRoleAuthorization();
+                var query = list
                     .Where(x => string.IsNullOrEmpty(search)
                         || Utils.RemoveDiacritics(x.Name).Contains(search)
                     )
@@ -60,6 +43,48 @@ namespace Sneat.MVC.Services
             {
                 ex.ToString();
                 return new List<RoleOutputModel>().ToPagedList(1, 1);
+            }
+        }
+
+        public async Task<List<RoleOutputModel>> ListRoleAuthorization()
+        {
+            try
+            {
+                var listRoles = _dbContext.Roles
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED)
+                    .Select(x => new
+                    {
+                        x.ID,
+                        x.Name,
+                        x.Description,
+                        x.CreatedDate,
+                        x.UpdatedDate,
+                        UserRoles = x.UserRoles
+                        .Select(ur => new UserRoleOutputModel
+                        {
+                            UserID = ur.User.ID,
+                            UserName = ur.User.UserName,
+                            UserAvatar = !string.IsNullOrEmpty(ur.User.Avatar) ? ur.User.Avatar : SystemParam.DEFAULT_SYSTEM_IMAGE,
+                        })
+                    })
+                    .AsEnumerable()
+                    .Select(x => new RoleOutputModel
+                    {
+                        ID = x.ID,
+                        Name = x.Name,
+                        Description = x.Description,
+                        CreatedDate = x.CreatedDate,
+                        UpdatedDate = x.UpdatedDate,
+                        UserRoles = x.UserRoles.ToList()
+                    })
+                    .ToList();
+
+                return listRoles;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new List<RoleOutputModel>();
             }
         }
 
@@ -196,6 +221,7 @@ namespace Sneat.MVC.Services
 
                 role.IsDeleted = SystemParam.IS_DELETED;
                 _dbContext.RolePermissions.RemoveRange (role.RolePermissions);
+                _dbContext.UserRoles.RemoveRange (role.UserRoles);
 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;

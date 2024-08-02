@@ -26,6 +26,7 @@ namespace Sneat.MVC.Controllers
         {
             ViewBag.ListProvince = await _addressService.ListProvince();
             ViewBag.ListBank = await _bankService.GetListBanks();
+            ViewBag.ListRole = await _roleService.ListRoleAuthorization();
             return View();
         }
 
@@ -42,6 +43,7 @@ namespace Sneat.MVC.Controllers
         {
             ViewBag.ListProvince = await _addressService.ListProvince();
             ViewBag.ListBank = await _bankService.GetListBanks();
+            ViewBag.ListRole = await _roleService.ListRoleAuthorization();
             var userDetail = await _userService.DetailUser(ID);
             return View(userDetail);
         }
