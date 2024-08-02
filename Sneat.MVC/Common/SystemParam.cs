@@ -17,7 +17,9 @@ namespace Sneat.MVC.Common
 
         #region Common status param
         public const int ACTIVE = 1;
+        public const string STATUS_ACTIVE_STR = "Đang hoạt động";
         public const int IN_ACTIVE = 0;
+        public const string STATUS_IN_ACTIVE_STR = "Ngừng hoạt động";
         public const int IS_DELETED = 1;
         public const int IS_NOT_DELETED = 0;
         #endregion
@@ -55,6 +57,8 @@ namespace Sneat.MVC.Common
         public const string PASS_CONFIG = "wjvs nvnr qigk tpjo";
         public const string HOST_DEFAUL = "smtp.gmail.com";
         public const string EMAIL_TITLE = "[HỆ THỐNG SNEAT]";
+        // Default Setting
+        public const string DEFAULT_SYSTEM_IMAGE = "https://res.cloudinary.com/dduv8pom4/image/upload/v1721178529/favicon_epkkts.png";
         #endregion
 
         #region Authentication

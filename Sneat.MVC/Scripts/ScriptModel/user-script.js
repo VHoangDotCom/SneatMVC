@@ -32,6 +32,7 @@ function saveCreateUser() {
     var password = $('#txt-pass').val();
     var passwordConfirm = $('#txt-pass-confirm').val();
     var avatar = $('#currentImage').val();
+    var roles = $('#slRole').val();
 
     var firstName = $('#txtFirstName').val();
     var lastName = $('#txtLastName').val();
@@ -88,6 +89,20 @@ function saveCreateUser() {
         Swal.fire({
             title: 'Thông báo!',
             text: ' Vui lòng nhập Email người dùng!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+
+    if (roles == "") {
+      
+        Swal.fire({
+            title: 'Thông báo!',
+            text: ' Vui lòng chọn ít nhất một vai trò!',
             icon: 'warning',
             customClass: {
                 confirmButton: 'btn btn-primary'
@@ -157,6 +172,7 @@ function saveCreateUser() {
             phone: phone,
             password: password,
             avatar: avatar,
+            roleIds: roles,
 
             firstName: firstName,
             lastName: lastName,
@@ -241,6 +257,7 @@ function saveUpdateUser(ID) {
     var email = $('#emailCreate').val();
     var phone = $('#input-add-phone').val();
     var avatar = $('#currentImage').val();
+    var roles = $('#slRole').val();
 
     var firstName = $('#txtFirstName').val();
     var lastName = $('#txtLastName').val();
@@ -301,6 +318,20 @@ function saveUpdateUser(ID) {
         return;
     }
 
+    if (roles == "") {
+
+        Swal.fire({
+            title: 'Thông báo!',
+            text: ' Vui lòng chọn ít nhất một vai trò!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+
     var phone_validate = new RegExp("^[0-9]{9,11}");
     if (!phone_validate.test(phone)) {
         Swal.fire({
@@ -339,6 +370,7 @@ function saveUpdateUser(ID) {
             phone: phone,
             email: email,
             avatar: avatar,
+            roleIds: roles,
 
             firstName: firstName,
             lastName: lastName,

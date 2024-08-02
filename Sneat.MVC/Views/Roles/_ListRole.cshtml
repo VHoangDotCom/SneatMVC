@@ -9,7 +9,7 @@
         <tr>
             <th>STT</th>
             <th>Tên </th>
-            <th>Phân quyền </th>
+            <th>Người dùng</th>
             <th>Ngày tạo</th>
             <th>Action</th>
         </tr>
@@ -34,7 +34,22 @@
                     <tr>
                         <td>@stt </td>
                         <td>@data.Name</td>
-                        <td> </td>
+                        <td>
+                            <div class="d-flex align-items-center avatar-group">
+                                @foreach (var user in data.UserRoles)
+                                {
+                                    <div class="avatar pull-up"
+                                         data-bs-toggle="tooltip"
+                                         data-popup="tooltip-custom"
+                                         data-bs-placement="top"
+                                         title="@user.UserName">
+                                        <img src="@user.UserAvatar" alt="Avatar" class="rounded-circle" />
+                                    </div>
+                                }
+                            </div>
+                          
+
+                        </td>
                         <td>@data.CreatedDate.ToString("dd/MM/yyyy")</td>
                         <td>
                             <div class="dropdown">
