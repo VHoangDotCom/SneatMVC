@@ -32,7 +32,7 @@ $(function () {
                     //selected: preSelectedIds.includes(node.Item.ID)
                     selected: false
                 },
-                type: node.Item.TabIcon,//not work
+                type: node.Item.TabIcon,
             };
         }
 
@@ -59,12 +59,7 @@ $(function () {
                 default: {
                     icon: 'bx bxl-stripe text-primary'
                 },
-              /*  html: {
-                    icon: 'bx bxl-html5 text-danger'
-                },
-                css: {
-                    icon: 'bx bxl-css3 text-info'
-                },
+              /*  
                 img: {
                     icon: 'bx bx-image text-success'
                 },
@@ -76,6 +71,9 @@ $(function () {
                 },
                 home: {
                     icon: 'bx bx-home-circle text-info'
+                },
+                role: {
+                    icon: 'bx bx-key text-danger'
                 }
             }
         });

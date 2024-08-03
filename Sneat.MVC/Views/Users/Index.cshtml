@@ -2,7 +2,14 @@
     Layout = "~/Views/Shared/_SneatProLayout.cshtml";
     ViewData["title"] = "User management";
 }
-
+@using Sneat.MVC.Models.DTO.User
+@using Sneat.MVC.Common
+@{ UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
+    if (ss == null)
+    {
+        Response.Redirect("/Home/Login");
+    }
+}
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><span class="text-muted fw-light" @*data-i18n="User"*@>Quản lý tài khoản /</span> Tài khoản</h4>
@@ -21,18 +28,24 @@
             <div class="row mb-2 px-md-4 px-2">
                 <div class="col-md-12">
                     <!-- Use col-md-12 and text-md-right -->
-                    <a title="Thêm tài khoản" style="float: right" class="btn btn-primary" href="/Users/Create">
-                        <i class='menu-icon tf-icons bx bx-plus'></i>
-                        Thêm mới
-                    </a>
-                    @*<button class="btn btn-primary" id="shepherd-example">Start tour</button>*@
+                    @if (ss.PermissionTabs.Contains("createUserTab"))
+                    {
+                        <a title="Thêm tài khoản" style="float: right" class="btn btn-primary" href="/Users/Create">
+                            <i class='menu-icon tf-icons bx bx-plus'></i>
+                            Thêm mới
+                        </a>
+                    }
+
                 </div>
             </div>
 
+            @if (ss.PermissionTabs.Contains("viewUserTab"))
+            {
+                <div class=" table-responsive px-md-4 px-2" id="list_user">
+                    @{ Html.RenderAction("Search", "Users", new { Page = 1, search = "" }); }
+                </div>
+            }
 
-            <div class=" table-responsive px-md-4 px-2" id="list_user">
-                @{ Html.RenderAction("Search", "Users", new { Page = 1, search = "" }); }
-            </div>
         </div>
 
     </div>

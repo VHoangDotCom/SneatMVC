@@ -37,6 +37,16 @@ namespace Sneat.MVC.App_Start
               
                 if (us != null)
                 {
+                    var roleIds = us.UserRoles.Select(u => u.RoleID).ToList();
+                    var permissionIds = cnn.RolePermissions
+                        .Where(rp => roleIds.Contains(rp.RoleID))
+                        .Select(rp => rp.PermissionID)
+                        .Distinct()
+                        .ToList();
+                    var listPermissionTabs = cnn.Permissions
+                        .Where(p => permissionIds.Contains(p.ID))
+                        .Select(p => p.TabID)
+                        .ToList();
                     // Update the session with the latest user details
                     UserDetailOutputModel data = new UserDetailOutputModel
                     {
@@ -46,6 +56,7 @@ namespace Sneat.MVC.App_Start
                         Email = us.Email,
                         Avatar = us.Avatar,
                         Status = (int?)us.Status,
+                        PermissionTabs = listPermissionTabs
                     };
 
                     HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = data;

@@ -4,7 +4,13 @@
 @using Sneat.MVC.Common
 @using Sneat.MVC.Models.Enum
 @model IPagedList<UserDetailOutputModel>
-
+@using Sneat.MVC.Models.DTO.User
+@{ UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
+    if (ss == null)
+    {
+        Response.Redirect("/Home/Login");
+    }
+}
 
 <table class="table table-bordered table-striped text-center" id="dataTable" cellspacing="0">
     <thead>
@@ -55,8 +61,15 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" onclick="updateUser(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa tài khoản</a>
-                                    <a class="dropdown-item" onclick="deleteUser(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa tài khoản</a>
+                                    @if (ss.PermissionTabs.Contains("updateInfoUserTab") || ss.PermissionTabs.Contains("updateStatusUserTab"))
+                                    {
+                                        <a class="dropdown-item" onclick="updateUser(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa tài khoản</a>
+                                    }
+                                    @if (ss.PermissionTabs.Contains("deleteUserTab"))
+                                    {
+                                        <a class="dropdown-item" onclick="deleteUser(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa tài khoản</a>
+                                    }
+
                                 </div>
                             </div>
                         </td>
@@ -83,16 +96,8 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('#dataTable').dataTable({
-            "bPaginate": false,
-            "bProcessing": true,
-            "bInfo": false,
-            "bFilter": false,
-        });
-            });
 
     function updateUser(id) {
-        window.location.assign("/Users/Update?ID="+ id);
+        window.location.assign("/Users/Update?ID=" + id);
     }
 </script>
