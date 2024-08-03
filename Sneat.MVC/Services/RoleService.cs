@@ -189,12 +189,15 @@ namespace Sneat.MVC.Services
                 {
                     foreach (var permissionID in input.PermissionIDs)
                     {
-                        var rolePermission = new RolePermission
+                        if (permissionID != 0)
                         {
-                            RoleID = role.ID,
-                            PermissionID = permissionID
-                        };
-                        _dbContext.RolePermissions.Add(rolePermission);
+                            var rolePermission = new RolePermission
+                            {
+                                RoleID = role.ID,
+                                PermissionID = permissionID
+                            };
+                            _dbContext.RolePermissions.Add(rolePermission);
+                        }
                     }
                 }
 

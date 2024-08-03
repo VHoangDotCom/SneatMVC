@@ -372,12 +372,16 @@ namespace Sneat.MVC.Services
                         && (u.Phone.Equals(phone) || u.Email.Equals(phone)))
                     .FirstOrDefaultAsync();
 
-             /*   var roleIds = user.UserRoles.Select(u => u.RoleID).ToList();
-                var listPermission = new List<string>();
-                foreach (var roleId in roleIds)
-                {
-                    
-                }*/
+                var roleIds = user.UserRoles.Select(u => u.RoleID).ToList();
+                var permissionIds = await _dbContext.RolePermissions
+                    .Where(rp => roleIds.Contains(rp.RoleID))
+                    .Select(rp => rp.PermissionID)
+                    .Distinct()
+                    .ToListAsync();
+                var listPermissionTabs = await _dbContext.Permissions
+                    .Where(p => permissionIds.Contains(p.ID))
+                    .Select(p => p.TabID)
+                    .ToListAsync();
 
                 if (user == null)
                     return SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR;
@@ -393,6 +397,7 @@ namespace Sneat.MVC.Services
                         Email = user.Email,
                         Avatar = user.Avatar,
                         Status = (int?)user.Status,
+                        PermissionTabs = listPermissionTabs
                     };
                     HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;
                     return SystemParam.RETURN_TRUE;

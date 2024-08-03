@@ -2,6 +2,14 @@
     Layout = "~/Views/Shared/_SneatProLayout.cshtml";
     ViewData["title"] = "Role management";
 }
+@using Sneat.MVC.Models.DTO.User
+@using Sneat.MVC.Common
+@{ UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
+    if (ss == null)
+    {
+        Response.Redirect("/Home/Login");
+    }
+}
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -13,28 +21,36 @@
                 <div class="col-md-4 offset-md-0">
                     <div class="input-group input-group-merge">
                         <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                        <input type="text" class="form-control " id="txt-key-search" placeholder="Tên vai trò" onchange="searchUser()" />
+                        <input type="text" class="form-control " id="txt-key-search" placeholder="Tên vai trò" onchange="searchRole()" />
                     </div>
                 </div>
 
             </div>
             <div class="row mb-2 px-md-4 px-2">
                 <div class="col-md-12 mb-2">
-                    <button type="button"
-                            class="btn btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#addRoleModal"
-                            style="float: right">
-                        <i class='menu-icon tf-icons bx bx-plus'></i>
-                        Thêm mới
-                    </button>
+                    @if (ss.PermissionTabs.Contains("createRoleTab"))
+                    {
+                        <button type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addRoleModal"
+                                style="float: right">
+                            <i class='menu-icon tf-icons bx bx-plus'></i>
+                            Thêm mới
+                        </button>
+                    }
+
                     @*<button class="btn btn-primary" id="shepherd-example">Start tour</button>*@
                 </div>
             </div>
 
-            <div class=" table-responsive px-md-4 px-2" id="list_role">
-                @{ Html.RenderAction("SearchRole", "Roles", new { Page = 1, search = "" }); }
-            </div>
+            @if (ss.PermissionTabs.Contains("viewRoleTab"))
+            {
+                <div class=" table-responsive px-md-4 px-2" id="list_role">
+                    @{ Html.RenderAction("SearchRole", "Roles", new { Page = 1, search = "" }); }
+                </div>
+            }
+                
         </div>
 
     </div>

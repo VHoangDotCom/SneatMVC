@@ -2,7 +2,14 @@
 @using PagedList;
 @using PagedList.Mvc;
 @model IPagedList<RoleOutputModel>
-
+@using Sneat.MVC.Models.DTO.User
+@using Sneat.MVC.Common
+@{ UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
+    if (ss == null)
+    {
+        Response.Redirect("/Home/Login");
+    }
+}
 
 <table class="table table-bordered table-striped text-center" id="dataTable" cellspacing="0">
     <thead>
@@ -47,7 +54,7 @@
                                     </div>
                                 }
                             </div>
-                          
+
 
                         </td>
                         <td>@data.CreatedDate.ToString("dd/MM/yyyy")</td>
@@ -59,8 +66,15 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateRoleModal" onclick="updateRoleModal(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa vai trò</a>
-                                    <a class="dropdown-item" onclick="deleteRole(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa vai trò</a>
+                                    @if (ss.PermissionTabs.Contains("updateRoleTab"))
+                                    {
+                                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateRoleModal" onclick="updateRoleModal(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa vai trò</a>
+                                    }
+                                    @if (ss.PermissionTabs.Contains("deleteRoleTab"))
+                                    {
+                                        <a class="dropdown-item" onclick="deleteRole(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa vai trò</a>
+                                    }
+
                                 </div>
                             </div>
                         </td>
@@ -85,100 +99,3 @@
                  )
     </div>
 </div>
-
-<script>
-    $(document).ready(function () {
-        $('#dataTable').dataTable({
-            "bPaginate": false,
-            "bProcessing": true,
-            "bInfo": false,
-            "bFilter": false,
-        });
-            });
-
-    function updateRoleModal(id) {
-        $.ajax({
-            url: '/Roles/DetailRole',
-            type: 'GET',
-            data: { id: id },
-            success: function (res) {
-                $("#listPermissonIds").val("");
-                $("#nameEdit").val(res.Name);
-                $("#txtDescriptionEdit").val(res.Description);
-                $("#listPermissonIds").val(res.PermissionIDs);
-                $("#roleID").val(id);
-
-                var theme = $('html').hasClass('light-style') ? 'default' : 'default-dark',
-                    checkboxTreeUpdate = $('#update-tree-role');
-
-                // List tree for updating
-                if (checkboxTreeUpdate.length) {
-                    $.ajax({
-                        url: '/Roles/GetAllPermissions',
-                        method: 'GET',
-                        success: function (data) {
-                            var jsTreeData = transformToJsTreeFormatUpdate(data);
-                            initializeJsTreeUpdate(jsTreeData);
-                        },
-                        error: function (error) {
-                            console.error('Error fetching permissions:', error);
-                        }
-                    });
-                }
-
-                function transformToJsTreeFormatUpdate(data) {
-                  
-                    var listIds = $("#listPermissonIds").val();// 1,2,3,4,5
-                    var preSelectedIds = listIds.split(',').map(Number);// [1, 2, 3, 4, 5]
-                    console.log(listIds)
-                    function transformNode(node) {
-                        return {
-                            id: node.Item.ID,
-                            text: node.Item.Name,
-                            children: node.Children ? node.Children.map(transformNode) : [],
-                            state: {
-                                opened: true,
-                                selected: preSelectedIds.includes(node.Item.ID)
-                            },
-                            type: node.Item.TabIcon,
-                        };
-                    }
-
-                    return {
-                        id: data.Id,
-                        text: data.Name,
-                        children: data.Childrens ? data.Childrens.map(transformNode) : [],
-                        state: {
-                            opened: true
-                        }
-                    };
-                }
-
-                function initializeJsTreeUpdate(data) {
-                    checkboxTreeUpdate.jstree("destroy").empty(); 
-                    checkboxTreeUpdate.jstree({
-                        core: {
-                            themes: {
-                                name: theme
-                            },
-                            data: [data]
-                        },
-                        plugins: ['types', 'checkbox', 'wholerow'],
-                        types: {
-                            default: {
-                                icon: 'bx bxl-stripe text-primary'
-                            },
-                            user: {
-                                icon: 'bx bx-user text-secondary'
-                            },
-                            home: {
-                                icon: 'bx bx-home-circle text-info'
-                            }
-                        }
-                    });
-
-                }
-            }
-        })
-    }
-</script>
