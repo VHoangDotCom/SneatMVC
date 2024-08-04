@@ -2,6 +2,8 @@
 using System.Text;
 using System.Web;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sneat.MVC.Common
 {
@@ -70,6 +72,25 @@ namespace Sneat.MVC.Common
             }
             return null;
         }
+        #endregion
+
+        #region Convert
+        public static string ConvertListIntegerToString(List<int> listInt)
+        {
+            return string.Join(", ", listInt);
+        }
+
+        public static List<int> ConvertStringToListInteger(string str)
+        {
+            var list = str
+                .Split(',')
+                .Select(s => s.Trim())
+                .Select(int.Parse)
+                .ToList();
+
+            return list;
+        }
+
         #endregion
     }
 }

@@ -13,6 +13,7 @@ namespace Sneat.MVC.Controllers
         public AddressService _addressService;
         public BankService _bankService;
         public RoleService _roleService;
+        public TeamService _teamService;
 
         public BaseController() : base()
         {
@@ -20,6 +21,7 @@ namespace Sneat.MVC.Controllers
             _addressService = new AddressService(this.GetContext());
             _bankService = new BankService(this.GetContext());
             _roleService = new RoleService(this.GetContext());
+            _teamService = new TeamService(this.GetContext());
         }
 
         public SneatContext GetContext()

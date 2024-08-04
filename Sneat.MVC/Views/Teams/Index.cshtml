@@ -10,42 +10,41 @@
         Response.Redirect("/Home/Login");
     }
 }
+
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="py-3 mb-4"><span class="text-muted fw-light" @*data-i18n="User"*@>Quản lý tài khoản /</span> Tài khoản</h4>
+        <h4 class="py-3 mb-4"><span class="text-muted fw-light" @*data-i18n="User"*@>Quản lý dự án /</span> Đội nhóm</h4>
 
         <div class="card">
-            <h5 class="card-header" @*data-i18n="User"*@>Danh sách tài khoản</h5>
+            <h5 class="card-header" @*data-i18n="User"*@>Danh sách đội nhóm</h5>
             <div class="row mb-2  px-md-4 px-2">
                 <div class="col-md-4 offset-md-0">
                     <div class="input-group input-group-merge">
                         <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                        <input type="text" class="form-control " id="txt-key-search" placeholder="Tên tài khoản, số điện thoại, email" onchange="searchUser()" />
+                        <input type="text" class="form-control " id="txt-key-search" placeholder="Tên đội nhóm" onchange="searchTeam()" />
                     </div>
                 </div>
 
             </div>
             <div class="row mb-2 px-md-4 px-2">
                 <div class="col-md-12">
-                    <!-- Use col-md-12 and text-md-right -->
-                    @if (ss.PermissionTabs.Contains("createUserTab"))
-                    {
-                        <a title="Thêm tài khoản" style="float: right" class="btn btn-primary" href="/Users/Create">
-                            <i class='menu-icon tf-icons bx bx-user-plus'></i>
-                            Thêm mới
-                        </a>
-                    }
+                    <a title="Thêm đội nhóm" style="float: right" class="btn btn-primary" href="/Users/Create">
+                        <i class='menu-icon tf-icons bx bx-plus'></i>
+                        Thêm mới
+                    </a>
 
                 </div>
             </div>
 
-            @if (ss.PermissionTabs.Contains("viewUserTab"))
+         @*   @if (ss.PermissionTabs.Contains("viewUserTab"))
             {
                 <div class=" table-responsive px-md-4 px-2" id="list_user">
                     @{ Html.RenderAction("Search", "Users", new { Page = 1, search = "" }); }
                 </div>
-            }
-
+            }*@
+            <div class=" table-responsive px-md-4 px-2" id="list_team">
+                @{ Html.RenderAction("Search", "Teams", new { Page = 1, search = "" }); }
+            </div>
         </div>
 
     </div>
@@ -53,4 +52,4 @@
     <div class="content-backdrop fade"></div>
 </div>
 
-<script src="~/Scripts/ScriptModel/user-script.js"></script>
+<script src="~/Scripts/ScriptModel/team-script.js"></script>

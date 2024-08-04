@@ -155,6 +155,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\SneatContext.cs" />
     <Compile Include="DAL\VirtualSeed.cs" />
@@ -209,6 +210,10 @@
     <Compile Include="Migrations\202407310714596_add-permission-icon.Designer.cs">
       <DependentUpon>202407310714596_add-permission-icon.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202408031536239_add_team_table.cs" />
+    <Compile Include="Migrations\202408031536239_add_team_table.designer.cs">
+      <DependentUpon>202408031536239_add_team_table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common\CommonTree.cs" />
     <Compile Include="Models\Common\TreeItem.cs" />
@@ -216,6 +221,7 @@
     <Compile Include="Models\DTO\Bank\BankVietQROutputModel.cs" />
     <Compile Include="Models\DTO\Permission\PermissionOutputModel.cs" />
     <Compile Include="Models\DTO\Role\RoleOutputModel.cs" />
+    <Compile Include="Models\DTO\Team\TeamOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserInputModel.cs" />
     <Compile Include="Models\Entity\Bank.cs" />
@@ -224,17 +230,20 @@
     <Compile Include="Models\Entity\Province.cs" />
     <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\RolePermission.cs" />
+    <Compile Include="Models\Entity\Team.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\Entity\UserDetail.cs" />
     <Compile Include="Models\Entity\UserRole.cs" />
     <Compile Include="Models\Entity\Ward.cs" />
     <Compile Include="Models\Enum\Gender.cs" />
     <Compile Include="Models\Enum\Status.cs" />
+    <Compile Include="Models\Enum\TechStack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\BankService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\RoleService.cs" />
+    <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Templates\SendMailTemplate.cs" />
   </ItemGroup>
@@ -1927,6 +1936,7 @@
     <Content Include="Scripts\ScriptModel\home-script.js" />
     <Content Include="Scripts\ScriptModel\permission-scipt.js" />
     <Content Include="Scripts\ScriptModel\role-script.js" />
+    <Content Include="Scripts\ScriptModel\team-script.js" />
     <Content Include="Scripts\ScriptModel\user-script.js" />
     <Content Include="Scripts\sweet-alert.js" />
     <Content Include="Web.config" />
@@ -1962,6 +1972,8 @@
     <Content Include="Views\Users\UserProfile.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\_ListRole.cshtml" />
+    <Content Include="Views\Teams\Index.cshtml" />
+    <Content Include="Views\Teams\_ListTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2030,6 +2042,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407310714596_add-permission-icon.resx">
       <DependentUpon>202407310714596_add-permission-icon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408031536239_add_team_table.resx">
+      <DependentUpon>202408031536239_add_team_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
