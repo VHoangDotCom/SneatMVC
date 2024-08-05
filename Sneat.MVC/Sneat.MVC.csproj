@@ -150,6 +150,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UserAuthenticationFilter.cs" />
+    <Compile Include="Common\Helper.cs" />
     <Compile Include="Common\SystemParam.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Models\DTO\Permission\PermissionOutputModel.cs" />
     <Compile Include="Models\DTO\Role\RoleOutputModel.cs" />
     <Compile Include="Models\DTO\Team\TeamOutputModel.cs" />
+    <Compile Include="Models\DTO\Team\TechStackModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserInputModel.cs" />
     <Compile Include="Models\Entity\Bank.cs" />
