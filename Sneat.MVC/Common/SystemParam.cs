@@ -79,6 +79,11 @@ namespace Sneat.MVC.Common
         public const int ROLE_NOT_FOUND_ERR = -2;
         #endregion
 
+        #region Project - Team
+        public const int EXISTED_TEAM_NAME_ERR = -1;
+        public const int TEAM_NOT_FOUND_ERR = -2;
+        #endregion
+
         #region Viet QR
         public const string VIET_QR_API_ROOT_V2 = "https://api.vietqr.io/v2/";
         public const string VIET_QR_API_LIST_BANK_V2 = "banks";
