@@ -12,6 +12,7 @@ namespace Sneat.MVC.Controllers
         [UserAuthenticationFilter]
         public ActionResult Index()
         {
+            ViewBag.TechStack = Helper.GetTechStackModels();
             return View();
         }
 
