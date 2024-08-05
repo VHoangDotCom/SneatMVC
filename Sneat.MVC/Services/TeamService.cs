@@ -50,7 +50,7 @@ namespace Sneat.MVC.Services
                         x.Name, 
                         x.Description,
                         x.Status,
-                        TechStack = Utils.ConvertStringToListInteger(x.TechStack),
+                        TechStack = x.TechStack,
                         x.CreatedDate,
                         x.UpdatedDate,
                     })
@@ -61,7 +61,7 @@ namespace Sneat.MVC.Services
                         Name = x.Name,
                         Description = x.Description,
                         Status = (int)x.Status,
-                        TechStack = x.TechStack,
+                        TechStack = Utils.ConvertStringToListInteger(x.TechStack),
                         CreatedDate = x.CreatedDate,
                         UpdatedDate = x.UpdatedDate,
                     })
@@ -133,7 +133,7 @@ namespace Sneat.MVC.Services
                 team.Name = input.Name;
                 team.TechStack = Utils.ConvertListIntegerToString(input.TechStack);
                 team.Description = input.Description;
-                team.UpdatedDate = input.UpdatedDate;
+                team.UpdatedDate = DateTime.Now;
 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;

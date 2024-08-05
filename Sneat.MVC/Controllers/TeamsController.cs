@@ -40,5 +40,11 @@ namespace Sneat.MVC.Controllers
         {
             return await _teamService.RemoveTeam(ID);
         }
+
+        public async Task<JsonResult> DetailTeam(int ID)
+        {
+            var result = await _teamService.DetailTeam(ID);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }
