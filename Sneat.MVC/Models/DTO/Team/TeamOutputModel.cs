@@ -10,6 +10,7 @@ namespace Sneat.MVC.Models.DTO.Team
         public List<int> TechStack { get; set; }
         public string Description { get; set; }
         public int Status { get; set; }
+        public List<int> UserIds { get; set; }
     }
 
     public class TeamOutputModel : TeamInputModel

@@ -23,6 +23,13 @@ namespace Sneat.MVC.Controllers
             return PartialView("_ListTeam", result);
         }
 
+        [UserAuthenticationFilter]
+        public async Task<PartialViewResult> SearchUser(int page, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "")
+        {
+            var result = await _userService.Search(page, limit, search);
+            return PartialView("_ListUserOption", result);
+        }
+
         [HttpPost]
         public async Task<int> CreateTeam(TeamInputModel input)
         {
