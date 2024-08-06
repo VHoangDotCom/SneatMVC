@@ -116,6 +116,11 @@ function saveCreateTeam() {
     var desc = $('#txtDescriptionCreate').val();
     var techstack = $('#slField').val();
 
+    var selectedUserItems = [];
+    $('input[name="selectedItemsUser"]:checked').each(function () {
+        selectedUserItems.push(parseInt($(this).val()));
+    });
+
     if (name == "") {
         Swal.fire({
             title: 'Thông báo!',
@@ -163,6 +168,7 @@ function saveCreateTeam() {
             name: name,
             techStack: techstack,
             Description: desc,
+            UserIds: selectedUserItems,
         }),
         beforeSend: function () {
             $("#modalLoad").modal("show");
@@ -221,6 +227,14 @@ function updateTeamModal(id) {
             $("#nameUpdate").val(res.Name);
             $("#txtDescriptionEdit").val(res.Description);
             $("#teamID").val(id);
+
+            var preSelectedUsers = res.UserIds;
+            $("input[name='selectedItemsUser']").prop('checked', false);
+            preSelectedUsers.forEach(function (userId) {
+                $("input[name='selectedItemsUser'][value='" + userId + "']").prop('checked', true);
+            });
+
+
             //$("#slFieldUpdate").val(res.TechStack);
            /* var optionProducts = data.map(function (item) {
                 return {
@@ -245,6 +259,10 @@ function saveUpdateTeam() {
     var desc = $('#txtDescriptionEdit').val();
     var techstack = $('#slFieldUpdate').val();
     var id = $('#teamID').val();
+    var selectedUserItems = [];
+    $('input[name="selectedItemsUser"]:checked').each(function () {
+        selectedUserItems.push(parseInt($(this).val()));
+    });
 
     if (name == "") {
         Swal.fire({
@@ -294,6 +312,7 @@ function saveUpdateTeam() {
             name: name,
             techStack: techstack,
             Description: desc,
+            UserIds: selectedUserItems,
         }),
         beforeSend: function () {
             $("#modalLoad").modal("show");
@@ -422,4 +441,13 @@ function deleteTeam(id) {
         }
     });
 
+}
+
+function checkAllUser() {
+    var checkboxes = document.getElementsByName('selectedItemsUser');
+    var checkAllCheckbox = document.getElementById('checkAllUser');
+
+    for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = checkAllCheckbox.checked;
+    }
 }

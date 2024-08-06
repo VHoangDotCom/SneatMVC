@@ -101,6 +101,19 @@ namespace Sneat.MVC.Services
                 };
                 _dbContext.Teams.Add(newTeam);
 
+                if (input.UserIds.Count > 0)
+                {
+                    foreach (var userId in input.UserIds)
+                    {
+                        var userTeam = new UserTeam
+                        {
+                            UserID = userId,
+                            TeamID = newTeam.ID
+                        };
+                        _dbContext.UserTeams.Add(userTeam);
+                    }
+                }
+
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;
             }
@@ -135,6 +148,20 @@ namespace Sneat.MVC.Services
                 team.Description = input.Description;
                 team.UpdatedDate = DateTime.Now;
 
+                _dbContext.UserTeams.RemoveRange(team.UserTeams);
+                if (input.UserIds.Count > 0)
+                {
+                    foreach (var userId in input.UserIds)
+                    {
+                        var userTeam = new UserTeam
+                        {
+                            UserID = userId,
+                            TeamID = team.ID
+                        };
+                        _dbContext.UserTeams.Add(userTeam);
+                    }
+                }
+
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;
             }
@@ -159,6 +186,7 @@ namespace Sneat.MVC.Services
                     Status = (int)team.Status,
                     CreatedDate = team.CreatedDate,
                     UpdatedDate = team.UpdatedDate,
+                    UserIds = team.UserTeams.Select(x => x.UserID).ToList(),
                 };
 
                 return teamDetail;
@@ -182,6 +210,7 @@ namespace Sneat.MVC.Services
                     return SystemParam.TEAM_NOT_FOUND_ERR;
 
                 team.IsDeleted = SystemParam.IS_DELETED;
+                _dbContext.UserTeams.RemoveRange(team.UserTeams);
 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;

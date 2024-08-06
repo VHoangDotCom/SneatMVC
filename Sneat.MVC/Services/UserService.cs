@@ -38,7 +38,6 @@ namespace Sneat.MVC.Services
                              {
                                  IsDeleted = u.IsDeleted,
                                  ID = u.ID,
-                                 //Role = u.Role,
                                  Status = (int?)u.Status,
                                  UserName = u.UserName,
                                  Phone = u.Phone,
@@ -50,7 +49,6 @@ namespace Sneat.MVC.Services
                              {
                                  ID = u.ID,
                                  IsDeleted = u.IsDeleted,
-                                 //Role = u.Role,
                                  Status = (int?)u.Status,
                                  UserName = u.UserName,
                                  Phone = u.Phone,
