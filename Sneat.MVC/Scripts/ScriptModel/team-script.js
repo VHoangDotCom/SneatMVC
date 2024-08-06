@@ -342,3 +342,84 @@ function saveUpdateTeam() {
         }
     });
 }
+
+function deleteTeam(id) {
+    if (!navigator.onLine) {
+        Swal.fire({
+            title: 'Có lỗi xảy ra!',
+            text: ' Kiểm tra kết nối internet!',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+    Swal.fire({
+        title: 'Bạn chắc chắn muốn xóa chứ?',
+        text: "Dữ liệu đội nhóm và thành viên thuộc nhóm này sẽ bị xóa!",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Vâng, tôi xác nhận!',
+        customClass: {
+            confirmButton: 'btn btn-primary me-3',
+            cancelButton: 'btn btn-label-secondary'
+        },
+        buttonsStyling: false
+    }).then(function (resultConfirm) {
+        console.log(resultConfirm)
+        if (resultConfirm.isConfirmed) {
+            $.ajax({
+                url: '/Teams/RemoveTeam',
+                data: { id: id },
+                type: "POST",
+                success: function (result) {
+                    if (result == 1) {
+                        Swal.fire({
+                            title: 'Thành công!',
+                            text: 'Xóa đội nhóm thành công!',
+                            icon: 'success',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                        setTimeout(function () {
+                            window.location = "/Teams/Index?";
+                            searchTeam();
+                        }, 2000);
+                    } else if (result == -2) {
+                        Swal.fire({
+                            title: 'Xóa đội nhóm thất bại!',
+                            text: 'Đội nhóm hiện không tồn tại hoặc đã bị xóa!',
+                            icon: 'warning',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                        setTimeout(
+                            function () {
+                                window.location = "/Teams/Index?";
+                                searchTeam();
+                            }, 1000);
+
+                    }
+                    else {
+                        Swal.fire({
+                            title: 'Có lỗi xảy ra!',
+                            text: ' Không thể xóa đội nhóm!',
+                            icon: 'error',
+                            customClass: {
+                                confirmButton: 'btn btn-primary'
+                            },
+                            buttonsStyling: false
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+}

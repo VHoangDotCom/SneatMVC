@@ -215,6 +215,10 @@
     <Compile Include="Migrations\202408031536239_add_team_table.designer.cs">
       <DependentUpon>202408031536239_add_team_table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202408060137433_add-relationship-user-team.cs" />
+    <Compile Include="Migrations\202408060137433_add-relationship-user-team.Designer.cs">
+      <DependentUpon>202408060137433_add-relationship-user-team.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common\CommonTree.cs" />
     <Compile Include="Models\Common\TreeItem.cs" />
@@ -236,6 +240,7 @@
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\Entity\UserDetail.cs" />
     <Compile Include="Models\Entity\UserRole.cs" />
+    <Compile Include="Models\Entity\UserTeam.cs" />
     <Compile Include="Models\Entity\Ward.cs" />
     <Compile Include="Models\Enum\Gender.cs" />
     <Compile Include="Models\Enum\Status.cs" />
@@ -2047,6 +2052,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202408031536239_add_team_table.resx">
       <DependentUpon>202408031536239_add_team_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408060137433_add-relationship-user-team.resx">
+      <DependentUpon>202408060137433_add-relationship-user-team.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

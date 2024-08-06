@@ -22,5 +22,6 @@ namespace Sneat.MVC.Models.Entity
         public DateTime? UpdatedDate { get; set; }
 
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserTeam> UserTeams { get; set; }
     }
 }
