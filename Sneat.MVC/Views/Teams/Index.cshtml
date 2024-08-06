@@ -95,138 +95,115 @@
                         </div>
                     </div>
                     <div class="bs-stepper-content p-1">
-                        <div>
-                            <!-- Details -->
-                            <div id="details" class="content pt-3 pt-lg-0">
-                                <div class="mb-3">
-                                    <strong>Tên nhóm</strong><span style="color:red"> *</span>
-                                    <input type="text" class="form-control" id="nameCreate" name="name" required placeholder="Tên vai trò">
-                                </div>
-                                <div class="mb-3">
-                                    <strong>Mô tả</strong>
-                                    <textarea class="form-control" id="txtDescriptionCreate" rows="3" placeholder="Mô tả chi tiết..."></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <strong>Lĩnh vực</strong><span style="color:red"> *</span>
-                                    <div class="col-md-12">
-                                        <div id="slField"
-                                             name="native-select"
-                                             placeholder="Chọn lĩnh vực"
-                                             data-search="true"
-                                             data-silent-initial-value-set="true">
-                                        </div>
+                        <!-- Details -->
+                        <div id="details" class="content pt-3 pt-lg-0">
+                            <div class="mb-3">
+                                <strong>Tên nhóm</strong><span style="color:red"> *</span>
+                                <input type="text" class="form-control" id="nameCreate" name="name" required placeholder="Tên vai trò">
+                            </div>
+                            <div class="mb-3">
+                                <strong>Mô tả</strong>
+                                <textarea class="form-control" id="txtDescriptionCreate" rows="3" placeholder="Mô tả chi tiết..."></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Lĩnh vực</strong><span style="color:red"> *</span>
+                                <div class="col-md-12">
+                                    <div id="slField"
+                                         name="native-select"
+                                         placeholder="Chọn lĩnh vực"
+                                         data-search="true"
+                                         data-silent-initial-value-set="true">
                                     </div>
                                 </div>
-                                <div class="col-12 d-flex justify-content-between mt-4">
-                                    <button class="btn btn-label-secondary btn-prev" disabled>
-                                        <i class="bx bx-left-arrow-alt bx-xs me-sm-1 me-0"></i>
-                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                    </button>
-                                    <button class="btn btn-primary btn-next">
-                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
-                                        <i class="bx bx-right-arrow-alt bx-xs"></i>
-                                    </button>
-                                </div>
                             </div>
-
-
-                            <!-- Database -->
-                            <div id="database" class="content pt-3 pt-lg-0">
-                                <div class="mb-3">
-                                    <input type="text"
-                                           class="form-control form-control-lg"
-                                           id="exampleInputEmail2"
-                                           placeholder="Database Name" />
-                                </div>
-                                <h5>Select Database Engine</h5>
-                                <ul class="p-0 m-0">
-                                    <li class="d-flex align-items-start mb-3">
-                                        <div class="badge bg-label-danger p-2 me-3 rounded">
-                                            <i class="bx bxl-firebase bx-sm"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between w-100 flex-wrap gap-2">
-                                            <div class="me-2">
-                                                <h6 class="mb-0">Firebase</h6>
-                                                <small class="text-muted">Cloud Firestone</small>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
-                                                    <input name="database-radio" class="form-check-input" type="radio" value="" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="d-flex align-items-start mb-3">
-                                        <div class="badge bg-label-warning p-2 me-3 rounded">
-                                            <i class="bx bxl-amazon bx-sm"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between w-100 flex-wrap gap-2">
-                                            <div class="me-2">
-                                                <h6 class="mb-0">AWS</h6>
-                                                <small class="text-muted">Amazon Fast NoSQL Database</small>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
-                                                    <input name="database-radio"
-                                                           class="form-check-input"
-                                                           type="radio"
-                                                           value=""
-                                                           checked />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="d-flex align-items-start">
-                                        <div class="badge bg-label-info p-2 me-3 rounded">
-                                            <i class="bx bx-data bx-sm"></i>
-                                        </div>
-                                        <div class="d-flex justify-content-between w-100 flex-wrap gap-2">
-                                            <div class="me-2">
-                                                <h6 class="mb-0">MySQL</h6>
-                                                <small class="text-muted">Basic MySQL database</small>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <div class="form-check form-check-inline">
-                                                    <input name="database-radio" class="form-check-input" type="radio" value="" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <div class="col-12 d-flex justify-content-between mt-4">
-                                    <button class="btn btn-label-secondary btn-prev">
-                                        <i class="bx bx-left-arrow-alt bx-xs me-sm-1 me-0"></i>
-                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                    </button>
-                                    <button class="btn btn-primary btn-next">
-                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
-                                        <i class="bx bx-right-arrow-alt bx-xs"></i>
-                                    </button>
-                                </div>
+                            <div class="col-12 d-flex justify-content-between mt-4">
+                                <button class="btn btn-label-secondary btn-prev" disabled>
+                                    <i class="bx bx-left-arrow-alt bx-xs me-sm-1 me-0"></i>
+                                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                </button>
+                                <button class="btn btn-primary btn-next">
+                                    <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+                                    <i class="bx bx-right-arrow-alt bx-xs"></i>
+                                </button>
                             </div>
+                        </div>
 
 
-                            <!-- submit -->
-                            <div id="submit" class="content text-center pt-3 pt-lg-0">
-                                <h5 class="mb-2 mt-3">Submit</h5>
-                                <p>Submit to kick start your project.</p>
-                                <!-- image -->
-                                <img src="../../assets/img/illustrations/man-with-laptop-light.png"
-                                     alt="Create App img"
-                                     width="200"
-                                     class="img-fluid"
-                                     data-app-light-img="illustrations/man-with-laptop-light.png"
-                                     data-app-dark-img="illustrations/man-with-laptop-dark.png" />
-                                <div class="col-12 d-flex justify-content-between mt-4 pt-2">
-                                    <button class="btn btn-label-secondary btn-prev">
-                                        <i class="bx bx-left-arrow-alt bx-xs me-sm-1 me-0"></i>
-                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                    </button>
-                                    <button class="btn btn-success " onclick="saveCreateTeam();">
-                                        <span class="align-middle d-sm-inline-block d-none">Lưu</span>
-                                        <i class="bx bx-check bx-xs ms-sm-1 ms-0"></i>
-                                    </button>
+                        <!-- Database -->
+                        <div id="database" class="content pt-3 pt-lg-0">
+                            <div class="col-md-12 col-xl-12 mb-4">
+                                <div class="form-check custom-option custom-option-basic mb-3">
+                                    <label class="form-check-label custom-option-content" for="brandingCheckbox">
+                                        <input class="form-check-input" type="checkbox" id="brandingCheckbox" />
+                                        <span class="custom-option-header pb-0">
+                                           @* <img src="~/Content/sneat-admin-pro/img/avatars/10.png" style="max-width: 50px; max-height: 50px;" alt="User" class=" rounded" />*@
+                                            <span class="fw-medium">Branding</span>
+                                            <span class="badge bg-label-success">+ $30</span>
+                                        </span>
+                                    </label>
                                 </div>
+                                <div class="form-check custom-option custom-option-basic mb-3">
+                                    <label class="form-check-label custom-option-content" for="marketingCheckbox">
+                                        <input class="form-check-input" type="checkbox" id="marketingCheckbox" checked />
+                                        <span class="custom-option-header pb-0">
+                                            <span class="fw-medium">Marketing</span>
+                                            <span class="badge bg-label-primary">+ $75</span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="form-check custom-option custom-option-basic mb-3">
+                                    <label class="form-check-label custom-option-content" for="appBuildingCheckbox">
+                                        <input class="form-check-input" type="checkbox" id="appBuildingCheckbox" />
+                                        <span class="custom-option-header pb-0">
+                                            <span class="fw-medium">App Building</span>
+                                            <span class="badge bg-label-success">+ $125</span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="form-check custom-option custom-option-basic mb-3">
+                                    <label class="form-check-label custom-option-content" for="seoCheckbox">
+                                        <input class="form-check-input" type="checkbox" id="seoCheckbox" />
+                                        <span class="custom-option-header pb-0">
+                                            <span class="fw-medium">SEO</span>
+                                            <span class="badge bg-label-primary">+ $48</span>
+                                        </span>
+                                    </label>
+                                </div>
+                              
+                            </div>
+                            <div class="col-12 d-flex justify-content-between mt-4">
+                                <button class="btn btn-label-secondary btn-prev">
+                                    <i class="bx bx-left-arrow-alt bx-xs me-sm-1 me-0"></i>
+                                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                </button>
+                                <button class="btn btn-primary btn-next">
+                                    <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+                                    <i class="bx bx-right-arrow-alt bx-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <!-- submit -->
+                        <div id="submit" class="content text-center pt-3 pt-lg-0">
+                            <h5 class="mb-2 mt-3">Submit</h5>
+                            <p>Submit to kick start your project.</p>
+                            <!-- image -->
+                            <img src="../../assets/img/illustrations/man-with-laptop-light.png"
+                                 alt="Create App img"
+                                 width="200"
+                                 class="img-fluid"
+                                 data-app-light-img="illustrations/man-with-laptop-light.png"
+                                 data-app-dark-img="illustrations/man-with-laptop-dark.png" />
+                            <div class="col-12 d-flex justify-content-between mt-4 pt-2">
+                                <button class="btn btn-label-secondary btn-prev">
+                                    <i class="bx bx-left-arrow-alt bx-xs me-sm-1 me-0"></i>
+                                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                </button>
+                                <button class="btn btn-success " onclick="saveCreateTeam();">
+                                    <span class="align-middle d-sm-inline-block d-none">Lưu</span>
+                                    <i class="bx bx-check bx-xs ms-sm-1 ms-0"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
