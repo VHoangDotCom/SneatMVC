@@ -59,13 +59,13 @@ $(function () {
                 default: {
                     icon: 'bx bxl-stripe text-primary'
                 },
-              /*  
-                img: {
+                
+               /* img: {
                     icon: 'bx bx-image text-success'
-                },
-                js: {
-                    icon: 'bx bxl-nodejs text-warning'
                 },*/
+                team: {
+                    icon: 'bx bx-group text-warning'
+                },
                 user: {
                     icon: 'bx bx-user text-secondary'
                 },

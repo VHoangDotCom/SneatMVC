@@ -109,6 +109,14 @@
                 new Permission { Name = "Update", TabID = "updateRoleTab", TabIcon = "role", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
                 new Permission { Name = "Delete", TabID = "deleteRoleTab", TabIcon = "role", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
                 #endregion
+
+                #region Team
+                new Permission { Name = "Team management", TabID = "teamListTab", TabIcon = "team", Level = 1, IsLeaf = 0, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "View", TabID = "viewTeamTab", TabIcon = "team", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Create", TabID = "createTeamTab", TabIcon = "team", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Update", TabID = "updateTeamTab", TabIcon = "team", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Delete", TabID = "deleteTeamTab", TabIcon = "team", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                #endregion
             };
 
             // Add permissions to context
@@ -132,6 +140,12 @@
             var updateRole = context.Permissions.FirstOrDefault(p => p.TabID == "updateRoleTab");
             var deleteRole = context.Permissions.FirstOrDefault(p => p.TabID == "deleteRoleTab");
 
+            var teamManagement = context.Permissions.FirstOrDefault(p => p.TabID == "teamListTab");
+            var viewTeam = context.Permissions.FirstOrDefault(p => p.TabID == "viewTeamTab");
+            var createTeam = context.Permissions.FirstOrDefault(p => p.TabID == "createTeamTab");
+            var updateTeam = context.Permissions.FirstOrDefault(p => p.TabID == "updateTeamTab");
+            var deleteTeam = context.Permissions.FirstOrDefault(p => p.TabID == "deleteTeamTab");
+
             if (userManagement != null)
             {
                 createUser.ParentID = userManagement.ID;
@@ -139,7 +153,6 @@
                 viewUser.ParentID = userManagement.ID;
                 deleteUser.ParentID = userManagement.ID;
             }
-
             if (updateUser != null)
             {
                 updateStatusUser.ParentID = updateUser.ID;
@@ -152,6 +165,14 @@
                 createRole.ParentID = roleManagement.ID;
                 updateRole.ParentID = roleManagement.ID;
                 deleteRole.ParentID = roleManagement.ID;
+            }
+
+            if (teamManagement != null)
+            {
+                viewTeam.ParentID = teamManagement.ID;
+                createTeam.ParentID = teamManagement.ID;
+                updateTeam.ParentID = teamManagement.ID;
+                deleteTeam.ParentID = teamManagement.ID;
             }
 
             // Add full permission for Admin

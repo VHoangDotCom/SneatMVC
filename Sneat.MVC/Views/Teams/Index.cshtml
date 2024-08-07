@@ -28,22 +28,24 @@
             </div>
             <div class="row mb-2 px-md-4 px-2">
                 <div class="col-md-12">
-                    <a title="Thêm đội nhóm" style="float: right" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createApp">
-                        <i class='menu-icon tf-icons bx bx-plus'></i>
-                        Thêm mới
-                    </a>
+                    @if (ss.PermissionTabs.Contains("createTeamTab"))
+                    {
+                        <a title="Thêm đội nhóm" style="float: right" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createApp">
+                            <i class='menu-icon tf-icons bx bx-plus'></i>
+                            Thêm mới
+                        </a>
+                    }
+
                 </div>
             </div>
 
-            @*   @if (ss.PermissionTabs.Contains("viewUserTab"))
-                {
-                    <div class=" table-responsive px-md-4 px-2" id="list_user">
-                        @{ Html.RenderAction("Search", "Users", new { Page = 1, search = "" }); }
-                    </div>
-                }*@
-            <div class=" table-responsive px-md-4 px-2" id="list_team">
-                @{ Html.RenderAction("Search", "Teams", new { Page = 1, search = "" }); }
-            </div>
+            @if (ss.PermissionTabs.Contains("viewTeamTab"))
+            {
+                <div class=" table-responsive px-md-4 px-2" id="list_team">
+                    @{ Html.RenderAction("Search", "Teams", new { Page = 1, search = "" }); }
+                </div>
+            }
+
         </div>
 
     </div>
@@ -128,12 +130,15 @@
                             </div>
                         </div>
 
-
                         <!-- Database -->
                         <div id="database" class="content pt-3 pt-lg-0">
                             <div class="col-md-12 col-xl-12 mb-4">
-                                <div class="table-responsive" id="list_user_option">
-                                    @{ Html.RenderAction("SearchUser", "Teams", new { Page = 1, limit = 5, search = "" }); }
+                                <div class="input-group input-group-merge mb-3">
+                                    <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                                    <input type="text" class="form-control " id="txt_search_user_team" placeholder="Nhập tên người dùng" onchange="searchUserTeam()" />
+                                </div>
+                                <div class="table-responsive" id="list_user_option_create">
+                                    @{ Html.RenderAction("SearchUser", "Teams", new { Page = 1, limit = 5, search = "", targetId = "list_user_option_create" }); }
                                 </div>
                             </div>
                             <div class="col-12 d-flex justify-content-between mt-4">
@@ -180,14 +185,14 @@
 </div>
 <!--/ Create App Modal -->
 
-<!-- Create Team Modal -->
+<!-- Update Team Modal -->
 <div class="modal fade" id="updateApp" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-simple modal-upgrade-plan">
         <div class="modal-content p-3 p-md-5">
             <div class="modal-body p-2">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div class="text-center">
-                    <h3 class="mb-3">Tạo mới nhóm</h3>
+                    <h3 class="mb-3">Cập nhật nhóm</h3>
                 </div>
                 <!-- App Wizard -->
                 <div id="wizard-update-app" class="bs-stepper vertical mt-2 shadow-none border-0">
@@ -263,8 +268,12 @@
                             <!-- Database -->
                             <div id="database" class="content pt-3 pt-lg-0">
                                 <div class="col-md-12 col-xl-12 mb-4">
-                                    <div class="table-responsive" id="list_user_option">
-                                        @{ Html.RenderAction("SearchUser", "Teams", new { Page = 1, limit = 5, search = "" }); }
+                                    <div class="input-group input-group-merge mb-3">
+                                        <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                                        <input type="text" class="form-control " id="txt_search_user_team_update" placeholder="Nhập tên người dùng" onchange="searchUserTeamUpdate()" />
+                                    </div>
+                                    <div class="table-responsive" id="list_user_option_update">
+                                        @{ Html.RenderAction("SearchUser", "Teams", new { Page = 1, limit = 5, search = "", targetId = "list_user_option_update" }); }
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-between mt-4">
