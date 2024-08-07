@@ -46,7 +46,7 @@
     <tr>
         <td>
             <div class="form-check form-check-primary">
-                <input class="form-check-input" type="checkbox" name="selectedItemsUser" value="@data.ID" id="customCheckSuccess" />
+                <input class="form-check-input" type="checkbox" name="selectedItemsUser" value="@data.ID" id="customCheckSuccess" onchange="logSelectedItems(this)"/>
             </div>
         </td>
         <td>@stt </td>
@@ -81,10 +81,3 @@
                  )
     </div>
 </div>
-
-<script>
-
-    function updateUser(id) {
-        window.location.assign("/Users/Update?ID=" + id);
-    }
-</script>
