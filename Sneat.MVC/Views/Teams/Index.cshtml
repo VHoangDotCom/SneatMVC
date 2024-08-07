@@ -347,3 +347,22 @@
         options: optionFields,
     });
 </script>
+
+@*<script>
+    var selectedUserItems = [];
+    function logSelectedItems(checkbox) {
+        var userId = parseInt(checkbox.value);
+
+        if (checkbox.checked) {
+            if (!selectedUserItems.includes(userId)) {
+                selectedUserItems.push(userId);
+            }
+        } else {
+            selectedUserItems = selectedUserItems.filter(item => item !== userId);
+        }
+
+        console.log("Selected User Items:", selectedUserItems);
+    }
+
+
+</script>*@

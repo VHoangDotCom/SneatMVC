@@ -228,8 +228,10 @@ function updateTeamModal(id) {
             $("#txtDescriptionEdit").val(res.Description);
             $("#teamID").val(id);
 
-            var preSelectedUsers = res.UserIds;
             $("input[name='selectedItemsUser']").prop('checked', false);
+
+            // Fetch pre-selected users
+            var preSelectedUsers = res.UserIds;
             preSelectedUsers.forEach(function (userId) {
                 $("input[name='selectedItemsUser'][value='" + userId + "']").prop('checked', true);
             });
@@ -250,6 +252,8 @@ function updateTeamModal(id) {
                 virtualSelectInstance.setValue(preSelectedTechStackValue);
             }
 
+            // Open the modal
+            $('#updateApp').modal('show');
         }
     })
 }
@@ -259,6 +263,7 @@ function saveUpdateTeam() {
     var desc = $('#txtDescriptionEdit').val();
     var techstack = $('#slFieldUpdate').val();
     var id = $('#teamID').val();
+
     var selectedUserItems = [];
     $('input[name="selectedItemsUser"]:checked').each(function () {
         selectedUserItems.push(parseInt($(this).val()));
