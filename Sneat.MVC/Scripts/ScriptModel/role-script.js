@@ -351,6 +351,9 @@ function updateRoleModal(id) {
                         role: {
                             icon: 'bx bx-key text-danger'
                         },
+                        team: {
+                            icon: 'bx bx-group text-warning'
+                        },
                     }
                 });
 

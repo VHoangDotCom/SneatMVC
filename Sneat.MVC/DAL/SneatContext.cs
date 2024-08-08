@@ -27,6 +27,7 @@ namespace Sneat.MVC.DAL
 
         public DbSet<Team> Teams { get; set; }
         public DbSet<UserTeam> UserTeams { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

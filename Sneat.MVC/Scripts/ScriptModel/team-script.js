@@ -456,3 +456,59 @@ function checkAllUser() {
         checkboxes[i].checked = checkAllCheckbox.checked;
     }
 }
+
+function searchUserTeam() {
+    if (!navigator.onLine) {
+        swal({
+            title: "Check internet connection!",
+            text: "",
+            icon: "warning"
+        })
+        return;
+    }
+    var key = $("#txt_search_user_team").val().replace(/\s\s+/g, ' ');
+
+    $.ajax({
+        url: '/Teams/SearchUser',
+        data: {
+            page: 1,
+            search: key,
+            targetId: 'list_user_option_create'
+        },
+        type: 'POST',
+        success: function (response) {
+            $("#list_user_option_create").html(response);
+        },
+        error: function (result) {
+            console.log(result.responseText);
+        }
+    });
+}
+
+function searchUserTeamUpdate() {
+    if (!navigator.onLine) {
+        swal({
+            title: "Check internet connection!",
+            text: "",
+            icon: "warning"
+        })
+        return;
+    }
+    var key = $("#txt_search_user_team_update").val().replace(/\s\s+/g, ' ');
+    console.log(key)
+    $.ajax({
+        url: '/Teams/SearchUser',
+        data: {
+            page: 1,
+            search: key,
+            targetId: 'list_user_option_update'
+        },
+        type: 'POST',
+        success: function (response) {
+            $("#list_user_option_update").html(response);
+        },
+        error: function (result) {
+            console.log(result.responseText);
+        }
+    });
+}

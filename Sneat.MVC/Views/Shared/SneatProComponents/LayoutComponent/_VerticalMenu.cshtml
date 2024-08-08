@@ -92,12 +92,16 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text" @*data-i18n="Apps & Pages"*@>Quản lý dự án</span>
         </li>
-        <li class='menu-item@(currentPage == "/Teams/Index"
+        @if (ss.PermissionTabs.Contains("viewTeamTab"))
+        {
+            <li class='menu-item@(currentPage == "/Teams/Index"
         || currentPage == "/Teams/Create" ? " active" : "")'>
-            <a href="/Teams/Index" class="menu-link">
-                <i class='menu-icon tf-icons bx bx-group'></i>
-                <div class="text-truncate" @*data-i18n="User"*@>Đội nhóm</div>
-            </a>
-        </li>
+                <a href="/Teams/Index" class="menu-link">
+                    <i class='menu-icon tf-icons bx bx-group'></i>
+                    <div class="text-truncate" @*data-i18n="User"*@>Đội nhóm</div>
+                </a>
+            </li>
+        }
+
     </ul>
 </aside>

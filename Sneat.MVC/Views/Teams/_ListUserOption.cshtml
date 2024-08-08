@@ -11,14 +11,17 @@
         Response.Redirect("/Home/Login");
     }
 }
+@{
+    string targetId = ViewBag.TargetId ?? "list_user_option";
+}
 
 <table class="table table-bordered table-striped text-center" id="dataTable" cellspacing="0">
     <thead>
         <tr>
             <th>
                 <div class="form-check form-check-success mt-3">
-                    <input class="form-check-input" type="checkbox" value="" id="checkAllUser" onclick="checkAllUser()"/>
-                   @* <label class="form-check-label" for="checkAllUser">Tất cả</label>*@
+                    <input class="form-check-input" type="checkbox" value="" id="checkAllUser" onclick="checkAllUser()" />
+                    @* <label class="form-check-label" for="checkAllUser">Tất cả</label>*@
                 </div>
             </th>
             <th>STT </th>
@@ -43,24 +46,24 @@
                 foreach (var data in Model)
                 {
 
-    <tr>
-        <td>
-            <div class="form-check form-check-primary">
-                <input class="form-check-input" type="checkbox" name="selectedItemsUser" value="@data.ID" id="customCheckSuccess" onchange="logSelectedItems(this)"/>
-            </div>
-        </td>
-        <td>@stt </td>
-        <td>@data.UserName</td>
-        @if (data.Status == SystemParam.ACTIVE)
-        {
-            <td style="font-size: 13px"><span class="badge bg-label-success me-1">@data.StatusStr</span></td>
-        }
-        else if (data.Status == SystemParam.IN_ACTIVE)
-        {
-            <td style="font-size: 13px"><span class="badge bg-label-danger me-1">@data.StatusStr</span></td>
-        }
+                    <tr>
+                        <td>
+                            <div class="form-check form-check-primary">
+                                <input class="form-check-input" type="checkbox" name="selectedItemsUser" value="@data.ID" id="customCheckSuccess" onchange="logSelectedItems(this)" />
+                            </div>
+                        </td>
+                        <td>@stt </td>
+                        <td>@data.UserName</td>
+                        @if (data.Status == SystemParam.ACTIVE)
+                        {
+                            <td style="font-size: 13px"><span class="badge bg-label-success me-1">@data.StatusStr</span></td>
+                        }
+                        else if (data.Status == SystemParam.IN_ACTIVE)
+                        {
+                            <td style="font-size: 13px"><span class="badge bg-label-danger me-1">@data.StatusStr</span></td>
+                        }
 
-    </tr>
+                    </tr>
                     stt++;
 
                 }
@@ -76,7 +79,7 @@
                  PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
                  {
                      HttpMethod = "GET",
-                     UpdateTargetId = "list_user_option"
+                     UpdateTargetId = targetId
                  })
                  )
     </div>
