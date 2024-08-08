@@ -82,6 +82,8 @@ namespace Sneat.MVC.Common
         #region Project - Team
         public const int EXISTED_TEAM_NAME_ERR = -1;
         public const int TEAM_NOT_FOUND_ERR = -2;
+        public const int EXISTED_PROJECT_NAME_ERR = -3;
+        public const int PROJECT_NOT_FOUND_ERR = -4;
         #endregion
 
         #region Viet QR
