@@ -43,6 +43,7 @@ namespace Sneat.MVC.Services
                                  Phone = u.Phone,
                                  CreateDate = u.CreatedDate,
                                  Email = u.Email,
+                                 Avatar = u.Avatar
                              })
                              .AsEnumerable()
                              .Select(u => new UserDetailOutputModel
@@ -54,6 +55,7 @@ namespace Sneat.MVC.Services
                                  Phone = u.Phone,
                                  CreateDate = u.CreateDate,
                                  Email = u.Email,
+                                 Avatar = u.Avatar
                              })
                             .Where(x => string.IsNullOrEmpty(search)
                                 || Utils.RemoveDiacritics(x.UserName).Contains(search)

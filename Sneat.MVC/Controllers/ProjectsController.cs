@@ -1,6 +1,7 @@
 ﻿using Sneat.MVC.App_Start;
 using Sneat.MVC.Common;
 using Sneat.MVC.Models.DTO.Project;
+using Sneat.MVC.Models.DTO.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,24 @@ namespace Sneat.MVC.Controllers
             return PartialView("_ListProject", result);
         }
 
+        [UserAuthenticationFilter]
+        public async Task<ActionResult> Create()
+        {
+            ViewBag.ListTeam = await _teamService.GetListTeam();
+            return View();
+        }
+
         [HttpPost]
         public async Task<int> CreateProject(ProjectInputModel input)
         {
             return await _projectService.CreateProject(input);
+        }
+
+        [UserAuthenticationFilter]
+        public async Task<ActionResult> Update(int ID)
+        {
+            var detail = await _projectService.DetailProject(ID);
+            return View(detail);
         }
 
         [HttpPost]
@@ -38,9 +53,15 @@ namespace Sneat.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<int> RemoveTeam(int ID)
+        public async Task<int> RemoveProject(int ID)
         {
             return await _projectService.RemoveProject(ID);
+        }
+
+        [HttpPost]
+        public async Task<List<UpdateUserInputModel>> ListUserByTeam(List<int> teamIds)
+        {
+            return await _teamService.ListUserByTeam(teamIds);
         }
     }
 }

@@ -2,6 +2,7 @@
 using Sneat.MVC.Common;
 using Sneat.MVC.DAL;
 using Sneat.MVC.Models.DTO.Team;
+using Sneat.MVC.Models.DTO.User;
 using Sneat.MVC.Models.Entity;
 using Sneat.MVC.Models.Enum;
 using System;
@@ -20,6 +21,8 @@ namespace Sneat.MVC.Services
         {
             _dbContext = dbContext;
         }
+
+        #region Team Management
 
         public async Task<IPagedList<TeamOutputModel>> SearchTeam(int page, int limit, string search = "")
         {
@@ -53,6 +56,13 @@ namespace Sneat.MVC.Services
                         TechStack = x.TechStack,
                         x.CreatedDate,
                         x.UpdatedDate,
+                        UserTeams = x.UserTeams
+                        .Select(ur => new UserTeamOutputModel
+                        {
+                            UserID = ur.User.ID,
+                            UserName = ur.User.UserName,
+                            UserAvatar = !string.IsNullOrEmpty(ur.User.Avatar) ? ur.User.Avatar : SystemParam.DEFAULT_SYSTEM_IMAGE,
+                        })
                     })
                     .AsEnumerable()
                     .Select(x => new TeamOutputModel
@@ -64,6 +74,7 @@ namespace Sneat.MVC.Services
                         TechStack = Utils.ConvertStringToListInteger(x.TechStack),
                         CreatedDate = x.CreatedDate,
                         UpdatedDate = x.UpdatedDate,
+                        UserTeams = x.UserTeams.ToList()
                     })
                     .Where(x => string.IsNullOrEmpty(search)
                         || Utils.RemoveDiacritics(x.Name).Contains(search))
@@ -221,5 +232,40 @@ namespace Sneat.MVC.Services
                 return SystemParam.RETURN_FALSE;
             }
         }
+        #endregion
+
+        #region Project Management
+        
+        public async Task<List<UpdateUserInputModel>> ListUserByTeam(List<int> teamIds)
+        {
+            try
+            {
+                var userIds = await _dbContext.UserTeams
+                    .Where(x => x.User.IsDeleted == SystemParam.IS_NOT_DELETED
+                        && x.User.Status == Status.ACTIVE
+                        && teamIds.Contains(x.TeamID))
+                    .Select(x => x.UserID)
+                    .ToListAsync();
+
+                var users = await _dbContext.Users
+                    .Where(x => userIds.Contains(x.ID))
+                    .Select(x => new UpdateUserInputModel
+                    {
+                        ID = x.ID,
+                        Name = x.UserName,
+                        Avatar = x.Avatar,
+                    })
+                    .ToListAsync();
+
+                return users;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new List<UpdateUserInputModel>();
+            }
+        }
+
+        #endregion
     }
 }

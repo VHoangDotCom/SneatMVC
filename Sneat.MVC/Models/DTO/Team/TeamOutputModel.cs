@@ -33,5 +33,14 @@ namespace Sneat.MVC.Models.DTO.Team
                 }
             }
         }
+
+        public List<UserTeamOutputModel> UserTeams { get; set; }
+    }
+
+    public class UserTeamOutputModel
+    {
+        public int UserID { get; set; }
+        public string UserName { get; set; }
+        public string UserAvatar { get; set; }
     }
 }

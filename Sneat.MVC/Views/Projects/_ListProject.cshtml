@@ -1,7 +1,7 @@
-﻿@model IPagedList<TeamOutputModel>
-@using Sneat.MVC.Models.DTO.Team;
+﻿@using Sneat.MVC.Models.DTO.Project;
 @using PagedList;
 @using PagedList.Mvc;
+@model IPagedList<ProjectOutputModel>
 @using Sneat.MVC.Models.DTO.User
 @using Sneat.MVC.Common
 @{ UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
@@ -17,7 +17,6 @@
             <th>STT</th>
             <th>Tên </th>
             <th>Thành viên</th>
-            <th>Trạng thái </th>
             <th>Ngày tạo</th>
             <th>Action</th>
         </tr>
@@ -43,8 +42,8 @@
                         <td>@stt </td>
                         <td>@data.Name</td>
                         <td>
-                            <div class="d-flex align-items-center avatar-group">
-                                @foreach (var user in data.UserTeams)
+                           @* <div class="d-flex align-items-center avatar-group">
+                                @foreach (var user in data.UserRoles)
                                 {
                                     <div class="avatar pull-up"
                                          data-bs-toggle="tooltip"
@@ -54,16 +53,10 @@
                                         <img src="@user.UserAvatar" alt="Avatar" class="rounded-circle" />
                                     </div>
                                 }
-                            </div>
+                            </div>*@
+
+
                         </td>
-                        @if (data.Status == SystemParam.ACTIVE)
-                           {
-                               <td style="font-size: 13px"><span class="badge bg-label-success me-1">@data.StatusStr</span></td>
-                           }
-                           else if (data.Status == SystemParam.IN_ACTIVE)
-                           {
-                               <td style="font-size: 13px"><span class="badge bg-label-danger me-1">@data.StatusStr</span></td>
-                           }
                         <td>@data.CreatedDate.ToString("dd/MM/yyyy")</td>
                         <td>
                             <div class="dropdown">
@@ -73,15 +66,16 @@
                                     <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
                                 <div class="dropdown-menu">
-                                    @if (ss.PermissionTabs.Contains("updateTeamTab"))
-                                    {
-                                        <a class="dropdown-item" @*data-bs-toggle="modal" data-bs-target="#updateApp"*@ onclick="updateTeamModal(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa đội nhóm</a>
-                                    }
-                                    @if (ss.PermissionTabs.Contains("deleteTeamTab"))
-                                    {
-                                        <a class="dropdown-item" onclick="deleteTeam(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa đội nhóm</a>
-                                    }
+                                    @*@if (ss.PermissionTabs.Contains("updateRoleTab"))
+        {
 
+        }*@
+                                    <a class="dropdown-item" onclick="updateProject(@data.ID)"><i class="bx bx-edit-alt me-1"></i> Sửa dự án</a>
+                                    @* @if (ss.PermissionTabs.Contains("deleteRoleTab"))
+        {
+
+        }*@
+                                    <a class="dropdown-item" onclick="deleteProject(@data.ID)"><i class="bx bx-trash me-1"></i> Xóa dự án</a>
                                 </div>
                             </div>
                         </td>
@@ -101,8 +95,15 @@
                  PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
                  {
                      HttpMethod = "GET",
-                     UpdateTargetId = "list_team"
+                     UpdateTargetId = "list_project"
                  })
                  )
     </div>
 </div>
+
+<script>
+
+    function updateProject(id) {
+        window.location.assign("/Projects/Update?ID=" + id);
+    }
+</script>
