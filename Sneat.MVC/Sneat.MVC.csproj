@@ -224,6 +224,10 @@
     <Compile Include="Migrations\202408071502375_add-table-project.designer.cs">
       <DependentUpon>202408071502375_add-table-project.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202408112223301_add-relaionship-project-user.cs" />
+    <Compile Include="Migrations\202408112223301_add-relaionship-project-user.designer.cs">
+      <DependentUpon>202408112223301_add-relaionship-project-user.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common\CommonTree.cs" />
     <Compile Include="Models\Common\TreeItem.cs" />
@@ -246,6 +250,7 @@
     <Compile Include="Models\Entity\Team.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\Entity\UserDetail.cs" />
+    <Compile Include="Models\Entity\UserProject.cs" />
     <Compile Include="Models\Entity\UserRole.cs" />
     <Compile Include="Models\Entity\UserTeam.cs" />
     <Compile Include="Models\Entity\Ward.cs" />
@@ -1950,6 +1955,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ScriptModel\home-script.js" />
     <Content Include="Scripts\ScriptModel\permission-scipt.js" />
+    <Content Include="Scripts\ScriptModel\project-script.js" />
     <Content Include="Scripts\ScriptModel\role-script.js" />
     <Content Include="Scripts\ScriptModel\team-script.js" />
     <Content Include="Scripts\ScriptModel\user-script.js" />
@@ -1990,11 +1996,14 @@
     <Content Include="Views\Teams\Index.cshtml" />
     <Content Include="Views\Teams\_ListTeam.cshtml" />
     <Content Include="Views\Teams\_ListUserOption.cshtml" />
+    <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\Projects\_ListProject.cshtml" />
+    <Content Include="Views\Projects\Create.cshtml" />
+    <Content Include="Views\Projects\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\files\" />
-    <Folder Include="Views\Projects\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -2068,6 +2077,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202408071502375_add-table-project.resx">
       <DependentUpon>202408071502375_add-table-project.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408112223301_add-relaionship-project-user.resx">
+      <DependentUpon>202408112223301_add-relaionship-project-user.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -28,6 +28,8 @@ namespace Sneat.MVC.DAL
             SeedProvinces(context);
             SeedDistricts(context);
             SeedUsers(context);
+            SeedRoles(context);
+            SeedPermission(context);
 
             SeedBanks(context).GetAwaiter().GetResult();
         }
@@ -53,6 +55,140 @@ namespace Sneat.MVC.DAL
             };
 
             context.Users.AddRange(users);
+            context.SaveChanges();
+        }
+
+        private void SeedRoles(Sneat.MVC.DAL.SneatContext context)
+        {
+            var adminRole = context.Roles.FirstOrDefault(x => x.Name.Equals("Admin"));
+
+            if (adminRole == null)
+            {
+                var newRole = new Role
+                {
+                    Name = "Admin",
+                    Description = "This role has full permission in this system.",
+                    IsDeleted = SystemParam.IS_NOT_DELETED,
+                    CreatedDate = DateTime.Now
+                };
+                context.Roles.Add(newRole);
+            }
+
+            context.SaveChanges();
+        }
+
+        private void SeedPermission(Sneat.MVC.DAL.SneatContext context)
+        {
+            // Clear existing data
+            var existingPermissions = context.Permissions.ToList();
+            var existingPermissionRoles = context.RolePermissions.ToList();
+            context.RolePermissions.RemoveRange(existingPermissionRoles);
+            context.Permissions.RemoveRange(existingPermissions);
+            context.SaveChanges();
+
+            // Define the permissions to seed
+            var permissions = new List<Permission>
+            {
+                new Permission { Name = "HomePage", TabID = "homePageTab", TabIcon = "home", Level = 1, IsLeaf = 0, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                #region User
+                new Permission { Name = "User management", TabID = "userListTab", TabIcon = "user", Level = 1, IsLeaf = 0, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "View", TabID = "viewUserTab", TabIcon = "user", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Create", TabID = "createUserTab", TabIcon = "user", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Update", TabID = "updateUserTab", TabIcon = "user", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Update user info", TabID = "updateInfoUserTab", TabIcon = "user", Level = 3, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Update user status", TabID = "updateStatusUserTab", TabIcon = "user", Level = 3, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Delete", TabID = "deleteUserTab", TabIcon = "user", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                #endregion
+
+                #region Role
+                new Permission { Name = "Role management", TabID = "roleListTab", TabIcon = "role", Level = 1, IsLeaf = 0, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "View", TabID = "viewRoleTab", TabIcon = "role", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Create", TabID = "createRoleTab", TabIcon = "role", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Update", TabID = "updateRoleTab", TabIcon = "role", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Delete", TabID = "deleteRoleTab", TabIcon = "role", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                #endregion
+
+                #region Team
+                new Permission { Name = "Team management", TabID = "teamListTab", TabIcon = "team", Level = 1, IsLeaf = 0, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "View", TabID = "viewTeamTab", TabIcon = "team", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Create", TabID = "createTeamTab", TabIcon = "team", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Update", TabID = "updateTeamTab", TabIcon = "team", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                new Permission { Name = "Delete", TabID = "deleteTeamTab", TabIcon = "team", Level = 2, IsLeaf = 1, ParentID = null, IsDeleted = SystemParam.IS_NOT_DELETED, CreatedDate = DateTime.Now },
+                #endregion
+            };
+
+            // Add permissions to context
+            context.Permissions.AddRange(permissions);
+            context.SaveChanges();
+
+            // Retrieve permissions and update parent-child relationships
+            var homePage = context.Permissions.FirstOrDefault(p => p.TabID == "homePageTab");
+
+            var userManagement = context.Permissions.FirstOrDefault(p => p.TabID == "userListTab");
+            var createUser = context.Permissions.FirstOrDefault(p => p.TabID == "createUserTab");
+            var updateUser = context.Permissions.FirstOrDefault(p => p.TabID == "updateUserTab");
+            var updateStatusUser = context.Permissions.FirstOrDefault(p => p.TabID == "updateStatusUserTab");
+            var viewUser = context.Permissions.FirstOrDefault(p => p.TabID == "viewUserTab");
+            var deleteUser = context.Permissions.FirstOrDefault(p => p.TabID == "deleteUserTab");
+            var updateUserInfo = context.Permissions.FirstOrDefault(p => p.TabID == "updateInfoUserTab");
+
+            var roleManagement = context.Permissions.FirstOrDefault(p => p.TabID == "roleListTab");
+            var viewRole = context.Permissions.FirstOrDefault(p => p.TabID == "viewRoleTab");
+            var createRole = context.Permissions.FirstOrDefault(p => p.TabID == "createRoleTab");
+            var updateRole = context.Permissions.FirstOrDefault(p => p.TabID == "updateRoleTab");
+            var deleteRole = context.Permissions.FirstOrDefault(p => p.TabID == "deleteRoleTab");
+
+            var teamManagement = context.Permissions.FirstOrDefault(p => p.TabID == "teamListTab");
+            var viewTeam = context.Permissions.FirstOrDefault(p => p.TabID == "viewTeamTab");
+            var createTeam = context.Permissions.FirstOrDefault(p => p.TabID == "createTeamTab");
+            var updateTeam = context.Permissions.FirstOrDefault(p => p.TabID == "updateTeamTab");
+            var deleteTeam = context.Permissions.FirstOrDefault(p => p.TabID == "deleteTeamTab");
+
+            if (userManagement != null)
+            {
+                createUser.ParentID = userManagement.ID;
+                updateUser.ParentID = userManagement.ID;
+                viewUser.ParentID = userManagement.ID;
+                deleteUser.ParentID = userManagement.ID;
+            }
+            if (updateUser != null)
+            {
+                updateStatusUser.ParentID = updateUser.ID;
+                updateUserInfo.ParentID = updateUser.ID;
+            }
+
+            if (roleManagement != null)
+            {
+                viewRole.ParentID = roleManagement.ID;
+                createRole.ParentID = roleManagement.ID;
+                updateRole.ParentID = roleManagement.ID;
+                deleteRole.ParentID = roleManagement.ID;
+            }
+
+            if (teamManagement != null)
+            {
+                viewTeam.ParentID = teamManagement.ID;
+                createTeam.ParentID = teamManagement.ID;
+                updateTeam.ParentID = teamManagement.ID;
+                deleteTeam.ParentID = teamManagement.ID;
+            }
+
+            // Add full permission for Admin
+            var adminRole = context.Roles.FirstOrDefault(x => x.Name.Equals("Admin"));
+            if (adminRole != null)
+            {
+                var existedPermissionIds = context.Permissions.Select(x => x.ID).ToList();
+                foreach (var permissionId in existedPermissionIds)
+                {
+                    var permissionAdminRole = new RolePermission
+                    {
+                        RoleID = adminRole.ID,
+                        PermissionID = permissionId,
+                    };
+                    context.RolePermissions.Add(permissionAdminRole);
+                }
+            }
+
             context.SaveChanges();
         }
 

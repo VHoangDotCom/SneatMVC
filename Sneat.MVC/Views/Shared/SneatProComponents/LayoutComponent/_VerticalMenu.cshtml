@@ -102,6 +102,14 @@
                 </a>
             </li>
         }
+        <li class='menu-item@(currentPage == "/Projects/Index"
+        || currentPage == "/Projects/Create"
+        || currentPage == "/Projects/Update" ? " active" : "")'>
+            <a href="/Projects/Index" class="menu-link">
+                <i class='menu-icon tf-icons bx bxl-product-hunt'></i>
+                <div class="text-truncate" @*data-i18n="User"*@>Dự án</div>
+            </a>
+        </li>
 
     </ul>
 </aside>

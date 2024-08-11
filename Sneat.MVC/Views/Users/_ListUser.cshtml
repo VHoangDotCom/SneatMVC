@@ -16,7 +16,7 @@
     <thead>
         <tr>
             <th>STT</th>
-            <th>Tên </th>
+            <th>Tài khoản </th>
             <th>Số điện thoại</th>
             <th>Email</th>
             <th>Trạng thái</th>
@@ -42,7 +42,20 @@
 
                     <tr>
                         <td>@stt </td>
-                        <td>@data.UserName</td>
+                        <td>
+                            <!--<div class="row">-->
+                            @* <div class="avatar pull-up"
+             data-bs-toggle="tooltip"
+             data-popup="tooltip-custom"
+             data-bs-placement="top"
+             title="@data.UserName">
+            <img src="@data.Avatar" alt="Avatar" class="rounded-circle" />
+        </div>*@
+
+                            <!--</div>-->
+                            <img src="@data.Avatar" alt="Avatar" style="max-height: 30px; max-width: 30px; border-radius: 50%" />
+                            @data.UserName
+                        </td>
                         <td>@data.Phone </td>
                         <td>@data.Email</td>
                         @if (data.Status == SystemParam.ACTIVE)
