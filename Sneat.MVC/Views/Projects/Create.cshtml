@@ -16,6 +16,14 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="py-3 mb-4"><span style="cursor: pointer;" onclick="window.location='/Projects/Index'" class="text-muted fw-light">Quản lý dự án / Dự án / </span>Tạo mới </h4>
 
+        <div class="row mb-3">
+            <div class="col-md-12 col-xs-12">
+                <div class="mt-1 mb-1 pull-right pr-10 pb-10">
+                    <button style="float: right;" class="btn btn-primary" id="btnAdd" onclick="saveCreateProject()"> <i class='menu-icon tf-icons bx bx-plus'></i> Lưu</button>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="p-3 mt-1 card mb-4">
@@ -58,17 +66,35 @@
                         <h5 class="card-title mb-0">Thêm thành viên</h5>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">
-                            <strong>Phân quyền</strong><span style="color:red"> *</span>
-                            <div class="col-md-12">
-                                <div id="slRole"
-                                     name="native-select"
-                                     placeholder="Chọn vai trò"
-                                     data-search="true"
-                                     data-silent-initial-value-set="true">
+                        <div class="row mt-2">
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <strong>Đội nhóm</strong><span style="color:red"> *</span>
+                                    <div class="col-md-12">
+                                        <div id="slTeam"
+                                             name="native-select"
+                                             placeholder="Chọn vai trò"
+                                             data-search="true"
+                                             data-silent-initial-value-set="true">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <strong>Thành viên</strong><span style="color:red"> *</span>
+                                    <div class="col-md-12">
+                                        <div id="slUser"
+                                             name="native-select"
+                                             placeholder="Chọn thành viên"
+                                             data-search="true"
+                                             data-silent-initial-value-set="true">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -188,13 +214,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-12 col-xs-12">
-                <div class="mt-1 mb-1 pull-right pr-10 pb-10">
-                    <button style="float: right;" class="btn btn-primary" id="btnAdd" onclick="saveCreateProject()"> <i class='menu-icon tf-icons bx bx-plus'></i> Lưu</button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -223,4 +242,45 @@
          searchNormalize: true,
          options: optionTeams,
      });
+
+    document.querySelector('#slTeam').addEventListener('change', function (event) {
+        var selectedValues = $('#slTeam').val();
+        var optionUser = [];
+        document.querySelector('#slUser').setOptions(optionUser);
+
+        if (selectedValues.length > 0) {
+            $.ajax({
+                url: '/Projects/ListUserByTeam',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    teamIds: selectedValues
+                }),
+                success: function (response) {
+                    console.log(response);
+                  
+                    $.each(response, function (index, item) {
+                        document.querySelector('#slUser').addOption({
+                            value: item.ID,
+                            label: item.Name,
+                        });
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("An error occurred while fetching subsystem details:", xhr.responseText || error);
+                }
+            });
+        }
+    });
+    VirtualSelect.init({
+        ele: '#slUser',
+        multiple: true,
+        allOptionsSelectedText: 'All',
+        showValueAsTags: true,
+        autoSelectFirstOption: false,
+        noOfDisplayValues: 5,
+        markSearchResults: true,
+        searchGroup: true,
+        searchNormalize: true,
+    });
 </script>

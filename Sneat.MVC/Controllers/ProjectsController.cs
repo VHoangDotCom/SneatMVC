@@ -57,11 +57,12 @@ namespace Sneat.MVC.Controllers
         {
             return await _projectService.RemoveProject(ID);
         }
-
+       
         [HttpPost]
-        public async Task<List<UpdateUserInputModel>> ListUserByTeam(List<int> teamIds)
+        public async Task<JsonResult> ListUserByTeam(List<int> teamIds)
         {
-            return await _teamService.ListUserByTeam(teamIds);
+            var listSPs = await _teamService.ListUserByTeam(teamIds);
+            return Json(listSPs, JsonRequestBehavior.AllowGet);
         }
     }
 }
