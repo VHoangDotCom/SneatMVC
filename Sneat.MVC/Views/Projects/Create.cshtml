@@ -55,38 +55,20 @@
 
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Variants</h5>
+                        <h5 class="card-title mb-0">Thêm thành viên</h5>
                     </div>
                     <div class="card-body">
-                        <form class="form-repeater">
-                            <div data-repeater-list="group-a">
-                                <div data-repeater-item>
-                                    <div class="row">
-                                        <div class="mb-3 col-4">
-                                            <label class="form-label" for="form-repeater-1-1">Options</label>
-                                            <select id="form-repeater-1-1" class="select2 form-select" data-placeholder="Size">
-                                                <option value="">Size</option>
-                                                <option value="size">Size</option>
-                                                <option value="color">Color</option>
-                                                <option value="weight">Weight</option>
-                                                <option value="smell">Smell</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3 col-8">
-                                            <label class="form-label invisible" for="form-repeater-1-2">Not visible</label>
-                                            <input type="number"
-                                                   id="form-repeater-1-2"
-                                                   class="form-control"
-                                                   placeholder="Enter size" />
-                                        </div>
-                                    </div>
+                        <div class="mb-3">
+                            <strong>Phân quyền</strong><span style="color:red"> *</span>
+                            <div class="col-md-12">
+                                <div id="slRole"
+                                     name="native-select"
+                                     placeholder="Chọn vai trò"
+                                     data-search="true"
+                                     data-silent-initial-value-set="true">
                                 </div>
                             </div>
-                            <div>
-                                <button class="btn btn-primary" data-repeater-create>Add another option</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
 
@@ -222,3 +204,23 @@
 <script src="~/Scripts/ScriptModel/project-script.js"></script>
 
 @Scripts.Render("~/Content/multiselect-dropdown/virtual-select.min.js")
+<script>
+     var optionTeams = JSON.parse('@Html.Raw(Json.Encode(ViewBag.ListTeam))').map(function (item) {
+     return {
+         label: item.Name,
+         value: item.ID
+     }
+     });
+     VirtualSelect.init({
+         ele: '#slTeam',
+         multiple: true,
+         allOptionsSelectedText: 'All',
+         showValueAsTags: true,
+         autoSelectFirstOption: false,
+         noOfDisplayValues: 5,
+         markSearchResults: true,
+         searchGroup: true,
+         searchNormalize: true,
+         options: optionTeams,
+     });
+</script>

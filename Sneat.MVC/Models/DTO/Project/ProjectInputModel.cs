@@ -1,5 +1,5 @@
-﻿using Sneat.MVC.Models.Enum;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Sneat.MVC.Models.DTO.Project
 {
@@ -7,6 +7,7 @@ namespace Sneat.MVC.Models.DTO.Project
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public List<int> UserIds { get; set; }
     }
 
     public class ProjectOutputModel : ProjectInputModel

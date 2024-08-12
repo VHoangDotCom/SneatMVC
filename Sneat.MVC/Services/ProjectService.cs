@@ -98,6 +98,19 @@ namespace Sneat.MVC.Services
                 };
                 _dbContext.Projects.Add(newProject);
 
+                if (input.UserIds.Count > 0)
+                {
+                    foreach (var id in input.UserIds)
+                    {
+                        var userProject = new UserProject
+                        {
+                            UserID = id,
+                            ProjectID = newProject.ID
+                        };
+                        _dbContext.UserProjects.Add(userProject);
+                    }
+                }
+
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;
             }
@@ -130,6 +143,21 @@ namespace Sneat.MVC.Services
                 project.Name = input.Name;
                 project.Description = input.Description;
                 project.UpdatedDate = DateTime.Now;
+                
+                // Update user project
+                _dbContext.UserProjects.RemoveRange(project.UserProjects);
+                if (input.UserIds.Count > 0)
+                {
+                    foreach (var id in input.UserIds)
+                    {
+                        var userProject = new UserProject
+                        {
+                            UserID = id,
+                            ProjectID = project.ID
+                        };
+                        _dbContext.UserProjects.Add(userProject);
+                    }
+                }
 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;
