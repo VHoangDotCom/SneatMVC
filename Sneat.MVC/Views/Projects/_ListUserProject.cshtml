@@ -1,0 +1,51 @@
+﻿@using Sneat.MVC.Models.DTO.User;
+@using PagedList;
+@using PagedList.Mvc;
+@using Sneat.MVC.Common
+@using Sneat.MVC.Models.Enum
+@model IPagedList<UserDetailOutputModel>
+@using Sneat.MVC.Models.DTO.User
+@{ UserDetailOutputModel ss = (UserDetailOutputModel)HttpContext.Current.Session[SystemParam.SESSION_LOGIN];
+    if (ss == null)
+    {
+        Response.Redirect("/Home/Login");
+    }
+}
+
+<table class="table table-bordered table-striped text-center" id="dataTable" cellspacing="0">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Tài khoản </th>
+            <th>Số điện thoại</th>
+            <th>Email</th>
+            <th>Trạng thái</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+       
+
+    </tbody>
+</table>
+<div class="col-md-12">
+    <div class="row float-right">
+        @*phân trang*@
+        @Html.PagedListPager(Model, Page => Url.Action("Search", new { Page, search = "" }),
+                 PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
+                 {
+                     HttpMethod = "GET",
+                     UpdateTargetId = "list_user"
+                 })
+                 )
+    </div>
+</div>
+
+<script>
+
+    function updateUser(id) {
+        window.location.assign("/Users/Update?ID=" + id);
+    }
+</script>
