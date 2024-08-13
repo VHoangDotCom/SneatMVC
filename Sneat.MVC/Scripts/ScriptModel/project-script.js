@@ -38,6 +38,7 @@
     window.saveCreateProject = function () {
         var name = $('#nameCreate').val();
         var description = quill.root.innerHTML; 
+        var userIds = $('#slUser').val();
 
         console.log(description);
 
@@ -61,6 +62,7 @@
              data: JSON.stringify({
                  name: name,
                  description: description,
+                 userIds: userIds,
              }),
              beforeSend: function () {
                  $("#modalLoad").modal("show");
@@ -109,8 +111,6 @@
          });
     };
 })();
-
-
 
 function searchProject() {
     if (!navigator.onLine) {

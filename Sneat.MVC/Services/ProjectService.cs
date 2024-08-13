@@ -2,6 +2,7 @@
 using Sneat.MVC.Common;
 using Sneat.MVC.DAL;
 using Sneat.MVC.Models.DTO.Project;
+using Sneat.MVC.Models.DTO.User;
 using Sneat.MVC.Models.Entity;
 using Sneat.MVC.Models.Enum;
 using System;
@@ -193,6 +194,75 @@ namespace Sneat.MVC.Services
             }
         }
 
+        public async Task<IPagedList<UserDetailOutputModel>> SearchUserProject(int page, int limit, int projectId, string search = "")
+        {
+            try
+            {
+                search = Utils.RemoveDiacritics(search);
+                var list = await GetListUserProject(projectId, search);
+                var listPaging = list.ToPagedList(page, limit);
+
+                return listPaging;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new List<UserDetailOutputModel>().ToPagedList(1, 1);
+            }
+        }
+
+        public async Task<List<UserDetailOutputModel>> GetListUserProject(int projectId, string search = "")
+        {
+            try
+            {
+                var userIds = await _dbContext.UserProjects
+                    .Where(x => x.User.IsDeleted == SystemParam.IS_NOT_DELETED
+                        && x.User.Status == Status.ACTIVE
+                        && x.ProjectID == projectId)
+                    .Select(x => x.UserID)
+                    .ToListAsync();
+
+                var users = (from u in _dbContext.Users
+                             where userIds.Contains(u.ID)
+                             orderby u.ID descending
+                             select new
+                             {
+                                 IsDeleted = u.IsDeleted,
+                                 ID = u.ID,
+                                 Status = (int?)u.Status,
+                                 UserName = u.UserName,
+                                 Phone = u.Phone,
+                                 CreateDate = u.CreatedDate,
+                                 Email = u.Email,
+                                 Avatar = u.Avatar
+                             })
+                             .AsEnumerable()
+                             .Select(u => new UserDetailOutputModel
+                             {
+                                 ID = u.ID,
+                                 IsDeleted = u.IsDeleted,
+                                 Status = (int?)u.Status,
+                                 UserName = u.UserName,
+                                 Phone = u.Phone,
+                                 CreateDate = u.CreateDate,
+                                 Email = u.Email,
+                                 Avatar = u.Avatar
+                             })
+                            .Where(x => string.IsNullOrEmpty(search)
+                                || Utils.RemoveDiacritics(x.UserName).Contains(search)
+                                || Utils.RemoveDiacritics(x.Phone).Contains(search)
+                                || Utils.RemoveDiacritics(x.Email).Contains(search))
+                            .ToList();
+
+                return users;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new List<UserDetailOutputModel>();
+            }
+        }
+
         public async Task<int> RemoveProject(int ID)
         {
             try
@@ -204,6 +274,7 @@ namespace Sneat.MVC.Services
                     return SystemParam.PROJECT_NOT_FOUND_ERR;
 
                 project.IsDeleted = SystemParam.IS_DELETED;
+                _dbContext.UserProjects.RemoveRange(project.UserProjects);
                 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;
