@@ -52,6 +52,13 @@ namespace Sneat.MVC.Controllers
             return await _projectService.UpdateProject(input);
         }
 
+        [UserAuthenticationFilter]
+        public async Task<PartialViewResult> SearchUserProject(int page, int projectID, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "")
+        {
+            var result = await _projectService.SearchUserProject(page, limit, projectID, search);
+            return PartialView("_ListUserProject", result);
+        }
+
         [HttpPost]
         public async Task<int> RemoveProject(int ID)
         {

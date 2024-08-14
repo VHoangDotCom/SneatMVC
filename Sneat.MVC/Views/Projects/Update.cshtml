@@ -57,38 +57,13 @@
 
                 <div class="card mb-4">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">Variants</h5>
+                        <h5 class="card-title mb-0">Thành viên</h5>
                     </div>
                     <div class="card-body">
-                        <form class="form-repeater">
-                            <div data-repeater-list="group-a">
-                                <div data-repeater-item>
-                                    <div class="row">
-                                        <div class="mb-3 col-4">
-                                            <label class="form-label" for="form-repeater-1-1">Options</label>
-                                            <select id="form-repeater-1-1" class="select2 form-select" data-placeholder="Size">
-                                                <option value="">Size</option>
-                                                <option value="size">Size</option>
-                                                <option value="color">Color</option>
-                                                <option value="weight">Weight</option>
-                                                <option value="smell">Smell</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3 col-8">
-                                            <label class="form-label invisible" for="form-repeater-1-2">Not visible</label>
-                                            <input type="number"
-                                                   id="form-repeater-1-2"
-                                                   class="form-control"
-                                                   placeholder="Enter size" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary" data-repeater-create>Add another option</button>
-                            </div>
-                        </form>
+                        <div class=" table-responsive px-md-4 px-2" id="list_user_project">
+                              @{ Html.RenderAction("SearchUserProject", "Projects", new { Page = 1, projectID = Model.ID, search = "" }); }
+                           @* @{ Html.RenderAction("Search", "Users", new { Page = 1, search = "" }); }*@
+                        </div>
                     </div>
                 </div>
 
