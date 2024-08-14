@@ -60,9 +60,30 @@
                         <h5 class="card-title mb-0">Thành viên</h5>
                     </div>
                     <div class="card-body">
+                        <div class="row mb-2  px-md-4 px-2">
+                            <div class="col-md-4 offset-md-0">
+                                <div class="input-group input-group-merge">
+                                    <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                                    <input type="text" class="form-control " id="txt-key-search-user-project" placeholder="Tên, email, SĐT thành viên" onchange="searchUserProject()" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2 mt-2 px-md-4 px-2">
+                            <div class="col-md-12 mb-2">
+                                <button type="button"
+                                        class="btn btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#addUserToProjectModal"
+                                        style="float: right">
+                                    <i class='menu-icon tf-icons bx bx-plus'></i>
+                                    Thêm mới thành viên
+                                </button>
+                            </div>
+                        </div>
                         <div class=" table-responsive px-md-4 px-2" id="list_user_project">
-                              @{ Html.RenderAction("SearchUserProject", "Projects", new { Page = 1, projectID = Model.ID, search = "" }); }
-                           @* @{ Html.RenderAction("Search", "Users", new { Page = 1, search = "" }); }*@
+                            @{ Html.RenderAction("SearchUserProject", "Projects", new { Page = 1, projectID = Model.ID, search = "" }); }
+
                         </div>
                     </div>
                 </div>
@@ -193,6 +214,60 @@
     </div>
 </div>
 
+<!--modal add User into Project-->
+<div class="modal fade" id="addUserToProjectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel4">Thêm mới thành viên</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row col-md-12 col-12">
+                    <div class="row mt-2">
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <strong>Đội nhóm</strong><span style="color:red"> *</span>
+                                <div class="col-md-6">
+                                    <div id="slTeam"
+                                         name="native-select"
+                                         placeholder="Chọn đội nhóm nhóm"
+                                         data-search="true"
+                                         data-silent-initial-value-set="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="mb-3">
+                                <strong>Thành viên</strong><span style="color:red"> *</span>
+                                <div class="col-md-12">
+                                    <div id="slUser"
+                                         name="native-select"
+                                         placeholder="Chọn thành viên"
+                                         data-search="true"
+                                         data-silent-initial-value-set="true">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                    Đóng
+                </button>
+                <button type="button" onclick="saveCreateRole();" class="btn btn-primary"><i class='menu-icon tf-icons bx bx-plus'></i> Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="~/Content/sneat-admin-pro/vendor/libs/quill/katex.js"></script>
 <script src="~/Content/sneat-admin-pro/vendor/libs/quill/quill.js"></script>
@@ -238,4 +313,66 @@
 
     });
 
+</script>
+
+<script>
+     var optionTeams = JSON.parse('@Html.Raw(Json.Encode(ViewBag.ListTeam))').map(function (item) {
+     return {
+         label: item.Name,
+         value: item.ID
+     }
+     });
+     VirtualSelect.init({
+         ele: '#slTeam',
+         multiple: true,
+         allOptionsSelectedText: 'All',
+         showValueAsTags: true,
+         autoSelectFirstOption: false,
+         noOfDisplayValues: 5,
+         markSearchResults: true,
+         searchGroup: true,
+         searchNormalize: true,
+         options: optionTeams,
+     });
+
+    document.querySelector('#slTeam').addEventListener('change', function (event) {
+        var selectedValues = $('#slTeam').val();
+        var optionUser = [];
+        document.querySelector('#slUser').setOptions(optionUser);
+
+        if (selectedValues.length > 0) {
+            $.ajax({
+                url: '/Projects/ListUserByTeam',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({
+                    teamIds: selectedValues
+                }),
+                success: function (response) {
+                    console.log(response);
+
+                    $.each(response, function (index, item) {
+                        document.querySelector('#slUser').addOption({
+                            value: item.ID,
+                            label: item.Name,
+                        });
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("An error occurred while fetching subsystem details:", xhr.responseText || error);
+                }
+            });
+        }
+    });
+    VirtualSelect.init({
+        ele: '#slUser',
+        multiple: true,
+        allOptionsSelectedText: 'All',
+        showValueAsTags: true,
+        autoSelectFirstOption: false,
+        noOfDisplayValues: 5,
+        markSearchResults: true,
+        searchGroup: true,
+        searchNormalize: true,
+    });
 </script>

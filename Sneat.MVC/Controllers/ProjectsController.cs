@@ -42,6 +42,7 @@ namespace Sneat.MVC.Controllers
         [UserAuthenticationFilter]
         public async Task<ActionResult> Update(int ID)
         {
+            ViewBag.ListTeam = await _teamService.GetListTeam();
             var detail = await _projectService.DetailProject(ID);
             return View(detail);
         }
@@ -53,9 +54,9 @@ namespace Sneat.MVC.Controllers
         }
 
         [UserAuthenticationFilter]
-        public async Task<PartialViewResult> SearchUserProject(int page, int projectID, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "")
+        public PartialViewResult SearchUserProject(int page, int projectID, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "")
         {
-            var result = await _projectService.SearchUserProject(page, limit, projectID, search);
+            var result = _projectService.SearchUserProject(page, limit, projectID, search);
             return PartialView("_ListUserProject", result);
         }
 

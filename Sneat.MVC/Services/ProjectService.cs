@@ -194,12 +194,12 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public async Task<IPagedList<UserDetailOutputModel>> SearchUserProject(int page, int limit, int projectId, string search = "")
+        public IPagedList<UserDetailOutputModel> SearchUserProject(int page, int limit, int projectId, string search = "")
         {
             try
             {
                 search = Utils.RemoveDiacritics(search);
-                var list = await GetListUserProject(projectId, search);
+                var list =  GetListUserProject(projectId, search);
                 var listPaging = list.ToPagedList(page, limit);
 
                 return listPaging;
@@ -211,16 +211,17 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public async Task<List<UserDetailOutputModel>> GetListUserProject(int projectId, string search = "")
+        public List<UserDetailOutputModel> GetListUserProject(int projectId, string search = "")
         {
             try
             {
-                var userIds = await _dbContext.UserProjects
+                var userIds = _dbContext.UserProjects
+                    .AsNoTracking()
                     .Where(x => x.User.IsDeleted == SystemParam.IS_NOT_DELETED
                         && x.User.Status == Status.ACTIVE
                         && x.ProjectID == projectId)
                     .Select(x => x.UserID)
-                    .ToListAsync();
+                    .ToList();
 
                 var users = (from u in _dbContext.Users
                              where userIds.Contains(u.ID)
