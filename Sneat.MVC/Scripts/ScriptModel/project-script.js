@@ -315,3 +315,79 @@ function deleteProject(id) {
     });
 
 }
+
+function addUserProject(ID) {
+    var userIds = $('#slUser').val();
+
+    if (userIds.length == 0) {
+        Swal.fire({
+            title: 'Thông báo!',
+            text: ' Vui lòng chọn thành viên!',
+            icon: 'warning',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+  
+    $.ajax({
+        url: "/Projects/AddUserProject",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({
+            userIds: userIds,
+            projectID: ID,
+           
+        }),
+        beforeSend: function () {
+            $("#modalLoad").modal("show");
+        },
+        success: function (response) {
+            $("#modalLoad").modal("hide");
+            if (response == -4) {
+                Swal.fire({
+                    title: 'Không thể thêm thành viên',
+                    text: 'Dự án này không tồn tại hoặc đã bị xóa!',
+                    icon: 'warning',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+                setTimeout(function () {
+                    window.location = "/Projects/Index?";
+                    searchProject();
+                }, 2000);
+            }
+           
+            else if (response == 1) {
+                Swal.fire({
+                    title: 'Thành công!',
+                    text: 'Thêm thành viên thành công!',
+                    icon: 'success',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+                setTimeout(function () {
+                    window.location = "/Projects/Update?ID="+ID;
+                }, 2000);
+            }
+
+            else {
+                Swal.fire({
+                    title: 'Có lỗi xảy ra!',
+                    text: ' Không thể thêm thành viên!',
+                    icon: 'error',
+                    customClass: {
+                        confirmButton: 'btn btn-primary'
+                    },
+                    buttonsStyling: false
+                });
+            }
+        }
+    });
+}

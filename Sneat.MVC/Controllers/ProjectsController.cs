@@ -48,6 +48,12 @@ namespace Sneat.MVC.Controllers
         }
 
         [HttpPost]
+        public async Task<int> RemoveProject(int ID)
+        {
+            return await _projectService.RemoveProject(ID);
+        }
+
+        [HttpPost]
         public async Task<int> UpdateProject(ProjectOutputModel input)
         {
             return await _projectService.UpdateProject(input);
@@ -60,10 +66,10 @@ namespace Sneat.MVC.Controllers
             return PartialView("_ListUserProject", result);
         }
 
-        [HttpPost]
-        public async Task<int> RemoveProject(int ID)
+        [UserAuthenticationFilter]
+        public async Task<int> AddUserProject(List<int> userIds, int projectID)
         {
-            return await _projectService.RemoveProject(ID);
+            return await _projectService.AddUserProject(userIds, projectID);
         }
        
         [HttpPost]
