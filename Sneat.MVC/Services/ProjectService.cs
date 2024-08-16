@@ -194,6 +194,29 @@ namespace Sneat.MVC.Services
             }
         }
 
+        public async Task<int> RemoveProject(int ID)
+        {
+            try
+            {
+                var project = await _dbContext.Projects
+                    .Where(x => x.ID == ID && x.IsDeleted == SystemParam.IS_NOT_DELETED)
+                    .FirstOrDefaultAsync();
+                if (project == null)
+                    return SystemParam.PROJECT_NOT_FOUND_ERR;
+
+                project.IsDeleted = SystemParam.IS_DELETED;
+                _dbContext.UserProjects.RemoveRange(project.UserProjects);
+
+                await _dbContext.SaveChangesAsync();
+                return SystemParam.RETURN_TRUE;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return SystemParam.RETURN_FALSE;
+            }
+        }
+
         public IPagedList<UserDetailOutputModel> SearchUserProject(int page, int limit, int projectId, string search = "")
         {
             try
@@ -264,19 +287,38 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public async Task<int> RemoveProject(int ID)
+        public async Task<int> AddUserProject(List<int> userIds, int projectID)
         {
             try
             {
                 var project = await _dbContext.Projects
-                    .Where(x => x.ID == ID && x.IsDeleted == SystemParam.IS_NOT_DELETED)
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED && x.ID == projectID)
                     .FirstOrDefaultAsync();
+
+                var existedUserProject = await _dbContext.UserProjects
+                    .Where(x => x.ProjectID == projectID)
+                    .Select(x => x.UserID)
+                    .ToListAsync();
+
                 if (project == null)
                     return SystemParam.PROJECT_NOT_FOUND_ERR;
 
-                project.IsDeleted = SystemParam.IS_DELETED;
-                _dbContext.UserProjects.RemoveRange(project.UserProjects);
-                
+                if(userIds.Count > 0)
+                {
+                    foreach(var userId in userIds)
+                    {
+                        if(!existedUserProject.Contains(userId))
+                        {
+                            var userProject = new UserProject
+                            {
+                                UserID = userId,
+                                ProjectID = projectID,
+                            };
+                            _dbContext.UserProjects .Add(userProject);
+                        }
+                    }
+                }
+
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;
             }
