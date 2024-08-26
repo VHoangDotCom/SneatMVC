@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Sneat.MVC.Models.Enum;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sneat.MVC.Models.Entity
 {
@@ -13,5 +14,6 @@ namespace Sneat.MVC.Models.Entity
         [ForeignKey(nameof(User))]
         public int UserID { get; set; }
         public virtual User User { get; set; }
+        public ProjectRole ProjectRole { get; set; }
     }
 }

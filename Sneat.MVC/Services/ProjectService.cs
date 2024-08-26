@@ -106,11 +106,20 @@ namespace Sneat.MVC.Services
                         var userProject = new UserProject
                         {
                             UserID = id,
-                            ProjectID = newProject.ID
+                            ProjectID = newProject.ID,
+                            ProjectRole = ProjectRole.Member
                         };
                         _dbContext.UserProjects.Add(userProject);
                     }
                 }
+
+                var pmProject = new UserProject
+                {
+                    UserID = input.PMId,
+                    ProjectID = newProject.ID,
+                    ProjectRole = ProjectRole.PM
+                };
+                _dbContext.UserProjects.Add(pmProject);
 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;

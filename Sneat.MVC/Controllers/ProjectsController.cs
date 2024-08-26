@@ -36,6 +36,8 @@ namespace Sneat.MVC.Controllers
         [HttpPost]
         public async Task<int> CreateProject(ProjectInputModel input)
         {
+            UserDetailOutputModel userLogin = UserLogins;
+            input.PMId = userLogin.ID;
             return await _projectService.CreateProject(input);
         }
 

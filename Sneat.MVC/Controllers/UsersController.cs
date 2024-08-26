@@ -9,15 +9,16 @@ namespace Sneat.MVC.Controllers
     public class UsersController : BaseController
     {
         [UserAuthenticationFilter]
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            ViewBag.ListTeams = await _teamService.GetListTeam();
             return View();
         }
 
         [UserAuthenticationFilter]
-        public async Task<PartialViewResult> Search(int page, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "")
+        public async Task<PartialViewResult> Search(int page, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "", int? teamID = null)
         {
-            var result = await _userService.Search(page, limit, search);
+            var result = await _userService.Search(page, limit, search, teamID);
             return PartialView("_ListUser", result);
         }
 

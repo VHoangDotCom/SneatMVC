@@ -30,6 +30,8 @@ namespace Sneat.MVC.DAL
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserProject> UserProjects { get; set; }
 
+        public DbSet<WorkPackage> WorkPackages { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

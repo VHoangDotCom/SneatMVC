@@ -8,12 +8,14 @@
         return;
     }
     var key = $("#txt-key-search").val().replace(/\s\s+/g, ' ');
+    var teamID = $('#slTeam').val();
 
     $.ajax({
         url: '/Users/Search',
         data: {
             page: 1,
-            search: key
+            search: key,
+            teamID: teamID,
         },
         type: 'POST',
         success: function (response) {

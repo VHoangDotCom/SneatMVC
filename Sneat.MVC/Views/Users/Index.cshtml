@@ -23,7 +23,15 @@
                         <input type="text" class="form-control " id="txt-key-search" placeholder="Tên tài khoản, số điện thoại, email" onchange="searchUser()" />
                     </div>
                 </div>
-
+                <div class="col-md-4 offset-md-0">
+                    <select id="slTeam" class="select2 form-select form-select-lg" data-allow-clear="true" onchange="searchUser()">
+                        <option value="">--- Đội nhóm ---</option>
+                        @foreach (var team in ViewBag.ListTeams)
+                        {
+                            <option value="@team.ID">@team.Name</option>
+                        }
+                    </select>
+                </div>
             </div>
             <div class="row mb-2 px-md-4 px-2">
                 <div class="col-md-12">

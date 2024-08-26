@@ -316,6 +316,37 @@ function deleteProject(id) {
 
 }
 
+function searchUserProject() {
+    if (!navigator.onLine) {
+        Swal.fire({
+            title: 'Có lỗi xảy ra!',
+            text: ' Kiểm tra kết nối internet!',
+            icon: 'error',
+            customClass: {
+                confirmButton: 'btn btn-primary'
+            },
+            buttonsStyling: false
+        });
+        return;
+    }
+    var key = $("#txt-key-search").val().replace(/\s\s+/g, ' ');
+
+    $.ajax({
+        url: '/Projects/Search',
+        data: {
+            page: 1,
+            search: key
+        },
+        type: 'POST',
+        success: function (response) {
+            $("#list_project").html(response);
+        },
+        error: function (result) {
+            console.log(result.responseText);
+        }
+    });
+}
+
 function addUserProject(ID) {
     var userIds = $('#slUser').val();
 
@@ -339,7 +370,6 @@ function addUserProject(ID) {
         data: JSON.stringify({
             userIds: userIds,
             projectID: ID,
-           
         }),
         beforeSend: function () {
             $("#modalLoad").modal("show");
