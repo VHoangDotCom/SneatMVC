@@ -1,5 +1,4 @@
 ﻿using Sneat.MVC.Common;
-using Sneat.MVC.Models.DTO.Permission;
 using System;
 using System.Collections.Generic;
 
@@ -51,5 +50,13 @@ namespace Sneat.MVC.Models.DTO.User
             }
         }
         public List<string> PermissionTabs { get; set; }
+        public List<TeamUserOutputModel> UserTeams { get; set; }
+    }
+
+    public class TeamUserOutputModel
+    {
+        public int UserID { get; set; }
+        public int TeamID { get; set; }
+        public string TeamName { get; set; }
     }
 }

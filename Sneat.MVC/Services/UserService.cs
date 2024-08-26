@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using Sneat.MVC.Common;
 using Sneat.MVC.DAL;
+using Sneat.MVC.Models.DTO.Team;
 using Sneat.MVC.Models.DTO.User;
 using Sneat.MVC.Models.Entity;
 using Sneat.MVC.Models.Enum;
@@ -8,6 +9,7 @@ using Sneat.MVC.Templates;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -26,11 +28,36 @@ namespace Sneat.MVC.Services
 
         #region User management
 
-        public async Task<IPagedList<UserDetailOutputModel>> Search(int page, int limit, string search = "")
+        public async Task<IPagedList<UserDetailOutputModel>> Search(int page, int limit, string search = "", int? teamID = null)
+        {
+            try
+            {
+                var list = await GetListUser(search, teamID);
+                var listPaging = list.ToPagedList(page, limit);
+                return listPaging;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new List<UserDetailOutputModel>().ToPagedList(1, 1);
+            }
+        }
+
+        public async Task<List<UserDetailOutputModel>> GetListUser(string search = "", int? teamID = null)
         {
             try
             {
                 search = Utils.RemoveDiacritics(search);
+                var userTeams = await _dbContext.UserTeams
+                    .Where(ur => ur.Team.IsDeleted == SystemParam.IS_NOT_DELETED)
+                    .Select(ur => new TeamUserOutputModel
+                    {
+                        UserID = ur.UserID,
+                        TeamID = ur.TeamID,
+                        TeamName = ur.Team.Name,
+                    })
+                    .Distinct()
+                    .ToListAsync();
                 var query = (from u in _dbContext.Users
                              where u.IsDeleted == SystemParam.IS_NOT_DELETED
                              orderby u.ID descending
@@ -43,7 +70,7 @@ namespace Sneat.MVC.Services
                                  Phone = u.Phone,
                                  CreateDate = u.CreatedDate,
                                  Email = u.Email,
-                                 Avatar = u.Avatar
+                                 Avatar = u.Avatar,
                              })
                              .AsEnumerable()
                              .Select(u => new UserDetailOutputModel
@@ -55,21 +82,67 @@ namespace Sneat.MVC.Services
                                  Phone = u.Phone,
                                  CreateDate = u.CreateDate,
                                  Email = u.Email,
-                                 Avatar = u.Avatar
+                                 Avatar = u.Avatar,
+                                 UserTeams = userTeams.Where(ur => ur.UserID == u.ID).ToList(),
                              })
                             .Where(x => string.IsNullOrEmpty(search)
                                 || Utils.RemoveDiacritics(x.UserName).Contains(search)
                                 || Utils.RemoveDiacritics(x.Phone).Contains(search)
                                 || Utils.RemoveDiacritics(x.Email).Contains(search))
-                            .ToPagedList(page, limit);
+                            .Where(u => teamID.HasValue ? u.UserTeams
+                                .Select(ur => ur.TeamID).ToList().Contains((int)teamID) : true)
+                            .ToList();
+
                 return query;
             }
             catch (Exception ex)
             {
                 ex.ToString();
-                return new List<UserDetailOutputModel>().ToPagedList(1, 1);
+                return new List<UserDetailOutputModel>();
             }
         }
+
+      /*  public async Task<ExcelPackage> ExportListUser(string search = "", int? teamID = null)
+        {
+            try
+            {
+                var list = await GetListUser(search, teamID);
+                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(@"/Template/ListCustomerReport.xlsx"));
+                ExcelPackage pack = new ExcelPackage(file);
+                ExcelWorksheet sheet = pack.Workbook.Worksheets[1];
+                int row = 3;
+                int stt = 1;
+                if (list != null && list.Count > 0)
+                    foreach (var dt in data)
+                    {
+                        sheet.Cells[row, 1].Value = stt;
+                        sheet.Cells[row, 2].Value = dt.CustomerName;
+                        sheet.Cells[row, 3].Value = dt.PhoneNumber;
+                        sheet.Cells[row, 4].Value = string.Format("{0:#,0}", Convert.ToDecimal(dt.RankingPoint));
+                        sheet.Cells[row, 5].Value = dt.RankingName;
+                        sheet.Cells[row, 6].Value = dt.ProvinceName;
+                        sheet.Cells[row, 7].Value = dt.DistrictName;
+                        switch (dt.Status)
+                        {
+                            case SystemParam.ACTIVE:
+                                sheet.Cells[row, 8].Value = "Hoạt động";
+                                break;
+                            case SystemParam.DEACTIVE:
+                                sheet.Cells[row, 8].Value = "Ngừng hoạt động";
+                                break;
+                        }
+                        sheet.Cells[row, 9].Value = dt.CreateDate.GetValueOrDefault().ToString(SystemParam.CONVERT_DATETIME);
+                        row++;
+                        stt++;
+                    }
+                return pack;
+            }
+            catch (Exception ex)
+            {
+                ravenClient.Capture(new SentryEvent(ex));
+                return new ExcelPackage();
+            }
+        }*/
 
         public async Task<int> CreateUser(UserInputModel input)
         {
@@ -465,5 +538,6 @@ namespace Sneat.MVC.Services
         }
 
         #endregion
+
     }
 }

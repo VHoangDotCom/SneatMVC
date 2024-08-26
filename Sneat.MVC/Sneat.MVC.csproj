@@ -228,6 +228,14 @@
     <Compile Include="Migrations\202408112223301_add-relaionship-project-user.designer.cs">
       <DependentUpon>202408112223301_add-relaionship-project-user.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202408250252568_add-project-role.cs" />
+    <Compile Include="Migrations\202408250252568_add-project-role.Designer.cs">
+      <DependentUpon>202408250252568_add-project-role.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202408261504578_add-work-package-table.cs" />
+    <Compile Include="Migrations\202408261504578_add-work-package-table.Designer.cs">
+      <DependentUpon>202408261504578_add-work-package-table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common\CommonTree.cs" />
     <Compile Include="Models\Common\TreeItem.cs" />
@@ -240,6 +248,7 @@
     <Compile Include="Models\DTO\Team\TechStackModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserInputModel.cs" />
+    <Compile Include="Models\DTO\WorkPackage\WorkPackageInputModel.cs" />
     <Compile Include="Models\Entity\Bank.cs" />
     <Compile Include="Models\Entity\District.cs" />
     <Compile Include="Models\Entity\Permission.cs" />
@@ -254,9 +263,12 @@
     <Compile Include="Models\Entity\UserRole.cs" />
     <Compile Include="Models\Entity\UserTeam.cs" />
     <Compile Include="Models\Entity\Ward.cs" />
+    <Compile Include="Models\Entity\WorkPackage.cs" />
     <Compile Include="Models\Enum\Gender.cs" />
+    <Compile Include="Models\Enum\ProjectRole.cs" />
     <Compile Include="Models\Enum\Status.cs" />
     <Compile Include="Models\Enum\TechStack.cs" />
+    <Compile Include="Models\Enum\WorkPackageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
     <Compile Include="Services\BankService.cs" />
@@ -265,6 +277,7 @@
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\WorkPackageService.cs" />
     <Compile Include="Templates\SendMailTemplate.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2081,6 +2094,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202408112223301_add-relaionship-project-user.resx">
       <DependentUpon>202408112223301_add-relaionship-project-user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408250252568_add-project-role.resx">
+      <DependentUpon>202408250252568_add-project-role.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408261504578_add-work-package-table.resx">
+      <DependentUpon>202408261504578_add-work-package-table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
