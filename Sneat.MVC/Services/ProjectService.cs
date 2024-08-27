@@ -155,7 +155,7 @@ namespace Sneat.MVC.Services
                 project.UpdatedDate = DateTime.Now;
                 
                 // Update user project
-                _dbContext.UserProjects.RemoveRange(project.UserProjects);
+               /* _dbContext.UserProjects.RemoveRange(project.UserProjects);
                 if (input.UserIds.Count > 0)
                 {
                     foreach (var id in input.UserIds)
@@ -167,7 +167,7 @@ namespace Sneat.MVC.Services
                         };
                         _dbContext.UserProjects.Add(userProject);
                     }
-                }
+                }*/
 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;

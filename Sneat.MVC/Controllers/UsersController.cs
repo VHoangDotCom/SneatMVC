@@ -16,9 +16,9 @@ namespace Sneat.MVC.Controllers
         }
 
         [UserAuthenticationFilter]
-        public async Task<PartialViewResult> Search(int page, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "", int? teamID = null)
+        public PartialViewResult Search(int page, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "", int? teamID = null)
         {
-            var result = await _userService.Search(page, limit, search, teamID);
+            var result = _userService.Search(page, limit, search, teamID);
             return PartialView("_ListUser", result);
         }
 

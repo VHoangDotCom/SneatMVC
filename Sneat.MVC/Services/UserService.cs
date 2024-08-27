@@ -28,11 +28,11 @@ namespace Sneat.MVC.Services
 
         #region User management
 
-        public async Task<IPagedList<UserDetailOutputModel>> Search(int page, int limit, string search = "", int? teamID = null)
+        public IPagedList<UserDetailOutputModel> Search(int page, int limit, string search = "", int? teamID = null)
         {
             try
             {
-                var list = await GetListUser(search, teamID);
+                var list = GetListUser(search, teamID);
                 var listPaging = list.ToPagedList(page, limit);
                 return listPaging;
             }
@@ -43,12 +43,12 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public async Task<List<UserDetailOutputModel>> GetListUser(string search = "", int? teamID = null)
+        public List<UserDetailOutputModel> GetListUser(string search = "", int? teamID = null)
         {
             try
             {
                 search = Utils.RemoveDiacritics(search);
-                var userTeams = await _dbContext.UserTeams
+                var userTeams = _dbContext.UserTeams
                     .Where(ur => ur.Team.IsDeleted == SystemParam.IS_NOT_DELETED)
                     .Select(ur => new TeamUserOutputModel
                     {
@@ -57,7 +57,7 @@ namespace Sneat.MVC.Services
                         TeamName = ur.Team.Name,
                     })
                     .Distinct()
-                    .ToListAsync();
+                    .ToList();
                 var query = (from u in _dbContext.Users
                              where u.IsDeleted == SystemParam.IS_NOT_DELETED
                              orderby u.ID descending
