@@ -6,7 +6,8 @@
 
 $(function () {
   const selectPicker = $('.selectpicker'),
-    select2 = $('.select2'),
+      select2 = $('.select2'),
+      selectPriorityTask = $('.selectPriorityTask'),
     select2Icons = $('.select2-icons');
 
   // Bootstrap Select
@@ -27,7 +28,18 @@ $(function () {
         dropdownParent: $this.parent()
       });
     });
-  }
+    }
+
+
+  if (selectPriorityTask.length) {
+    selectPriorityTask.each(function () {
+        var $this = $(this);
+        $this.wrap('<div class="position-relative"></div>').select2({
+            placeholder: 'Chọn giá trị',
+            dropdownParent: $this.parent()
+        });
+    });
+    }
 
   // Select2 Icons
   if (select2Icons.length) {

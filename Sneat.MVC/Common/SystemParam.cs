@@ -86,6 +86,39 @@ namespace Sneat.MVC.Common
         public const int PROJECT_NOT_FOUND_ERR = -4;
         #endregion
 
+        #region Work Package
+        // Priority
+        public const int PRIORITY_TYPE_HOT_FIX = 1;
+        public const string PRIORITY_TYPE_HOT_FIX_STR = "Hot fix";
+        public const int PRIORITY_TYPE_IMMEDIATE = 2;
+        public const string PRIORITY_TYPE_IMMEDIATE_STR = "Ngay lập tức";
+        public const int PRIORITY_TYPE_HIGH = 3;
+        public const string PRIORITY_TYPE_HIGH_STR = "Cao";
+        public const int PRIORITY_TYPE_NORMAL = 4;
+        public const string PRIORITY_TYPE_NORMAL_STR = "Bình thường";
+        public const int PRIORITY_TYPE_LOW = 5;
+        public const string PRIORITY_TYPE_LOW_STR = "Thấp";
+
+        // Status
+        public const string TASK_STATUS_NEW = "Mới";
+        public const string TASK_STATUS_INPROGRESS = "Đang thực hiện";
+        public const string TASK_STATUS_IN_TESTING = "Đang kiểm thử";
+        public const string TASK_STATUS_CLOSED = "Dóng";
+        public const string TASK_STATUS_DEVELOPED = "Đã phát triển";
+        public const string TASK_STATUS_TESTED = "Đã kiểm thử";
+        public const string TASK_STATUS_REJECTED = "Từ chối";
+        public const string TASK_STATUS_TEST_FAILED = "Kiểm thử thất bại";
+
+        // Task Type
+        public const string TASK_TYPE_USER_STORY = "User Story";
+        public const string TASK_TYPE_USER_TASK = "Nhiệm vụ";
+        public const string TASK_TYPE_USER_BUG = "Lỗi";
+        public const string TASK_TYPE_USER_FEATURE = "Tính năng";
+
+        // Error
+        public const int TASK_NOT_FOUND_ERR = -1;
+        #endregion
+
         #region Viet QR
         public const string VIET_QR_API_ROOT_V2 = "https://api.vietqr.io/v2/";
         public const string VIET_QR_API_LIST_BANK_V2 = "banks";

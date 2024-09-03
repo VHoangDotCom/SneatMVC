@@ -15,6 +15,7 @@ namespace Sneat.MVC.Controllers
         public RoleService _roleService;
         public TeamService _teamService;
         public ProjectService _projectService;
+        public WorkPackageService _workPackageService;
 
         public BaseController() : base()
         {
@@ -24,6 +25,7 @@ namespace Sneat.MVC.Controllers
             _roleService = new RoleService(this.GetContext());
             _teamService = new TeamService(this.GetContext());
             _projectService = new ProjectService(this.GetContext());
+            _workPackageService = new WorkPackageService(this.GetContext());
         }
 
         public SneatContext GetContext()

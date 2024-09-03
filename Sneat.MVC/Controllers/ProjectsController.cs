@@ -13,6 +13,7 @@ namespace Sneat.MVC.Controllers
 {
     public class ProjectsController : BaseController
     {
+        #region Project management
         [UserAuthenticationFilter]
         public ActionResult Index()
         {
@@ -45,7 +46,15 @@ namespace Sneat.MVC.Controllers
         public async Task<ActionResult> Update(int ID)
         {
             ViewBag.ListTeam = await _teamService.GetListTeam();
-            var detail = await _projectService.DetailProject(ID);
+            var detail = _projectService.DetailProject(ID);
+            return View(detail);
+        }
+
+        [UserAuthenticationFilter]
+        public ActionResult ProjectDetail(int projectID)
+        {
+            var detail = _projectService.DetailProject(projectID);
+            ViewBag.ListUserProject = _projectService.GetListUserProject(projectID);
             return View(detail);
         }
 
@@ -80,5 +89,30 @@ namespace Sneat.MVC.Controllers
             var listSPs = await _teamService.ListUserByTeam(teamIds);
             return Json(listSPs, JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
+        #region Personal Project management
+        [UserAuthenticationFilter]
+        public async Task<ActionResult> PersonalProjects()
+        {
+            UserDetailOutputModel userLogin = UserLogins;
+            var listProject = await _projectService.PersonalProjects(userLogin.ID);
+            return View(listProject);
+        }
+
+        [UserAuthenticationFilter]
+        public PartialViewResult SearchUserProjectDetail(int page, int projectID, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "")
+        {
+            var result = _projectService.SearchUserProject(page, limit, projectID, search);
+            return PartialView("_ListUserProjectDetail", result);
+        }
+
+        [UserAuthenticationFilter]
+        public PartialViewResult ProjectOverview(int projectID)
+        {
+            var detail = _projectService.DetailProject(projectID);
+            return PartialView("_ProjectOverview", detail);
+        }
+        #endregion
     }
 }

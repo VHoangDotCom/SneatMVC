@@ -38,6 +38,28 @@ namespace Sneat.MVC.Services
             }
         }
 
+        public async Task<List<ProjectOutputModel>> PersonalProjects(int userID)
+        {
+            try
+            {
+                var projectIds = await _dbContext.UserProjects
+                    .Where(x => x.UserID == userID 
+                        && x.Project.IsDeleted == SystemParam.IS_NOT_DELETED)
+                    .Select(x => x.ProjectID)
+                    .ToListAsync();
+
+                var list = await GetListProject(null);
+                var listUserProjects = list.Where(x => projectIds.Contains(x.ID)).ToList();
+
+                return listUserProjects;
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new List<ProjectOutputModel>();
+            }
+        }
+
         public async Task<List<ProjectOutputModel>> GetListProject(string search = "")
         {
             try
@@ -179,11 +201,13 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public async Task<ProjectOutputModel> DetailProject(int ID)
+        public ProjectOutputModel DetailProject(int ID)
         {
             try
             {
-                var project = await _dbContext.Projects.FirstOrDefaultAsync(x => x.IsDeleted == SystemParam.IS_NOT_DELETED && x.ID == ID);
+                var project =  _dbContext.Projects
+                    .FirstOrDefault(x => x.IsDeleted == SystemParam.IS_NOT_DELETED 
+                        && x.ID == ID);
                 var projectDetail = new ProjectOutputModel
                 {
                     ID = ID,

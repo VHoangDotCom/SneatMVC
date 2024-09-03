@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sneat.MVC.Common;
+using System;
 using System.Collections.Generic;
 
 namespace Sneat.MVC.Models.DTO.Project
@@ -15,7 +16,23 @@ namespace Sneat.MVC.Models.DTO.Project
     {
         public int ID { get; set; }
         public int? Status { get; set; }
+        public string StatusStr 
+        {
+            get
+            {
+                switch (Status)
+                {
+                    case SystemParam.ACTIVE:
+                        return SystemParam.STATUS_ACTIVE_STR;
+                    case SystemParam.IN_ACTIVE:
+                        return SystemParam.STATUS_IN_ACTIVE_STR;
+                    default:
+                        return "Unknown status"; 
+                }
+            }
+        }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
     }
+
 }

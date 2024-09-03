@@ -1,6 +1,7 @@
 ﻿using Sneat.MVC.Common;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Sneat.MVC.Models.DTO.User
 {
@@ -51,6 +52,8 @@ namespace Sneat.MVC.Models.DTO.User
         }
         public List<string> PermissionTabs { get; set; }
         public List<TeamUserOutputModel> UserTeams { get; set; }
+        public List<ProjectUserOutputModel> ListProjects { get; set; }
+        public int TotalProjects { get; set; }
     }
 
     public class TeamUserOutputModel
@@ -58,5 +61,13 @@ namespace Sneat.MVC.Models.DTO.User
         public int UserID { get; set; }
         public int TeamID { get; set; }
         public string TeamName { get; set; }
+    }
+
+    public class ProjectUserOutputModel
+    {
+        public int ProjectID { get; set; }
+        public string ProjectName { get; set; }
+        public int UserID { get; set; }
+        public string UserName { get; set; }
     }
 }

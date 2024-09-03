@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Sneat.MVC.Models.Enum;
 using System;
+using System.Collections.Generic;
 
 namespace Sneat.MVC.Models.Entity
 {
@@ -24,5 +25,8 @@ namespace Sneat.MVC.Models.Entity
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public int IsDeleted { get; set; }
+
+        public int? ProjectID { get; set; }
+        public virtual ICollection<UserWorkPackage> UserWorkPackages { get; set; }
     }
 }
