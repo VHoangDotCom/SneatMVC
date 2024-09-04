@@ -159,6 +159,7 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\WorkPackageController.cs" />
     <Compile Include="DAL\SneatContext.cs" />
     <Compile Include="DAL\VirtualSeed.cs" />
     <Compile Include="Global.asax.cs">
@@ -236,6 +237,14 @@
     <Compile Include="Migrations\202408261504578_add-work-package-table.Designer.cs">
       <DependentUpon>202408261504578_add-work-package-table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409020324153_add_user_workpackage.cs" />
+    <Compile Include="Migrations\202409020324153_add_user_workpackage.designer.cs">
+      <DependentUpon>202409020324153_add_user_workpackage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202409030343593_fake-relationship-workpackage-project.cs" />
+    <Compile Include="Migrations\202409030343593_fake-relationship-workpackage-project.designer.cs">
+      <DependentUpon>202409030343593_fake-relationship-workpackage-project.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common\CommonTree.cs" />
     <Compile Include="Models\Common\TreeItem.cs" />
@@ -262,6 +271,7 @@
     <Compile Include="Models\Entity\UserProject.cs" />
     <Compile Include="Models\Entity\UserRole.cs" />
     <Compile Include="Models\Entity\UserTeam.cs" />
+    <Compile Include="Models\Entity\UserWorkPackage.cs" />
     <Compile Include="Models\Entity\Ward.cs" />
     <Compile Include="Models\Entity\WorkPackage.cs" />
     <Compile Include="Models\Enum\Gender.cs" />
@@ -1972,6 +1982,7 @@
     <Content Include="Scripts\ScriptModel\role-script.js" />
     <Content Include="Scripts\ScriptModel\team-script.js" />
     <Content Include="Scripts\ScriptModel\user-script.js" />
+    <Content Include="Scripts\ScriptModel\work-package-script.js" />
     <Content Include="Scripts\sweet-alert.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -2014,6 +2025,11 @@
     <Content Include="Views\Projects\Create.cshtml" />
     <Content Include="Views\Projects\Update.cshtml" />
     <Content Include="Views\Projects\_ListUserProject.cshtml" />
+    <Content Include="Views\Projects\PersonalProjects.cshtml" />
+    <Content Include="Views\Projects\ProjectDetail.cshtml" />
+    <Content Include="Views\Projects\_ListUserProjectDetail.cshtml" />
+    <Content Include="Views\WorkPackage\_ListWorkPackage.cshtml" />
+    <Content Include="Views\Projects\_ProjectOverview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2100,6 +2116,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202408261504578_add-work-package-table.resx">
       <DependentUpon>202408261504578_add-work-package-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409020324153_add_user_workpackage.resx">
+      <DependentUpon>202409020324153_add_user_workpackage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409030343593_fake-relationship-workpackage-project.resx">
+      <DependentUpon>202409030343593_fake-relationship-workpackage-project.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

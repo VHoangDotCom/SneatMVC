@@ -31,6 +31,7 @@ namespace Sneat.MVC.DAL
         public DbSet<UserProject> UserProjects { get; set; }
 
         public DbSet<WorkPackage> WorkPackages { get; set; }
+        public DbSet<UserWorkPackage> UserWorkPackages { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

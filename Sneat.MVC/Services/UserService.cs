@@ -462,6 +462,18 @@ namespace Sneat.MVC.Services
                     return SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR;
                 if (Utils.CheckPass(password, user.Password))
                 {
+                    var projectIDs = user.UserProjects
+                         .Where(x => x.Project.IsDeleted == SystemParam.IS_NOT_DELETED)
+                         .Select(x => x.ProjectID)
+                         .ToList();
+                    var userProjects = _dbContext.Projects
+                            .Where(x => projectIDs.Contains(x.ID))
+                            .Select(x => new ProjectUserOutputModel
+                            {
+                                ProjectID = x.ID,
+                                ProjectName = x.Name,
+                            })
+                            .ToList();
                     var userDetail = new UserDetailOutputModel
                     {
                         UserName = user.UserName,
@@ -470,7 +482,9 @@ namespace Sneat.MVC.Services
                         Email = user.Email,
                         Avatar = user.Avatar,
                         Status = (int?)user.Status,
-                        PermissionTabs = listPermissionTabs
+                        PermissionTabs = listPermissionTabs,
+                        ListProjects = userProjects,
+                        TotalProjects = userProjects != null ? userProjects.Count : 0,
                     };
                     HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;
                     return SystemParam.RETURN_TRUE;

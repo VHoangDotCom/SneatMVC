@@ -47,6 +47,18 @@ namespace Sneat.MVC.App_Start
                         .Where(p => permissionIds.Contains(p.ID))
                         .Select(p => p.TabID)
                         .ToList();
+                    var projectIDs = us.UserProjects
+                         .Where(x => x.Project.IsDeleted == SystemParam.IS_NOT_DELETED)
+                         .Select(x => x.ProjectID)
+                         .ToList();
+                    var userProjects = cnn.Projects
+                            .Where(x => projectIDs.Contains(x.ID))
+                            .Select(x => new ProjectUserOutputModel
+                            {
+                                ProjectID = x.ID,
+                                ProjectName = x.Name,
+                            })
+                            .ToList();
                     // Update the session with the latest user details
                     UserDetailOutputModel data = new UserDetailOutputModel
                     {
@@ -56,7 +68,9 @@ namespace Sneat.MVC.App_Start
                         Email = us.Email,
                         Avatar = us.Avatar,
                         Status = (int?)us.Status,
-                        PermissionTabs = listPermissionTabs
+                        PermissionTabs = listPermissionTabs,
+                        ListProjects = userProjects,
+                        TotalProjects = userProjects != null ? userProjects.Count : 0,
                     };
 
                     HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = data;

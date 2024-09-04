@@ -8,4 +8,11 @@ namespace Sneat.MVC.Models.Enum
         Bug = 3,
         Feature = 4
     }
+
+    public enum WorkAssignType
+    {
+        Assignee = 1,
+        Assignor = 2,
+        Member = 3,
+    }
 }

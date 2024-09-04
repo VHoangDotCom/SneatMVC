@@ -11,6 +11,7 @@
     //Date for identity of user 
     flatpickrDateIdentity = document.querySelector('#flatpickr-date-identity'),
 
+ 
     flatpickrTime = document.querySelector('#flatpickr-time'),
     flatpickrDateTime = document.querySelector('#flatpickr-datetime'),
     flatpickrMulti = document.querySelector('#flatpickr-multi'),
@@ -18,6 +19,34 @@
     flatpickrInline = document.querySelector('#flatpickr-inline'),
     flatpickrFriendly = document.querySelector('#flatpickr-human-friendly'),
     flatpickrDisabledRange = document.querySelector('#flatpickr-disabled-range');
+
+    // Start date - End date for workpackage
+    const startDateWorkpackage = document.querySelector('#flatpickr-start-date'),
+        startDateWorkpackageEdit = document.querySelector('#flatpickr-start-date-edit'),
+        endDateWorkpackage = document.querySelector('#flatpickr-end-date'),
+        endDateWorkpackageEdit = document.querySelector('#flatpickr-end-date-edit');
+        //Create
+    if (startDateWorkpackage) {
+        startDateWorkpackage.flatpickr({
+            monthSelectorType: 'static'
+        });
+    }
+    if (endDateWorkpackage) {
+        endDateWorkpackage.flatpickr({
+            monthSelectorType: 'static'
+        });
+    }
+    //Update
+    if (startDateWorkpackageEdit) {
+        startDateWorkpackageEdit.flatpickr({
+            monthSelectorType: 'static'
+        });
+    }
+    if (endDateWorkpackageEdit) {
+        endDateWorkpackageEdit.flatpickr({
+            monthSelectorType: 'static'
+        });
+    }
 
   // Date
   if (flatpickrDate) {

@@ -24,5 +24,6 @@ namespace Sneat.MVC.Models.Entity
         public virtual ICollection<UserRole> UserRoles { get; set; }
         public virtual ICollection<UserTeam> UserTeams { get; set; }
         public virtual ICollection<UserProject> UserProjects { get; set; }
+        public virtual ICollection<UserWorkPackage> UserWorkPackages { get; set; }
     }
 }
