@@ -85,7 +85,7 @@ namespace Sneat.MVC.Controllers
         public async Task<int> ChangePassword(string currentPass, string newPass)
         {
             UserDetailOutputModel userLogin = UserLogins;
-            return await _userService.ChangePassword(userLogin.ID, currentPass, newPass);
+            return await _authenticationService.ChangePassword(userLogin.ID, currentPass, newPass);
         }
 
     }

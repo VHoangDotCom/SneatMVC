@@ -1,12 +1,13 @@
-﻿using Sneat.MVC.Common;
-using Sneat.MVC.DAL;
-using Sneat.MVC.Models.DTO.User;
+﻿using Sneat.MVC.DAL;
 using Sneat.MVC.Services;
-using System.Web.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 
-namespace Sneat.MVC.Controllers
+namespace Sneat.MVC.Controllers.API
 {
-    public class BaseController : Controller
+    public class BaseAPIController : ApiController
     {
         protected SneatContext Context;
         public UserService _userService;
@@ -19,7 +20,7 @@ namespace Sneat.MVC.Controllers
 
         public AuthenticationService _authenticationService;
 
-        public BaseController() : base()
+        public BaseAPIController() : base()
         {
             _userService = new UserService(this.GetContext());
             _addressService = new AddressService(this.GetContext());
@@ -28,7 +29,6 @@ namespace Sneat.MVC.Controllers
             _teamService = new TeamService(this.GetContext());
             _projectService = new ProjectService(this.GetContext());
             _workPackageService = new WorkPackageService(this.GetContext());
-            _authenticationService = new AuthenticationService(this.GetContext());
         }
 
         public SneatContext GetContext()
@@ -38,15 +38,6 @@ namespace Sneat.MVC.Controllers
                 Context = new SneatContext();
             }
             return Context;
-        }
-
-        public UserDetailOutputModel UserLogins
-        {
-            get
-            {
-                return Session[SystemParam.SESSION_LOGIN] as UserDetailOutputModel;
-
-            }
         }
     }
 }
