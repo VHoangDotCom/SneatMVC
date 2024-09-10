@@ -170,6 +170,8 @@
     <Compile Include="Common\Helper.cs" />
     <Compile Include="Common\SystemParam.cs" />
     <Compile Include="Common\Utils.cs" />
+    <Compile Include="Controllers\API\AuthenticationController.cs" />
+    <Compile Include="Controllers\API\BaseAPIController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -263,6 +265,7 @@
       <DependentUpon>202409030343593_fake-relationship-workpackage-project.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\APIModel\JsonResultModel.cs" />
     <Compile Include="Models\Common\CommonTree.cs" />
     <Compile Include="Models\Common\TreeItem.cs" />
     <Compile Include="Models\DTO\Address\ProvinceModel.cs" />
@@ -298,9 +301,11 @@
     <Compile Include="Models\Enum\WorkPackageType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AddressService.cs" />
+    <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\BankService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ProjectService.cs" />
+    <Compile Include="Services\ResponseService.cs" />
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -2051,6 +2056,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\files\" />
+    <Folder Include="Views\Authentication\" />
+    <Folder Include="Views\BaseAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

@@ -42,12 +42,12 @@ namespace Sneat.MVC.Controllers
 
         public async Task<int> UserLogin(string email, string password)
         {
-            return await _userService.UserLogin(email, password);
+            return await _authenticationService.UserLogin(email, password);
         }
 
         public async Task<int> ForgotPassword(string email)
         {
-            return await _userService.ForgotPassword(email);
+            return await _authenticationService.ForgotPassword(email);
         }
 
         [HttpPost]
