@@ -4,6 +4,11 @@ using System.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+
 
 namespace Sneat.MVC.Common
 {
@@ -24,6 +29,60 @@ namespace Sneat.MVC.Common
             catch
             {
                 return false;
+            }
+        }
+
+        public static string CreateMD5(string input)
+        {
+            //bam du lieu
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+        public static string GenerateJWTAuthetication(int id, string email)
+        {
+            try
+            {
+                var claims = new List<Claim>
+            {
+                new Claim("id", id.ToString()),
+                new Claim("email", email.ToString())
+            };
+
+                var key = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(Convert.ToString(ConfigurationManager.AppSettings["JwtKey"])));
+
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var expires =
+                    DateTime.Now.AddDays(
+                        Convert.ToDouble(Convert.ToString(ConfigurationManager.AppSettings["JwtExpireDays"])));
+
+                var token = new JwtSecurityToken(
+                    Convert.ToString(ConfigurationManager.AppSettings["JwtIssuer"]),
+                    Convert.ToString(ConfigurationManager.AppSettings["JwtAudience"]),
+                    claims,
+                    expires: expires,
+                    signingCredentials: creds
+                );
+
+                return new JwtSecurityTokenHandler().WriteToken(token);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return CreateMD5($"{DateTime.Now.ToString()}_{id}_{email}");
             }
         }
         #endregion

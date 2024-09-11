@@ -17,6 +17,7 @@ namespace Sneat.MVC.Models.Entity
         public string Password { get; set; }
         public string Avatar { get; set; }
         public int IsDeleted { get; set; }
+        public string Token { get; set; }
         public Status? Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }

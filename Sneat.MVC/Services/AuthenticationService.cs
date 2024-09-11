@@ -16,13 +16,9 @@ namespace Sneat.MVC.Services
     public class AuthenticationService
     {
         private readonly SneatContext _dbContext;
-        private readonly ResponseService _responseService;
-        public AuthenticationService(
-            SneatContext dbContext, 
-            ResponseService responseService)
+        public AuthenticationService(SneatContext dbContext)
         {
             _dbContext = dbContext;
-            _responseService = responseService;
         }
 
         #region Authentication WebAdmin MVC
@@ -146,9 +142,64 @@ namespace Sneat.MVC.Services
         #region Authentication WebAdmin React
         public async Task<JsonResultModel> CheckLoginWeb(string phone, string password)
         {
+            ResponseService _responseService = new ResponseService();
             try
             {
+                string token = Utils.CreateMD5(DateTime.Now.ToString());
 
+                var user = await _dbContext.Users
+                   .Where(u => u.IsDeleted == SystemParam.IS_NOT_DELETED
+                       && (u.Phone.Equals(phone) || u.Email.Equals(phone)))
+                   .FirstOrDefaultAsync();
+
+                var roleIds = user.UserRoles.Select(u => u.RoleID).ToList();
+                var permissionIds = await _dbContext.RolePermissions
+                    .Where(rp => roleIds.Contains(rp.RoleID))
+                    .Select(rp => rp.PermissionID)
+                    .Distinct()
+                    .ToListAsync();
+                var listPermissionTabs = await _dbContext.Permissions
+                    .Where(p => permissionIds.Contains(p.ID))
+                    .Select(p => p.TabID)
+                    .ToListAsync();
+                if (user == null)
+                    return _responseService.ErrorResult(SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR_STR, SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR);
+                if (user.Status == Status.IN_ACTIVE)
+                    return _responseService.ErrorResult(SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR_STR, SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR);
+
+                if (Utils.CheckPass(password, user.Password))
+                {
+                    user.Token = token;
+                    user.Token = Utils.GenerateJWTAuthetication(user.ID, user.Email);
+                    await _dbContext.SaveChangesAsync();
+
+                    var projectIDs = user.UserProjects
+                         .Where(x => x.Project.IsDeleted == SystemParam.IS_NOT_DELETED)
+                         .Select(x => x.ProjectID)
+                         .ToList();
+                    var userProjects = _dbContext.Projects
+                            .Where(x => projectIDs.Contains(x.ID))
+                            .Select(x => new ProjectUserOutputModel
+                            {
+                                ProjectID = x.ID,
+                                ProjectName = x.Name,
+                            })
+                            .ToList();
+                    var userDetail = new UserDetailOutputModel
+                    {
+                        UserName = user.UserName,
+                        ID = user.ID,
+                        Phone = user.Phone,
+                        Email = user.Email,
+                        Avatar = user.Avatar,
+                        Status = (int?)user.Status,
+                        PermissionTabs = listPermissionTabs,
+                        ListProjects = userProjects,
+                        TotalProjects = userProjects != null ? userProjects.Count : 0,
+                    };
+                    HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;
+                    return SystemParam.RETURN_TRUE;
+                }
             }
             catch (Exception ex)
             {
