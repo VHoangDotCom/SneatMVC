@@ -406,6 +406,7 @@ namespace Sneat.MVC.Services
                     PermissionTabs = listPermissionTabs,
                     ListProjects = userProjects,
                     TotalProjects = userProjects != null ? userProjects.Count : 0,
+                    Token = user.Token
                 };
 
                 return result;
