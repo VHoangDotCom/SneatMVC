@@ -8,7 +8,7 @@ using System.Configuration;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-
+using System.Net.Http.Headers;
 
 namespace Sneat.MVC.Common
 {
@@ -151,5 +151,14 @@ namespace Sneat.MVC.Common
         }
 
         #endregion
+
+        public static string getTokenApp(HttpRequestHeaders headers)
+        {
+            if (headers.Contains("token"))
+            {
+                return headers.GetValues("token").FirstOrDefault();
+            }
+            return "";
+        }
     }
 }
