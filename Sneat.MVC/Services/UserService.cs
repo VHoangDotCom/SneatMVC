@@ -348,6 +348,30 @@ namespace Sneat.MVC.Services
                 if (userDetal == null)
                     userDetal = new UserDetail();
 
+                var roleIds = user.UserRoles.Select(u => u.RoleID).ToList();
+                var permissionIds = await _dbContext.RolePermissions
+                    .Where(rp => roleIds.Contains(rp.RoleID))
+                    .Select(rp => rp.PermissionID)
+                    .Distinct()
+                    .ToListAsync();
+                var listPermissionTabs = await _dbContext.Permissions
+                    .Where(p => permissionIds.Contains(p.ID))
+                    .Select(p => p.TabID)
+                    .ToListAsync();
+
+                var projectIDs = user.UserProjects
+                       .Where(x => x.Project.IsDeleted == SystemParam.IS_NOT_DELETED)
+                       .Select(x => x.ProjectID)
+                       .ToList();
+                var userProjects = _dbContext.Projects
+                        .Where(x => projectIDs.Contains(x.ID))
+                        .Select(x => new ProjectUserOutputModel
+                        {
+                            ProjectID = x.ID,
+                            ProjectName = x.Name,
+                        })
+                        .ToList();
+
                 var result = new UpdateUserInputModel
                 {
                     ID = ID,
@@ -378,6 +402,10 @@ namespace Sneat.MVC.Services
                     HomeAddress = userDetal.HomeAddress,
                     DistrictOfficeID = userDetal.DistrictOfficeID,
                     OfficeAddress = userDetal.OfficeAddress,
+
+                    PermissionTabs = listPermissionTabs,
+                    ListProjects = userProjects,
+                    TotalProjects = userProjects != null ? userProjects.Count : 0,
                 };
 
                 return result;

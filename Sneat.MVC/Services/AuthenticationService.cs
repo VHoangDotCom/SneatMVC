@@ -2,6 +2,7 @@
 using Sneat.MVC.DAL;
 using Sneat.MVC.Models.APIModel;
 using Sneat.MVC.Models.DTO.User;
+using Sneat.MVC.Models.Entity;
 using Sneat.MVC.Models.Enum;
 using Sneat.MVC.Templates;
 using System;
@@ -16,13 +17,10 @@ namespace Sneat.MVC.Services
     public class AuthenticationService
     {
         private readonly SneatContext _dbContext;
-        private readonly ResponseService _responseService;
-        public AuthenticationService(
-            SneatContext dbContext, 
-            ResponseService responseService)
+        public ResponseService _responseService = new ResponseService();
+        public AuthenticationService(SneatContext dbContext)
         {
             _dbContext = dbContext;
-            _responseService = responseService;
         }
 
         #region Authentication WebAdmin MVC
@@ -146,9 +144,86 @@ namespace Sneat.MVC.Services
         #region Authentication WebAdmin React
         public async Task<JsonResultModel> CheckLoginWeb(string phone, string password)
         {
+            UserService _userService = new UserService(_dbContext);
             try
             {
+                string token = Utils.CreateMD5(DateTime.Now.ToString());
 
+                var user = await _dbContext.Users
+                   .Where(u => u.IsDeleted == SystemParam.IS_NOT_DELETED
+                       && (u.Phone.Equals(phone) || u.Email.Equals(phone)))
+                   .FirstOrDefaultAsync();
+
+                if (user == null)
+                    return _responseService.ErrorResult(SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR_STR, SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR);
+                if (user.Status == Status.IN_ACTIVE)
+                    return _responseService.ErrorResult(SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR_STR, SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR);
+
+                if (Utils.CheckPass(password, user.Password))
+                {
+                    user.Token = token;
+                    user.Token = Utils.GenerateJWTAuthetication(user.ID, user.Email);
+                    await _dbContext.SaveChangesAsync();
+
+                    var userDetail = await _userService.DetailUser(user.ID);
+                    return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, userDetail);
+                }
+
+                return _responseService.ErrorResult(SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR_STR, SystemParam.SERVER_ERROR_CODE);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return _responseService.serverError();
+            }
+        }
+
+        public async Task<JsonResultModel> ForgotPasswordWeb(string email)
+        {
+            try
+            {
+                var emailService = new EmailService();
+                var user = await _dbContext.Users
+                    .Where(u => u.IsDeleted == SystemParam.IS_NOT_DELETED && u.Email.Equals(email))
+                    .FirstOrDefaultAsync();
+                if (user == null)
+                    return _responseService.ErrorResult(SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR_STR, SystemParam.INVALID_EMAIL_ERR);
+
+                var random = new Random();
+                string newPass = random.Next(100000, 999999).ToString();
+                user.Password = Utils.GenPass(newPass);
+                await _dbContext.SaveChangesAsync();
+
+                var loginUrl = Utils.getFullUrl();
+
+                // HTML content for the email
+                string htmlContent = SendMailTemplate.ForgotPasswordTemplate(user.UserName, newPass, loginUrl);
+
+                // Send the email asynchronously
+                emailService.configClient(email, SystemParam.EMAIL_TITLE, htmlContent);
+
+                return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, "");
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return _responseService.serverError();
+            }
+        }
+
+        public async Task<JsonResultModel> ChangePasswordWeb(int ID, string currentPass, string newPass)
+        {
+            try
+            {
+                var user = await _dbContext.Users.FindAsync(ID);
+                if (Utils.CheckPass(currentPass, user.Password))
+                {
+                    user.Password = Utils.GenPass(newPass);
+                    await _dbContext.SaveChangesAsync();
+                    return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, "");
+                }
+
+                return _responseService.ErrorResult(SystemParam.INVALID_PASSWORD_ERR_STR, SystemParam.SERVER_ERROR_CODE);
             }
             catch (Exception ex)
             {

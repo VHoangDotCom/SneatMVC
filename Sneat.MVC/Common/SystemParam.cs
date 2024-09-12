@@ -63,9 +63,12 @@ namespace Sneat.MVC.Common
 
         #region Authentication
         public const int INVALID_EMAIL_OR_PASSWORD_ERR = -1;
+        public const string INVALID_EMAIL_OR_PASSWORD_ERR_STR = "Sai tên đăng nhập hoặc mật khẩu!";
         public const int ACCOUNT_HAD_BEEN_BLOCKED_ERR = -2;
+        public const string ACCOUNT_HAD_BEEN_BLOCKED_ERR_STR = "Tài khoản của bạn đã bị khóa!";
         public const int INVALID_EMAIL_ERR = -3;
         public const int INVALID_PASSWORD_ERR = -4;
+        public const string INVALID_PASSWORD_ERR_STR = "Mật khẩu không phù hợp!";
         #endregion
 
         #region User
