@@ -20,6 +20,8 @@ namespace Sneat.MVC.Controllers.API
 
         public AuthenticationService _authenticationService;
 
+        public ResponseService _responseService;
+
         public BaseAPIController() : base()
         {
             _userService = new UserService(this.GetContext());
@@ -29,6 +31,7 @@ namespace Sneat.MVC.Controllers.API
             _teamService = new TeamService(this.GetContext());
             _projectService = new ProjectService(this.GetContext());
             _workPackageService = new WorkPackageService(this.GetContext());
+            _responseService = new ResponseService();
         }
 
         public SneatContext GetContext()

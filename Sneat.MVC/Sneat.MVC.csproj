@@ -202,6 +202,7 @@
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\API\AuthenticationController.cs" />
     <Compile Include="Controllers\API\BaseAPIController.cs" />
+    <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -2090,8 +2091,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\files\" />
-    <Folder Include="Views\Authentication\" />
-    <Folder Include="Views\BaseAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

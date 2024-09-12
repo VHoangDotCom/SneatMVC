@@ -73,7 +73,9 @@ namespace Sneat.MVC.Common
 
         #region User
         public const int EMAIL_USED_ERR = -1;
+        public const string EMAIL_USED_ERR_STR = "Email đã được sử dụng!";
         public const int PHONE_USED_ERR = -2;
+        public const string PHONE_USED_ERR_STR = "Số điện thoại đã được sử dụng!";
         public const int ACCOUNT_NOT_FOUND_ERR = -3;
         #endregion
 
