@@ -77,5 +77,10 @@ namespace Sneat.MVC.Models.DTO.User
                 }
             }
         }
+
+        public List<string> PermissionTabs { get; set; }
+        public List<TeamUserOutputModel> UserTeams { get; set; }
+        public List<ProjectUserOutputModel> ListProjects { get; set; }
+        public int TotalProjects { get; set; }
     }
 }
