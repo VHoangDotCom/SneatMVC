@@ -231,5 +231,29 @@ namespace Sneat.MVC.Services
             }
         }
         #endregion
+
+        public async Task<JsonResultModel> GetDetails(string token)
+        {
+            UserService _userService = new UserService(_dbContext);
+            try
+            {
+                var user = await _dbContext.Users
+                   .Where(u => u.IsDeleted == SystemParam.IS_NOT_DELETED
+                       && (u.Token == token))
+                   .FirstOrDefaultAsync();
+
+                if (user == null)
+                    return _responseService.ErrorResult(SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR_STR, SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR);
+                if (user.Status == Status.IN_ACTIVE)
+                    return _responseService.ErrorResult(SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR_STR, SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR);
+                var userDetail = await _userService.DetailUser(user.ID);
+                return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, userDetail);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return _responseService.serverError();
+            }
+        }
     }
 }

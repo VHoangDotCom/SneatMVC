@@ -1,4 +1,5 @@
-﻿using Sneat.MVC.DAL;
+﻿using Sneat.MVC.Common;
+using Sneat.MVC.DAL;
 using Sneat.MVC.Models.APIModel;
 using Sneat.MVC.Models.APIModel.Authentication;
 using Sneat.MVC.Services;
@@ -42,6 +43,13 @@ namespace Sneat.MVC.Controllers.API
             _projectService = new ProjectService(this.GetContext());
             _workPackageService = new WorkPackageService(this.GetContext());
             _authenticationService = new AuthenticationService(this.GetContext());
+        }
+
+        [HttpGet]
+        public async Task<JsonResultModel> GetDetails()
+        {
+            var token = Utils.getTokenApp(Request.Headers);
+            return await _authenticationService.GetDetails(token);
         }
 
         [HttpPost]
