@@ -48,35 +48,34 @@ namespace Sneat.MVC.Services
                     return SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR;
                 if (user.Status == Status.IN_ACTIVE)
                     return SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR;
-                if (Utils.CheckPass(password, user.Password))
+
+                var projectIDs = user.UserProjects
+                     .Where(x => x.Project.IsDeleted == SystemParam.IS_NOT_DELETED)
+                     .Select(x => x.ProjectID)
+                     .ToList();
+                var userProjects = _dbContext.Projects
+                        .Where(x => projectIDs.Contains(x.ID))
+                        .Select(x => new ProjectUserOutputModel
+                        {
+                            ProjectID = x.ID,
+                            ProjectName = x.Name,
+                        })
+                        .ToList();
+                var userDetail = new UserDetailOutputModel
                 {
-                    var projectIDs = user.UserProjects
-                         .Where(x => x.Project.IsDeleted == SystemParam.IS_NOT_DELETED)
-                         .Select(x => x.ProjectID)
-                         .ToList();
-                    var userProjects = _dbContext.Projects
-                            .Where(x => projectIDs.Contains(x.ID))
-                            .Select(x => new ProjectUserOutputModel
-                            {
-                                ProjectID = x.ID,
-                                ProjectName = x.Name,
-                            })
-                            .ToList();
-                    var userDetail = new UserDetailOutputModel
-                    {
-                        UserName = user.UserName,
-                        ID = user.ID,
-                        Phone = user.Phone,
-                        Email = user.Email,
-                        Avatar = user.Avatar,
-                        Status = (int?)user.Status,
-                        PermissionTabs = listPermissionTabs,
-                        ListProjects = userProjects,
-                        TotalProjects = userProjects != null ? userProjects.Count : 0,
-                    };
-                    HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;
-                    return SystemParam.RETURN_TRUE;
-                }
+                    UserName = user.UserName,
+                    ID = user.ID,
+                    Phone = user.Phone,
+                    Email = user.Email,
+                    Avatar = user.Avatar,
+                    Status = (int?)user.Status,
+                    PermissionTabs = listPermissionTabs,
+                    ListProjects = userProjects,
+                    TotalProjects = userProjects != null ? userProjects.Count : 0,
+                };
+                HttpContext.Current.Session[SystemParam.SESSION_LOGIN] = userDetail;
+                return SystemParam.RETURN_TRUE;
+
                 return SystemParam.INVALID_EMAIL_OR_PASSWORD_ERR;
             }
             catch (Exception ex)

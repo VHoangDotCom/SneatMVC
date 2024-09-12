@@ -127,5 +127,7 @@ namespace Sneat.MVC.Common
         public const string VIET_QR_API_LIST_BANK_V2 = "banks";
         public const string VIET_QR_API_GENERATE_QR_V2 = "generate";
         #endregion
+
+        public const string SUCCESS_MESSAGE = "Thành công";
     }
 }
