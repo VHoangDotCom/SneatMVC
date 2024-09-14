@@ -26,7 +26,7 @@ namespace Sneat.MVC.Common
 
         #region Paging
         public const int PAGE_DEFAULT = 1;
-        public const int MAX_ROW_IN_LIST_WEB = 20;
+        public const int MAX_ROW_IN_LIST_WEB = 12;
         #endregion
 
         #region Returned data status
