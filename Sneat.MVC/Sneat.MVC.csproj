@@ -210,6 +210,7 @@
     <Compile Include="Controllers\API\BaseAPIController.cs" />
     <Compile Include="Controllers\API\DocumentController.cs" />
     <Compile Include="Controllers\API\UploadController.cs" />
+    <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
