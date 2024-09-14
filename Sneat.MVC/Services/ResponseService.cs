@@ -45,6 +45,18 @@ namespace Sneat.MVC.Services
             result.Data = data;
             return result;
         }
+
+        public JsonResultModel SuccessPaging(string mess, object data, object paging)
+        {
+            JsonResultModel result = new JsonResultModel();
+            result.Message = mess;
+            result.Status = SystemParam.SUCCESS;
+            result.Code = SystemParam.SUCCESS_CODE;
+            result.Data = data;
+            result.Paging = paging;
+            return result;
+        }
+
         public JsonResultModel ErrorResult(string mess, int code)
         {
             JsonResultModel result = new JsonResultModel();

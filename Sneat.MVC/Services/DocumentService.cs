@@ -29,15 +29,14 @@ namespace Sneat.MVC.Services
             {
                 var list = await GetListDocument(search, projectID);
                 var listPaging = list.ToPagedList(page, limit);
-                var result = new PagingModel
+                var paging = new PagingModel
                 {
-                    Extras = listPaging,
                     Page = page,
                     Limit = limit,
                     TotalItemCount = listPaging.TotalItemCount,
                 };
 
-                return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, result);
+                return _responseService.SuccessPaging(SystemParam.MESSAGE_SUCCESS, listPaging, paging);
             }
             catch (Exception ex)
             {
@@ -151,7 +150,7 @@ namespace Sneat.MVC.Services
                 var document = await _dbContext.Documents
                     .FirstOrDefaultAsync(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
                         && x.ID == ID);
-                if(document == null)
+                if (document == null)
                     return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, new DocumentOutputModel());
 
                 var documentDetail = new DocumentOutputModel
