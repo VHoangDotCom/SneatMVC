@@ -23,6 +23,7 @@ namespace Sneat.MVC.Controllers.API
         public WorkPackageService _workPackageService;
 
         public AuthenticationService _authenticationService;
+        public ResponseService _responseService;
 
         public SneatContext GetContext()
         {
@@ -43,6 +44,8 @@ namespace Sneat.MVC.Controllers.API
             _projectService = new ProjectService(this.GetContext());
             _workPackageService = new WorkPackageService(this.GetContext());
             _authenticationService = new AuthenticationService(this.GetContext());
+
+            _responseService = new ResponseService();
         }
 
         [HttpGet]
@@ -68,6 +71,13 @@ namespace Sneat.MVC.Controllers.API
         public async Task<JsonResultModel> ChangePasswordWeb(int ID, string currentPass, string newPass)
         {
             return await _authenticationService.ChangePasswordWeb(ID, currentPass, newPass);
+        }
+
+        [HttpGet]
+        public async Task<JsonResultModel> GetListRole()
+        {
+            var result = await _roleService.ListRoleAuthorization();
+            return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, result);
         }
     }
 }
