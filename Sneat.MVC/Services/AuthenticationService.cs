@@ -18,8 +18,12 @@ namespace Sneat.MVC.Services
     {
         private readonly SneatContext _dbContext;
         public ResponseService _responseService = new ResponseService();
-        public AuthenticationService(SneatContext dbContext)
+        public AuthenticationService(SneatContext dbContext = null)
         {
+            if (dbContext == null)
+            {
+                dbContext = new SneatContext();
+            }
             _dbContext = dbContext;
         }
 
@@ -256,7 +260,7 @@ namespace Sneat.MVC.Services
             }
         }
 
-       /* public async Task<UpdateUserInputModel> GetUserDetail(string token)
+        public async Task<int> GetUserLoginID(string token)
         {
             UserService _userService = new UserService(_dbContext);
             try
@@ -266,13 +270,18 @@ namespace Sneat.MVC.Services
                      && (u.Token == token))
                  .FirstOrDefaultAsync();
 
+                if (user == null)
+                    return SystemParam.ACCOUNT_NOT_FOUND_ERR;
+                if (user.Status == Status.IN_ACTIVE)
+                    return SystemParam.ACCOUNT_HAD_BEEN_BLOCKED_ERR;
 
+                return user.ID;
             }
             catch (Exception ex)
             {
                 ex.ToString();
-                return new UpdateUserInputModel();
+                return SystemParam.RETURN_FALSE;
             }
-        }*/
+        }
     }
 }
