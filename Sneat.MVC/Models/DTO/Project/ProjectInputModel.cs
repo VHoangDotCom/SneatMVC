@@ -12,10 +12,18 @@ namespace Sneat.MVC.Models.DTO.Project
         public List<int> UserIds { get; set; }
     }
 
+    public class ProjectUserModel
+    {
+        public int UserID { get; set; }
+        public string UserName { get; set; }
+        public string UserAvatar { get; set; }
+    }
+
     public class ProjectOutputModel : ProjectInputModel
     {
         public int ID { get; set; }
         public int? Status { get; set; }
+        public List<ProjectUserModel> ListUsers { get; set; }
         public string StatusStr 
         {
             get
