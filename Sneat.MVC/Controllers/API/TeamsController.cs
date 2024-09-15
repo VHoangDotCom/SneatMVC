@@ -73,7 +73,7 @@ namespace Sneat.MVC.Controllers.API
         [HttpPost]
         public async Task<JsonResultModel> UpdateTeam(TeamOutputModel input)
         {
-            var result = await _teamService.CreateTeam(input);
+            var result = await _teamService.UpdateTeam(input);
             if (result == SystemParam.EXISTED_TEAM_NAME_ERR)
                 return _responseService.ErrorResult(SystemParam.EXISTED_TEAM_NAME_ERR_STR, SystemParam.SERVER_ERROR_CODE);
             else if (result == SystemParam.TEAM_NOT_FOUND_ERR)

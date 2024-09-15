@@ -158,7 +158,7 @@ namespace Sneat.MVC.Services
                 team.TechStack = Utils.ConvertListIntegerToString(input.TechStack);
                 team.Description = input.Description;
                 team.UpdatedDate = DateTime.Now;
-
+                team.Status = (Status)input.Status;
                 _dbContext.UserTeams.RemoveRange(team.UserTeams);
                 if (input.UserIds.Count > 0)
                 {

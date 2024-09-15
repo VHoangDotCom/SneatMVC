@@ -101,7 +101,14 @@ namespace Sneat.MVC.Services
                         x.Status,
                         x.Description,
                         x.CreatedDate,
-                        x.UpdatedDate
+                        x.UpdatedDate,
+                        UserIds = x.UserProjects.Select(a => a.UserID).ToList(),
+                        ListUsers = x.UserProjects.Select(a => new ProjectUserModel
+                        {
+                            UserID = a.UserID,
+                            UserName = a.User.UserName,
+                            UserAvatar = a.User.Avatar
+                        }).ToList()
                     })
                     .AsEnumerable()
                     .Select(x => new ProjectOutputModel
@@ -112,6 +119,8 @@ namespace Sneat.MVC.Services
                         Status = (int)x.Status,
                         CreatedDate = x.CreatedDate,
                         UpdatedDate = x.UpdatedDate,
+                        UserIds = x.UserIds,
+                        ListUsers = x.ListUsers
                     })
                     .Where(x => string.IsNullOrEmpty(search)
                         || Utils.RemoveDiacritics(x.Name).Contains(search))
@@ -243,6 +252,7 @@ namespace Sneat.MVC.Services
                     Status = (int)project.Status,
                     CreatedDate = project.CreatedDate,
                     UpdatedDate = project.UpdatedDate,
+                    UserIds = project.UserProjects.Select(a => a.UserID).ToList()
                 };
 
                 return projectDetail;
