@@ -30,6 +30,7 @@ namespace Sneat.MVC.DAL
         public DbSet<Project> Projects { get; set; }
         public DbSet<UserProject> UserProjects { get; set; }
 
+        public DbSet<Sprint> Sprints { get; set; }
         public DbSet<WorkPackage> WorkPackages { get; set; }
         public DbSet<UserWorkPackage> UserWorkPackages { get; set; }
 

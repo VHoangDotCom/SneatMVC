@@ -135,6 +135,10 @@ namespace Sneat.MVC.Common
         public const string DOCUMENT_NOT_FOUND_ERR_STR = "Tài liệu này không tồn tại!";
         #endregion
 
+        #region Sprint
+        public const string SPRINT_NOT_FOUND_ERR_STR = "Sprint này không tồn tại hoặc đã bị xóa!";
+        #endregion
+
         #region Viet QR
         public const string VIET_QR_API_ROOT_V2 = "https://api.vietqr.io/v2/";
         public const string VIET_QR_API_LIST_BANK_V2 = "banks";

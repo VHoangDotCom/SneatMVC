@@ -77,7 +77,7 @@ namespace Sneat.MVC.Models.APIModel
         public static JsonResultModel Exception(string mess)
         {
             JsonResultModel result = new JsonResultModel();
-            result.Message = SystemParam.SERVER_ERROR;
+            result.Message = mess;
             result.Status = SystemParam.ERROR;
             result.Code = SystemParam.SERVER_ERROR_CODE;
             result.Data = null;
