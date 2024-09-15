@@ -27,10 +27,12 @@ namespace Sneat.MVC.Models.DTO.User
         public string BankAccountName { get; set; }
         public string BankAccountNo { get; set; }
         public string BankQRImage { get; set; }
+        public int? ProvinceHomeID { get; set; }
 
         public int? DistrictHomeID { get; set; }
         public string HomeAddress { get; set; }
 
+        public int? ProvinceOfficeID { get; set; }
         public int? DistrictOfficeID { get; set; }
         public string OfficeAddress { get; set; }
 

@@ -383,7 +383,7 @@ namespace Sneat.MVC.Services
                     Avatar = user.Avatar,
                     CreateDate = user.CreatedDate,
                     RoleIds = user.UserRoles.Select(u => u.RoleID).ToList(),
-                   
+
                     FirstName = userDetal.FirstName,
                     LastName = userDetal.LastName,
                     DOB = userDetal.DateOfBirth,
@@ -398,9 +398,11 @@ namespace Sneat.MVC.Services
                     BankAccountName = userDetal.BankAccountName,
                     BankAccountNo = userDetal.BankAccountNo,
                     BankQRImage = userDetal.BankQRImage,
-
+                    ProvinceHomeID = userDetal.DistrictHome != null ? userDetal.DistrictHome.ProvinceID : (int?)null,
                     DistrictHomeID = userDetal.DistrictHomeID,
                     HomeAddress = userDetal.HomeAddress,
+
+                    ProvinceOfficeID = userDetal.DistrictOffice != null ? userDetal.DistrictOffice.ProvinceID : (int?)null,
                     DistrictOfficeID = userDetal.DistrictOfficeID,
                     OfficeAddress = userDetal.OfficeAddress,
 
