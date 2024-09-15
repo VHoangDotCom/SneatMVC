@@ -26,7 +26,7 @@ namespace Sneat.MVC.Controllers
         public async Task<ActionResult> Create()
         {
             ViewBag.ListProvince = await _addressService.ListProvince();
-            ViewBag.ListBank = await _bankService.GetListBanks();
+            ViewBag.ListBank =  _bankService.GetListBanks();
             ViewBag.ListRole = await _roleService.ListRoleAuthorization();
             return View();
         }
@@ -43,7 +43,7 @@ namespace Sneat.MVC.Controllers
         public async Task<ActionResult> Update(int ID)
         {
             ViewBag.ListProvince = await _addressService.ListProvince();
-            ViewBag.ListBank = await _bankService.GetListBanks();
+            ViewBag.ListBank = _bankService.GetListBanks();
             ViewBag.ListRole = await _roleService.ListRoleAuthorization();
             var userDetail = await _userService.DetailUser(ID);
             return View(userDetail);

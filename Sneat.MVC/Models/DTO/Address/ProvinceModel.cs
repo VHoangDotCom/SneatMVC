@@ -14,4 +14,10 @@ namespace Sneat.MVC.Models.DTO.Address
         public int ID { get; set; }
         public string Name { get; set; }
     }
+
+    public class WardModel
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+    }
 }
