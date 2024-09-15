@@ -11,6 +11,8 @@ namespace Sneat.MVC.Models.DTO.Document
         public string Content { get; set; }
         public string DocumentAttachment { get; set; }
         public int ProjectID { get; set; }
+        public string ProjectName { get; set; }
+        public DateTime? CreateDate { get; set; }
     }
 
     public class DocumentOutputModel : DocumentInputModel

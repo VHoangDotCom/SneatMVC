@@ -66,6 +66,8 @@ namespace Sneat.MVC.Services
                             Content = x.Content,
                             DocumentAttachment = x.DocumentAttachment,
                             ProjectID = x.ProjectID,
+                            ProjectName = x.Project != null ? x.Project.Name : string.Empty,
+                            CreateDate = x.CreatedDate
                         })
                         .ToList();
 
@@ -124,7 +126,7 @@ namespace Sneat.MVC.Services
                     input.Title = $"{input.Title}({existedDocument + 1})";
 
                 var document = await _dbContext.Documents
-                    .Where(x => x.IsDeleted != SystemParam.IS_NOT_DELETED
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
                             && x.ID == input.ID)
                     .FirstOrDefaultAsync();
                 if (document == null)
@@ -136,7 +138,7 @@ namespace Sneat.MVC.Services
                 document.UpdatedDate = DateTime.Now;
 
                 await _dbContext.SaveChangesAsync();
-                return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, document);
+                return _responseService.SuccessResult(SystemParam.MESSAGE_SUCCESS, null);
             }
             catch (Exception ex)
             {
@@ -173,7 +175,7 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public async Task<JsonResultModel> RemoveProject(int ID)
+        public async Task<JsonResultModel> DeleteDocument(int ID)
         {
             try
             {

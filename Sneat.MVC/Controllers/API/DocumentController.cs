@@ -52,10 +52,10 @@ namespace Sneat.MVC.Controllers.API
             return await _documentService.DetailDocument(ID);
         }
 
-        [HttpGet]
-        public async Task<JsonResultModel> RemoveProject(int ID)
+        [HttpPost]
+        public async Task<JsonResultModel> DeleteDocument(int ID)
         {
-            return await _documentService.RemoveProject(ID);
+            return await _documentService.DeleteDocument(ID);
         }
     }
 }
