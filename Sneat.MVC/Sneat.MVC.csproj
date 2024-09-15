@@ -215,6 +215,7 @@
     <Compile Include="Controllers\API\RoleController.cs" />
     <Compile Include="Controllers\API\SprintController.cs" />
     <Compile Include="Controllers\API\SystemController.cs" />
+    <Compile Include="Controllers\API\TaskController.cs" />
     <Compile Include="Controllers\API\TeamsController.cs" />
     <Compile Include="Controllers\API\UploadController.cs" />
     <Compile Include="Controllers\API\UsersController.cs" />
@@ -326,6 +327,18 @@
     <Compile Include="Migrations\202409151429043_add-sprint-table.designer.cs">
       <DependentUpon>202409151429043_add-sprint-table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409151536010_add-parentid-work-package.cs" />
+    <Compile Include="Migrations\202409151536010_add-parentid-work-package.designer.cs">
+      <DependentUpon>202409151536010_add-parentid-work-package.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202409151536441_fix-parentid-work-package.cs" />
+    <Compile Include="Migrations\202409151536441_fix-parentid-work-package.designer.cs">
+      <DependentUpon>202409151536441_fix-parentid-work-package.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202409151655412_add-relationship-sprint-task.cs" />
+    <Compile Include="Migrations\202409151655412_add-relationship-sprint-task.designer.cs">
+      <DependentUpon>202409151655412_add-relationship-sprint-task.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\APIModel\Authentication\ChangePasswordModel.cs" />
     <Compile Include="Models\APIModel\Authentication\WebLoginModel.cs" />
@@ -379,6 +392,7 @@
     <Compile Include="Services\ResponseService.cs" />
     <Compile Include="Services\RoleService.cs" />
     <Compile Include="Services\SprintService.cs" />
+    <Compile Include="Services\TaskService.cs" />
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\WorkPackageService.cs" />
@@ -2230,6 +2244,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409151429043_add-sprint-table.resx">
       <DependentUpon>202409151429043_add-sprint-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409151536010_add-parentid-work-package.resx">
+      <DependentUpon>202409151536010_add-parentid-work-package.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409151536441_fix-parentid-work-package.resx">
+      <DependentUpon>202409151536441_fix-parentid-work-package.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409151655412_add-relationship-sprint-task.resx">
+      <DependentUpon>202409151655412_add-relationship-sprint-task.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

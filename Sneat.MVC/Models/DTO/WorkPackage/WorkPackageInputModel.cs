@@ -1,6 +1,7 @@
 ﻿using Sneat.MVC.Common;
 using Sneat.MVC.Models.Enum;
 using System;
+using System.Collections.Generic;
 
 namespace Sneat.MVC.Models.DTO.WorkPackage
 {
@@ -20,6 +21,8 @@ namespace Sneat.MVC.Models.DTO.WorkPackage
         public int? AssigneeID { get; set; }
         public int? AssignorID { get; set; }
         public int? ProjectID { get; set; }
+        public int? WorPackageID { get; set; }
+        public int? SprintID { get; set; }
     }
 
     public class WorkPackageOutputModel : WorkPackageInputModel
@@ -122,5 +125,7 @@ namespace Sneat.MVC.Models.DTO.WorkPackage
         public string AssigneeName { get; set; }
         public string AssigneeEmail { get; set; }
         public string AssigneeAvatar { get; set; }
+
+        public List<WorkPackageOutputModel> ListTasks { get; set; }
     }
 }

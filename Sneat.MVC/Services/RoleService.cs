@@ -81,6 +81,7 @@ namespace Sneat.MVC.Services
                         UpdatedDate = x.UpdatedDate,
                         UserRoles = x.UserRoles.ToList()
                     })
+                    .OrderByDescending(x => x.ID)
                     .ToList();
 
                 return listRoles;
