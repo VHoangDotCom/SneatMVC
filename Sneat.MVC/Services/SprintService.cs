@@ -75,7 +75,7 @@ namespace Sneat.MVC.Services
                         Status = x.Status,
                         CreatedDate = x.CreatedDate,
                         UpdatedDate = x.UpdatedDate,
-                        ProjectID = projectID.Value,
+                        ProjectID = x.ProjectID,
                     })
                     .ToList();
 
