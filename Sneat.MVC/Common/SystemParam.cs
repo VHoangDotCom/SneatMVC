@@ -82,14 +82,20 @@ namespace Sneat.MVC.Common
 
         #region Role - Permission
         public const int EXISTED_ROLE_NAME_ERR = -1;
+        public const string EXISTED_ROLE_NAME_ERR_STR = "Tên vai trò đã tồn tại!";
         public const int ROLE_NOT_FOUND_ERR = -2;
+        public const string ROLE_NOT_FOUND_ERR_STR = "Vai trò không tồn tại hoặc đã bị xóa!";
         #endregion
 
         #region Project - Team
         public const int EXISTED_TEAM_NAME_ERR = -1;
+        public const string EXISTED_TEAM_NAME_ERR_STR = "Tên đội nhóm đã tồn tại!";
         public const int TEAM_NOT_FOUND_ERR = -2;
+        public const string TEAM_NOT_FOUND_ERR_STR = "Đội nhóm không tồn tại hoặc đã bị xóa!";
         public const int EXISTED_PROJECT_NAME_ERR = -3;
+        public const string EXISTED_PROJECT_NAME_ERR_STR = "Tên dự án đã tồn tại!";
         public const int PROJECT_NOT_FOUND_ERR = -4;
+        public const string PROJECT_NOT_FOUND_ERR_STR = "Dự án không tồn tại!";
         #endregion
 
         #region Work Package
