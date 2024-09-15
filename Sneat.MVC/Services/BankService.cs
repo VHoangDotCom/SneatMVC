@@ -13,8 +13,12 @@ namespace Sneat.MVC.Services
     {
         private readonly SneatContext _dbContext;
 
-        public BankService(SneatContext dbContext)
+        public BankService(SneatContext dbContext = null)
         {
+            if(dbContext == null)
+            {
+                dbContext = new SneatContext();
+            }
             _dbContext = dbContext;
         }
 

@@ -1,6 +1,7 @@
 ﻿using PagedList;
 using Sneat.MVC.Common;
 using Sneat.MVC.DAL;
+using Sneat.MVC.Models.APIModel;
 using Sneat.MVC.Models.DTO.Project;
 using Sneat.MVC.Models.DTO.User;
 using Sneat.MVC.Models.Entity;
@@ -17,8 +18,12 @@ namespace Sneat.MVC.Services
     public class ProjectService
     {
         private readonly SneatContext _dbContext;
-        public ProjectService(SneatContext dbContext)
+        public ProjectService(SneatContext dbContext = null)
         {
+            if (dbContext == null)
+            {
+                dbContext = new SneatContext();
+            }
             _dbContext = dbContext;
         }
 
@@ -38,12 +43,34 @@ namespace Sneat.MVC.Services
             }
         }
 
+        public async Task<JsonResultModel> GetListProject(int page, int limit, string search = "")
+        {
+            try
+            {
+                var list = await GetListProject(search);
+                var listPaging = list.ToPagedList(page, limit);
+                var paging = new PagingModel
+                {
+                    Page = page,
+                    Limit = limit,
+                    TotalItemCount = listPaging.TotalItemCount,
+                };
+
+                return JsonResponse.SucessPaging(listPaging, paging);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return JsonResponse.Error(SystemParam.ERROR, ex.ToString());
+            }
+        }
+
         public async Task<List<ProjectOutputModel>> PersonalProjects(int userID)
         {
             try
             {
                 var projectIds = await _dbContext.UserProjects
-                    .Where(x => x.UserID == userID 
+                    .Where(x => x.UserID == userID
                         && x.Project.IsDeleted == SystemParam.IS_NOT_DELETED)
                     .Select(x => x.ProjectID)
                     .ToListAsync();
@@ -70,7 +97,7 @@ namespace Sneat.MVC.Services
                     .Select(x => new
                     {
                         x.ID,
-                        x.Name, 
+                        x.Name,
                         x.Status,
                         x.Description,
                         x.CreatedDate,
@@ -97,7 +124,7 @@ namespace Sneat.MVC.Services
                 ex.ToString();
                 return new List<ProjectOutputModel>();
             }
-        }  
+        }
 
         public async Task<int> CreateProject(ProjectInputModel input)
         {
@@ -175,21 +202,21 @@ namespace Sneat.MVC.Services
                 project.Name = input.Name;
                 project.Description = input.Description;
                 project.UpdatedDate = DateTime.Now;
-                
+
                 // Update user project
-               /* _dbContext.UserProjects.RemoveRange(project.UserProjects);
-                if (input.UserIds.Count > 0)
-                {
-                    foreach (var id in input.UserIds)
-                    {
-                        var userProject = new UserProject
-                        {
-                            UserID = id,
-                            ProjectID = project.ID
-                        };
-                        _dbContext.UserProjects.Add(userProject);
-                    }
-                }*/
+                /* _dbContext.UserProjects.RemoveRange(project.UserProjects);
+                 if (input.UserIds.Count > 0)
+                 {
+                     foreach (var id in input.UserIds)
+                     {
+                         var userProject = new UserProject
+                         {
+                             UserID = id,
+                             ProjectID = project.ID
+                         };
+                         _dbContext.UserProjects.Add(userProject);
+                     }
+                 }*/
 
                 await _dbContext.SaveChangesAsync();
                 return SystemParam.RETURN_TRUE;
@@ -205,8 +232,8 @@ namespace Sneat.MVC.Services
         {
             try
             {
-                var project =  _dbContext.Projects
-                    .FirstOrDefault(x => x.IsDeleted == SystemParam.IS_NOT_DELETED 
+                var project = _dbContext.Projects
+                    .FirstOrDefault(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
                         && x.ID == ID);
                 var projectDetail = new ProjectOutputModel
                 {
@@ -255,7 +282,7 @@ namespace Sneat.MVC.Services
             try
             {
                 search = Utils.RemoveDiacritics(search);
-                var list =  GetListUserProject(projectId, search);
+                var list = GetListUserProject(projectId, search);
                 var listPaging = list.ToPagedList(page, limit);
 
                 return listPaging;
@@ -336,18 +363,18 @@ namespace Sneat.MVC.Services
                 if (project == null)
                     return SystemParam.PROJECT_NOT_FOUND_ERR;
 
-                if(userIds.Count > 0)
+                if (userIds.Count > 0)
                 {
-                    foreach(var userId in userIds)
+                    foreach (var userId in userIds)
                     {
-                        if(!existedUserProject.Contains(userId))
+                        if (!existedUserProject.Contains(userId))
                         {
                             var userProject = new UserProject
                             {
                                 UserID = userId,
                                 ProjectID = projectID,
                             };
-                            _dbContext.UserProjects .Add(userProject);
+                            _dbContext.UserProjects.Add(userProject);
                         }
                     }
                 }
