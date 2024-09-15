@@ -78,6 +78,7 @@ namespace Sneat.MVC.Services
                         ProjectID = x.ProjectID,
                         ProjectName = x.Project != null ? x.Project.Name : string.Empty
                     })
+                    .OrderByDescending(x => x.ID)
                     .ToList();
 
                 return listResult;

@@ -27,6 +27,8 @@ namespace Sneat.MVC.Models.Entity
         public int IsDeleted { get; set; }
 
         public int? ProjectID { get; set; }
+        public int? WorkPackageID { get; set; }
+        public int? SprintID { get; set; }
         public virtual ICollection<UserWorkPackage> UserWorkPackages { get; set; }
     }
 }

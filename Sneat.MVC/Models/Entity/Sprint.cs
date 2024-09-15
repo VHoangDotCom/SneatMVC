@@ -20,5 +20,6 @@ namespace Sneat.MVC.Models.Entity
         [ForeignKey(nameof(Project))]
         public int ProjectID { get; set; }
         public virtual Project Project { get; set; }
+
     }
 }

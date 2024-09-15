@@ -129,6 +129,7 @@ namespace Sneat.MVC.Common
 
         // Error
         public const int TASK_NOT_FOUND_ERR = -1;
+        public const string TASK_NOT_FOUND_ERR_STR = "Nhiệm vụ này không tồn tạ hoặc đã bị xóa!";
         #endregion
 
         #region Document

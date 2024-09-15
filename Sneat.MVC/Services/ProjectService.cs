@@ -124,6 +124,7 @@ namespace Sneat.MVC.Services
                     })
                     .Where(x => string.IsNullOrEmpty(search)
                         || Utils.RemoveDiacritics(x.Name).Contains(search))
+                    .OrderByDescending(x => x.ID)
                     .ToList();
 
                 return listProjects;

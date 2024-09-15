@@ -57,7 +57,6 @@ namespace Sneat.MVC.Services
                         && (projectID.HasValue ? x.ProjectID == projectID.Value : true)
                         );
 
-
                 var listResult = listDocuments
                         .Select(x => new DocumentOutputModel
                         {
@@ -69,6 +68,7 @@ namespace Sneat.MVC.Services
                             ProjectName = x.Project != null ? x.Project.Name : string.Empty,
                             CreateDate = x.CreatedDate
                         })
+                        .OrderByDescending(x => x.ID)
                         .ToList();
 
                 return listResult;
