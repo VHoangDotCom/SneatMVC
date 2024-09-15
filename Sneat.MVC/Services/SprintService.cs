@@ -28,8 +28,8 @@ namespace Sneat.MVC.Services
         }
 
         public async Task<JsonResultModel> GetListSprintPaging(
-             string search = "", 
-             int? projectID = null, 
+             string search = "",
+             int? projectID = null,
              int page = SystemParam.PAGE_DEFAULT,
              int limit = SystemParam.MAX_ROW_IN_LIST_WEB
             )
@@ -55,7 +55,7 @@ namespace Sneat.MVC.Services
 
         public async Task<List<SprintOutputModel>> GetListSprint(string search, int? projectID)
         {
-            try 
+            try
             {
                 search = Utils.RemoveDiacritics(search);
                 var listSprint = _dbContext.Sprints
@@ -76,12 +76,13 @@ namespace Sneat.MVC.Services
                         CreatedDate = x.CreatedDate,
                         UpdatedDate = x.UpdatedDate,
                         ProjectID = x.ProjectID,
+                        ProjectName = x.Project != null ? x.Project.Name : string.Empty
                     })
                     .ToList();
 
                 return listResult;
-            } 
-            catch (Exception ex) 
+            }
+            catch (Exception ex)
             {
                 ex.ToString();
                 return new List<SprintOutputModel>();
@@ -96,7 +97,7 @@ namespace Sneat.MVC.Services
                     .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
                         && x.Title.ToLower() == input.Title.ToLower())
                     .CountAsync();
-                if(existedSprint > 0)
+                if (existedSprint > 0)
                     input.Title = $"{input.Title}({existedSprint + 1})";
 
                 var newSprint = new Sprint

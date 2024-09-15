@@ -15,6 +15,7 @@ namespace Sneat.MVC.Models.DTO.Sprint
     public class SprintOutputModel  : SprintInputModel
     {
         public int ID { get; set; }
+        public string ProjectName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
     }
