@@ -58,7 +58,7 @@ namespace Sneat.MVC.Controllers.API
         [HttpPost]
         public async Task<JsonResultModel> LoginWeb(WebLoginModel model)
         {
-           return await _authenticationService.CheckLoginWeb(model.Phone, model.Password);
+            return await _authenticationService.CheckLoginWeb(model.Phone, model.Password);
         }
 
         [HttpPost]
@@ -68,9 +68,11 @@ namespace Sneat.MVC.Controllers.API
         }
 
         [HttpPost]
-        public async Task<JsonResultModel> ChangePasswordWeb(int ID, string currentPass, string newPass)
+        public async Task<JsonResultModel> ChangePasswordWeb(ChangePasswordModel model)
         {
-            return await _authenticationService.ChangePasswordWeb(ID, currentPass, newPass);
+            var userId = Utils.getUserFromToken(Request.Headers);
+
+            return await _authenticationService.ChangePasswordWeb(userId.Value, model.OldPassword, model.NewPassword);
         }
 
         [HttpGet]

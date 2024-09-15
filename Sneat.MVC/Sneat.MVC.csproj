@@ -321,6 +321,7 @@
       <DependentUpon>202409132104493_update-document-table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\APIModel\Authentication\ChangePasswordModel.cs" />
     <Compile Include="Models\APIModel\Authentication\WebLoginModel.cs" />
     <Compile Include="Models\APIModel\JsonResponse.cs" />
     <Compile Include="Models\APIModel\JsonResultModel.cs" />

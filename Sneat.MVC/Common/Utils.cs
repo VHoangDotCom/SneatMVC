@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Net.Http.Headers;
+using Sneat.MVC.DAL;
 
 namespace Sneat.MVC.Common
 {
@@ -159,6 +160,36 @@ namespace Sneat.MVC.Common
                 return headers.GetValues("token").FirstOrDefault();
             }
             return "";
+        }
+
+        public static int? getUserFromToken(HttpRequestHeaders headers)
+        {
+            try
+            {
+                var token = string.Empty;
+                if (headers.Contains("token"))
+                {
+                    token = headers.GetValues("token").FirstOrDefault();
+                }
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return null;
+                }
+
+                SneatContext context = new SneatContext();
+                var user = context.Users.Where(u => u.Token == token && u.IsDeleted == 0).FirstOrDefault();
+                if (user != null)
+                {
+                    return user.ID;
+                }
+                else
+                    return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }
