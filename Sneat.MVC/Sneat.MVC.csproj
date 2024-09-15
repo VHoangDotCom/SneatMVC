@@ -213,6 +213,7 @@
     <Compile Include="Controllers\API\DocumentController.cs" />
     <Compile Include="Controllers\API\ProjectController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
+    <Compile Include="Controllers\API\SprintController.cs" />
     <Compile Include="Controllers\API\SystemController.cs" />
     <Compile Include="Controllers\API\TeamsController.cs" />
     <Compile Include="Controllers\API\UploadController.cs" />
@@ -321,6 +322,10 @@
     <Compile Include="Migrations\202409132104493_update-document-table.designer.cs">
       <DependentUpon>202409132104493_update-document-table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409151429043_add-sprint-table.cs" />
+    <Compile Include="Migrations\202409151429043_add-sprint-table.designer.cs">
+      <DependentUpon>202409151429043_add-sprint-table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\APIModel\Authentication\ChangePasswordModel.cs" />
     <Compile Include="Models\APIModel\Authentication\WebLoginModel.cs" />
@@ -335,6 +340,7 @@
     <Compile Include="Models\DTO\Permission\PermissionOutputModel.cs" />
     <Compile Include="Models\DTO\Project\ProjectInputModel.cs" />
     <Compile Include="Models\DTO\Role\RoleOutputModel.cs" />
+    <Compile Include="Models\DTO\Sprint\SprintInputModel.cs" />
     <Compile Include="Models\DTO\Team\TeamOutputModel.cs" />
     <Compile Include="Models\DTO\Team\TechStackModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
@@ -348,6 +354,7 @@
     <Compile Include="Models\Entity\Province.cs" />
     <Compile Include="Models\Entity\Role.cs" />
     <Compile Include="Models\Entity\RolePermission.cs" />
+    <Compile Include="Models\Entity\Sprint.cs" />
     <Compile Include="Models\Entity\Team.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\Entity\UserDetail.cs" />
@@ -371,6 +378,7 @@
     <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\ResponseService.cs" />
     <Compile Include="Services\RoleService.cs" />
+    <Compile Include="Services\SprintService.cs" />
     <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\WorkPackageService.cs" />
@@ -2219,6 +2227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409132104493_update-document-table.resx">
       <DependentUpon>202409132104493_update-document-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409151429043_add-sprint-table.resx">
+      <DependentUpon>202409151429043_add-sprint-table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
