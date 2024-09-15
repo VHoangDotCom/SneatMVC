@@ -51,10 +51,12 @@ namespace Sneat.MVC.Services
             {
                 search = Utils.RemoveDiacritics(search);
                 var listDocuments = _dbContext.Documents
-                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED)
-                    .Where(x => string.IsNullOrEmpty(search)
-                        || Utils.RemoveDiacritics(x.Title).Contains(search))
-                    .Where(x => projectID.HasValue ? x.ProjectID == projectID.Value : true);
+                    .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
+                        && (!string.IsNullOrEmpty(search) ?
+                         x.Title.Contains(search) : true)
+                        && (projectID.HasValue ? x.ProjectID == projectID.Value : true)
+                        );
+
 
                 var listResult = listDocuments
                         .Select(x => new DocumentOutputModel

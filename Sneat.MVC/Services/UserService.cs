@@ -253,6 +253,7 @@ namespace Sneat.MVC.Services
                 user.Phone = input.Phone;
                 user.Avatar = input.Avatar;
                 user.UpdatedDate = DateTime.Now;
+                user.Status = input.Status;
 
                 // Validate DateOfBirth
                 var validDOB = Utils.DefaultDateTime(input.DOB);
