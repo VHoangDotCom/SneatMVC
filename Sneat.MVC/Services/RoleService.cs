@@ -18,8 +18,12 @@ namespace Sneat.MVC.Services
     {
         private readonly SneatContext _dbContext;
 
-        public RoleService(SneatContext dbContext)
+        public RoleService(SneatContext dbContext = null)
         {
+            if(dbContext == null)
+            {
+                dbContext = new SneatContext();
+            }
             _dbContext = dbContext;
         }
 
