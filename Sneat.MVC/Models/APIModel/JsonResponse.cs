@@ -64,5 +64,25 @@ namespace Sneat.MVC.Models.APIModel
         {
             return new JsonResultModel(SystemParam.ERROR, code, message, "");
         }
+
+        public static JsonResultModel ErrorResult(string mess, int code)
+        {
+            JsonResultModel result = new JsonResultModel();
+            result.Message = mess;
+            result.Status = SystemParam.ERROR;
+            result.Code = code;
+            result.Data = null;
+            return result;
+        }
+        public static JsonResultModel Exception(string mess)
+        {
+            JsonResultModel result = new JsonResultModel();
+            result.Message = SystemParam.SERVER_ERROR;
+            result.Status = SystemParam.ERROR;
+            result.Code = SystemParam.SERVER_ERROR_CODE;
+            result.Data = null;
+            // oneSignal.SaveLog(mess, "");
+            return result;
+        }
     }
 }

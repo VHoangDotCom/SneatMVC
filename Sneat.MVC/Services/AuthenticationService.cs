@@ -255,5 +255,24 @@ namespace Sneat.MVC.Services
                 return _responseService.serverError();
             }
         }
+
+       /* public async Task<UpdateUserInputModel> GetUserDetail(string token)
+        {
+            UserService _userService = new UserService(_dbContext);
+            try
+            {
+                var user = await _dbContext.Users
+                 .Where(u => u.IsDeleted == SystemParam.IS_NOT_DELETED
+                     && (u.Token == token))
+                 .FirstOrDefaultAsync();
+
+
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+                return new UpdateUserInputModel();
+            }
+        }*/
     }
 }
