@@ -52,6 +52,12 @@ namespace Sneat.MVC.Controllers.API
             return await _taskService.UpdateTaskStatus(model);
         }
 
+        [HttpPost]
+        public async Task<JsonResultModel> UpdateUserStoryGeneralInfo(UpdateUserStoryGeneralInfoModel model)
+        {
+            return await _taskService.UpdateUserStoryGeneralInfo(model);
+        }
+
         [HttpGet]
         public async Task<JsonResultModel> DetailTask(int ID)
         {

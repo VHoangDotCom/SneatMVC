@@ -339,6 +339,10 @@
     <Compile Include="Migrations\202409151655412_add-relationship-sprint-task.designer.cs">
       <DependentUpon>202409151655412_add-relationship-sprint-task.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409160623051_add_sprint_fk.cs" />
+    <Compile Include="Migrations\202409160623051_add_sprint_fk.designer.cs">
+      <DependentUpon>202409160623051_add_sprint_fk.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\APIModel\Authentication\ChangePasswordModel.cs" />
     <Compile Include="Models\APIModel\Authentication\WebLoginModel.cs" />
@@ -355,6 +359,7 @@
     <Compile Include="Models\DTO\Role\RoleOutputModel.cs" />
     <Compile Include="Models\DTO\Sprint\SprintInputModel.cs" />
     <Compile Include="Models\DTO\Task\UpdateTaskStatusModel.cs" />
+    <Compile Include="Models\DTO\Task\UpdateUserStoryGeneralInfoModel.cs" />
     <Compile Include="Models\DTO\Team\TeamOutputModel.cs" />
     <Compile Include="Models\DTO\Team\TechStackModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
@@ -2254,6 +2259,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409151655412_add-relationship-sprint-task.resx">
       <DependentUpon>202409151655412_add-relationship-sprint-task.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409160623051_add_sprint_fk.resx">
+      <DependentUpon>202409160623051_add_sprint_fk.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

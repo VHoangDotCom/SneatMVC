@@ -1,4 +1,5 @@
 ﻿using Sneat.MVC.Common;
+using Sneat.MVC.Models.DTO.Project;
 using Sneat.MVC.Models.Enum;
 using System;
 using System.Collections.Generic;
@@ -127,5 +128,6 @@ namespace Sneat.MVC.Models.DTO.WorkPackage
         public string AssigneeAvatar { get; set; }
 
         public List<WorkPackageOutputModel> ListTasks { get; set; }
+        public List<ProjectUserModel> ListUsers { get; set; }
     }
 }
