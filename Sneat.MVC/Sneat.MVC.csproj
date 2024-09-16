@@ -354,6 +354,7 @@
     <Compile Include="Models\DTO\Project\ProjectInputModel.cs" />
     <Compile Include="Models\DTO\Role\RoleOutputModel.cs" />
     <Compile Include="Models\DTO\Sprint\SprintInputModel.cs" />
+    <Compile Include="Models\DTO\Task\UpdateTaskStatusModel.cs" />
     <Compile Include="Models\DTO\Team\TeamOutputModel.cs" />
     <Compile Include="Models\DTO\Team\TechStackModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />

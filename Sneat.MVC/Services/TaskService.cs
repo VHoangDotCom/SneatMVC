@@ -2,6 +2,7 @@
 using Sneat.MVC.Common;
 using Sneat.MVC.DAL;
 using Sneat.MVC.Models.APIModel;
+using Sneat.MVC.Models.DTO.Task;
 using Sneat.MVC.Models.DTO.WorkPackage;
 using Sneat.MVC.Models.Entity;
 using Sneat.MVC.Models.Enum;
@@ -88,7 +89,7 @@ namespace Sneat.MVC.Services
                           .FirstOrDefault(),
                         x.ProjectID,
                         x.WorkPackageID,
-                  })
+                    })
                   .AsEnumerable()
                   .Select(x => new WorkPackageOutputModel
                   {
@@ -105,17 +106,20 @@ namespace Sneat.MVC.Services
                       Description = x.Description,
                       CreateDate = x.CreatedDate,
                       CompletePercent = x.CompletePercent,
-                      AssigneeID = x.Assignee.AssigneeID,
-                      AssigneeName = x.Assignee.AssigneeName,
-                      AssigneeAvatar = x.Assignee.AssigneeAvatar,
-                      AssigneeEmail = x.Assignee.AssigneeEmail,
+                      AssigneeID = x.Assignee != null ? x.Assignee.AssigneeID : (int?)null,
+                      AssigneeName = x.Assignee != null ? x.Assignee.AssigneeName : null,
+                      AssigneeAvatar = x.Assignee != null ? x.Assignee.AssigneeAvatar : null,
+                      AssigneeEmail = x.Assignee != null ? x.Assignee.AssigneeEmail : null,
                       ProjectID = x.ProjectID,
                       WorPackageID = x.WorkPackageID,
-                  });
+                  }).ToList();
 
                 var list = _dbContext.WorkPackages
                   .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED && x.Type == WorkPackageType.UserStory)
-                  .Where(x => projectID.HasValue ? x.ProjectID == projectID.Value : true)
+                  .Where(x =>
+                  (projectID.HasValue ? x.ProjectID == projectID.Value : true)
+                  && (sprintID.HasValue ? x.SprintID == sprintID.Value : true)
+                  )
                   .Select(x => new
                   {
                       x.ID,
@@ -161,12 +165,12 @@ namespace Sneat.MVC.Services
                       Description = x.Description,
                       CreateDate = x.CreatedDate,
                       CompletePercent = x.CompletePercent,
-                      AssigneeID = x.Assignee.AssigneeID,
-                      AssigneeName = x.Assignee.AssigneeName,
-                      AssigneeAvatar = x.Assignee.AssigneeAvatar,
-                      AssigneeEmail = x.Assignee.AssigneeEmail,
+                      AssigneeID = x.Assignee != null ? x.Assignee.AssigneeID : (int?)null,
+                      AssigneeName = x.Assignee != null ? x.Assignee.AssigneeName : null,
+                      AssigneeAvatar = x.Assignee != null ? x.Assignee.AssigneeAvatar : null,
+                      AssigneeEmail = x.Assignee != null ? x.Assignee.AssigneeEmail : null,
                       ProjectID = x.ProjectID,
-                      SprintID  = x.SprintID,
+                      SprintID = x.SprintID,
                       ListTasks = listTask.Where(t => t.WorPackageID == x.ID).OrderByDescending(t => t.ID).ToList(),
                   })
                   .Where(x => string.IsNullOrEmpty(search)
@@ -251,7 +255,7 @@ namespace Sneat.MVC.Services
                   .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
                       && x.ID == input.ID)
                   .FirstOrDefaultAsync();
-                if(task == null)
+                if (task == null)
                     return JsonResponse.ErrorResult(SystemParam.TASK_NOT_FOUND_ERR_STR, SystemParam.SERVER_ERROR_CODE);
 
                 task.Subject = input.Subject;
@@ -279,6 +283,27 @@ namespace Sneat.MVC.Services
 
                 await _dbContext.SaveChangesAsync();
                 return JsonResponse.Success(SystemParam.MESSAGE_SUCCESS, task);
+            }
+            catch (Exception ex)
+            {
+                return JsonResponse.Exception(ex.ToString());
+            }
+        }
+
+        public async Task<JsonResultModel> UpdateTaskStatus(UpdateTaskStatusModel model)
+        {
+            try
+            {
+                var task = await _dbContext.WorkPackages
+                      .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
+                          && x.ID == model.ID)
+                      .FirstOrDefaultAsync();
+                if (task == null)
+                    return JsonResponse.ErrorResult(SystemParam.TASK_NOT_FOUND_ERR_STR, SystemParam.SERVER_ERROR_CODE);
+
+                task.Status = (WorkPackageStatus)model.Status;
+                await _dbContext.SaveChangesAsync();
+                return JsonResponse.Success(null);
             }
             catch (Exception ex)
             {
