@@ -2,6 +2,7 @@
 using Sneat.MVC.Common;
 using Sneat.MVC.DAL;
 using Sneat.MVC.Models.APIModel;
+using Sneat.MVC.Models.DTO.Project;
 using Sneat.MVC.Models.DTO.Task;
 using Sneat.MVC.Models.DTO.WorkPackage;
 using Sneat.MVC.Models.Entity;
@@ -62,6 +63,8 @@ namespace Sneat.MVC.Services
                 var listTask = _dbContext.WorkPackages
                     .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
                         && x.Type == WorkPackageType.Task)
+                    .Include(x => x.UserWorkPackages)
+                    .Include(x => x.Sprint.Project.UserProjects)
                     .Select(x => new
                     {
                         x.ID,
@@ -87,8 +90,16 @@ namespace Sneat.MVC.Services
                               AssigneeEmail = !string.IsNullOrEmpty(a.User.Email) ? a.User.Email : "---",
                           })
                           .FirstOrDefault(),
-                        x.ProjectID,
                         x.WorkPackageID,
+                        ProjectID = x.Sprint != null ? x.Sprint.ProjectID : (int?)null,
+                        x.SprintID,
+                        ListUsers = x.Sprint.Project.UserProjects.Select(a => new ProjectUserModel
+                        {
+                            UserID = a.UserID,
+                            UserAvatar = a.User.Avatar,
+                            UserName = a.User.UserName
+                        }
+                      ).ToList()
                     })
                   .AsEnumerable()
                   .Select(x => new WorkPackageOutputModel
@@ -112,6 +123,7 @@ namespace Sneat.MVC.Services
                       AssigneeEmail = x.Assignee != null ? x.Assignee.AssigneeEmail : null,
                       ProjectID = x.ProjectID,
                       WorPackageID = x.WorkPackageID,
+                      ListUsers = x.ListUsers
                   }).ToList();
 
                 var list = _dbContext.WorkPackages
@@ -120,6 +132,7 @@ namespace Sneat.MVC.Services
                   (projectID.HasValue ? x.ProjectID == projectID.Value : true)
                   && (sprintID.HasValue ? x.SprintID == sprintID.Value : true)
                   )
+                  .Include(x => x.UserWorkPackages)
                   .Select(x => new
                   {
                       x.ID,
@@ -145,9 +158,16 @@ namespace Sneat.MVC.Services
                               AssigneeEmail = !string.IsNullOrEmpty(a.User.Email) ? a.User.Email : "---",
                           })
                           .FirstOrDefault(),
-                      x.ProjectID,
                       x.WorkPackageID,
-                      x.SprintID
+                      x.SprintID,
+                      ProjectID = x.Sprint != null ? x.Sprint.ProjectID : (int?)null,
+                      ListUsers = x.Sprint.Project.UserProjects.Select(a => new ProjectUserModel
+                      {
+                          UserID = a.UserID,
+                          UserAvatar = a.User.Avatar,
+                          UserName = a.User.UserName
+                      }
+                      ).ToList()
                   })
                   .AsEnumerable()
                   .Select(x => new WorkPackageOutputModel
@@ -172,6 +192,7 @@ namespace Sneat.MVC.Services
                       ProjectID = x.ProjectID,
                       SprintID = x.SprintID,
                       ListTasks = listTask.Where(t => t.WorPackageID == x.ID).OrderByDescending(t => t.ID).ToList(),
+                      ListUsers = x.ListUsers
                   })
                   .Where(x => string.IsNullOrEmpty(search)
                    || Utils.RemoveDiacritics(x.Subject).Contains(search)
@@ -210,10 +231,11 @@ namespace Sneat.MVC.Services
                     FinishDate = input.FinishDate,
                     IsDeleted = SystemParam.IS_NOT_DELETED,
                     CreatedDate = DateTime.Now,
-
+                    WorkPackageID = input.WorPackageID,
                     ProjectID = input.ProjectID,
                     SprintID = input.SprintID,
                 };
+
                 _dbContext.WorkPackages.Add(newTask);
 
                 if (input.AssigneeID.HasValue)
@@ -239,7 +261,7 @@ namespace Sneat.MVC.Services
                 }
 
                 await _dbContext.SaveChangesAsync();
-                return JsonResponse.Success(SystemParam.MESSAGE_SUCCESS, newTask);
+                return JsonResponse.Success(SystemParam.MESSAGE_SUCCESS, null);
             }
             catch (Exception ex)
             {
@@ -269,7 +291,12 @@ namespace Sneat.MVC.Services
                 task.Description = input.Description;
                 task.UpdatedDate = DateTime.Now;
 
-                _dbContext.UserWorkPackages.Remove(task.UserWorkPackages.FirstOrDefault(x => x.AssignType == WorkAssignType.Assignee));
+                var workPackage = task.UserWorkPackages.FirstOrDefault(x => x.AssignType == WorkAssignType.Assignee);
+
+                if (workPackage != null)
+                {
+                    _dbContext.UserWorkPackages.Remove(workPackage);
+                }
                 if (input.AssigneeID.HasValue)
                 {
                     var assigneeTask = new UserWorkPackage
@@ -282,7 +309,7 @@ namespace Sneat.MVC.Services
                 }
 
                 await _dbContext.SaveChangesAsync();
-                return JsonResponse.Success(SystemParam.MESSAGE_SUCCESS, task);
+                return JsonResponse.Success(SystemParam.MESSAGE_SUCCESS, null);
             }
             catch (Exception ex)
             {
@@ -301,6 +328,28 @@ namespace Sneat.MVC.Services
                 if (task == null)
                     return JsonResponse.ErrorResult(SystemParam.TASK_NOT_FOUND_ERR_STR, SystemParam.SERVER_ERROR_CODE);
 
+                task.Status = (WorkPackageStatus)model.Status;
+                await _dbContext.SaveChangesAsync();
+                return JsonResponse.Success(null);
+            }
+            catch (Exception ex)
+            {
+                return JsonResponse.Exception(ex.ToString());
+            }
+        }
+
+        public async Task<JsonResultModel> UpdateUserStoryGeneralInfo(UpdateUserStoryGeneralInfoModel model)
+        {
+            try
+            {
+                var task = await _dbContext.WorkPackages
+                      .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
+                          && x.ID == model.ID)
+                      .FirstOrDefaultAsync();
+                if (task == null)
+                    return JsonResponse.ErrorResult(SystemParam.TASK_NOT_FOUND_ERR_STR, SystemParam.SERVER_ERROR_CODE);
+
+                task.Subject = model.Subject;
                 task.Status = (WorkPackageStatus)model.Status;
                 await _dbContext.SaveChangesAsync();
                 return JsonResponse.Success(null);

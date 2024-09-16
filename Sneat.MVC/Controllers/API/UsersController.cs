@@ -38,11 +38,11 @@ namespace Sneat.MVC.Controllers.API
         }
 
         [HttpGet]
-        public async Task<JsonResultModel> GetListUserPaging(int page = SystemParam.PAGE_DEFAULT, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "", int? teamID = null)
+        public async Task<JsonResultModel> GetListUserPaging(int page = SystemParam.PAGE_DEFAULT, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "", int? teamID = null, int? projectID = null)
         {
             try
             {
-                var listPaging = _userService.Search(page, limit, search, teamID);
+                var listPaging = _userService.Search(page, limit, search, teamID, projectID);
                 var paging = new PagingModel
                 {
                     Page = page,
@@ -63,7 +63,7 @@ namespace Sneat.MVC.Controllers.API
         public async Task<JsonResultModel> CreateUser(UserInputModel input)
         {
             var result = await _userService.CreateUser(input);
-            if(result == SystemParam.EMAIL_USED_ERR)
+            if (result == SystemParam.EMAIL_USED_ERR)
                 return _responseService.ErrorResult(SystemParam.EMAIL_USED_ERR_STR, SystemParam.SERVER_ERROR_CODE);
             else if (result == SystemParam.PHONE_USED_ERR)
                 return _responseService.ErrorResult(SystemParam.PHONE_USED_ERR_STR, SystemParam.SERVER_ERROR_CODE);

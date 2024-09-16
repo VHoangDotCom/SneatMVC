@@ -28,11 +28,11 @@ namespace Sneat.MVC.Services
 
         #region User management
 
-        public IPagedList<UserDetailOutputModel> Search(int page, int limit, string search = "", int? teamID = null)
+        public IPagedList<UserDetailOutputModel> Search(int page, int limit, string search = "", int? teamID = null, int? projectID = null)
         {
             try
             {
-                var list = GetListUser(search, teamID);
+                var list = GetListUser(search, teamID, projectID);
                 var listPaging = list.ToPagedList(page, limit);
                 return listPaging;
             }
@@ -43,7 +43,7 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public List<UserDetailOutputModel> GetListUser(string search = "", int? teamID = null)
+        public List<UserDetailOutputModel> GetListUser(string search = "", int? teamID = null, int? projectID = null)
         {
             try
             {
@@ -60,6 +60,7 @@ namespace Sneat.MVC.Services
                     .ToList();
                 var query = (from u in _dbContext.Users
                              where u.IsDeleted == SystemParam.IS_NOT_DELETED
+                             && (projectID.HasValue ? u.UserProjects.Where(x => x.ProjectID == projectID.Value).FirstOrDefault() != null : true)
                              orderby u.ID descending
                              select new
                              {
@@ -102,47 +103,47 @@ namespace Sneat.MVC.Services
             }
         }
 
-      /*  public async Task<ExcelPackage> ExportListUser(string search = "", int? teamID = null)
-        {
-            try
-            {
-                var list = await GetListUser(search, teamID);
-                FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(@"/Template/ListCustomerReport.xlsx"));
-                ExcelPackage pack = new ExcelPackage(file);
-                ExcelWorksheet sheet = pack.Workbook.Worksheets[1];
-                int row = 3;
-                int stt = 1;
-                if (list != null && list.Count > 0)
-                    foreach (var dt in data)
-                    {
-                        sheet.Cells[row, 1].Value = stt;
-                        sheet.Cells[row, 2].Value = dt.CustomerName;
-                        sheet.Cells[row, 3].Value = dt.PhoneNumber;
-                        sheet.Cells[row, 4].Value = string.Format("{0:#,0}", Convert.ToDecimal(dt.RankingPoint));
-                        sheet.Cells[row, 5].Value = dt.RankingName;
-                        sheet.Cells[row, 6].Value = dt.ProvinceName;
-                        sheet.Cells[row, 7].Value = dt.DistrictName;
-                        switch (dt.Status)
-                        {
-                            case SystemParam.ACTIVE:
-                                sheet.Cells[row, 8].Value = "Hoạt động";
-                                break;
-                            case SystemParam.DEACTIVE:
-                                sheet.Cells[row, 8].Value = "Ngừng hoạt động";
-                                break;
-                        }
-                        sheet.Cells[row, 9].Value = dt.CreateDate.GetValueOrDefault().ToString(SystemParam.CONVERT_DATETIME);
-                        row++;
-                        stt++;
-                    }
-                return pack;
-            }
-            catch (Exception ex)
-            {
-                ravenClient.Capture(new SentryEvent(ex));
-                return new ExcelPackage();
-            }
-        }*/
+        /*  public async Task<ExcelPackage> ExportListUser(string search = "", int? teamID = null)
+          {
+              try
+              {
+                  var list = await GetListUser(search, teamID);
+                  FileInfo file = new FileInfo(HttpContext.Current.Server.MapPath(@"/Template/ListCustomerReport.xlsx"));
+                  ExcelPackage pack = new ExcelPackage(file);
+                  ExcelWorksheet sheet = pack.Workbook.Worksheets[1];
+                  int row = 3;
+                  int stt = 1;
+                  if (list != null && list.Count > 0)
+                      foreach (var dt in data)
+                      {
+                          sheet.Cells[row, 1].Value = stt;
+                          sheet.Cells[row, 2].Value = dt.CustomerName;
+                          sheet.Cells[row, 3].Value = dt.PhoneNumber;
+                          sheet.Cells[row, 4].Value = string.Format("{0:#,0}", Convert.ToDecimal(dt.RankingPoint));
+                          sheet.Cells[row, 5].Value = dt.RankingName;
+                          sheet.Cells[row, 6].Value = dt.ProvinceName;
+                          sheet.Cells[row, 7].Value = dt.DistrictName;
+                          switch (dt.Status)
+                          {
+                              case SystemParam.ACTIVE:
+                                  sheet.Cells[row, 8].Value = "Hoạt động";
+                                  break;
+                              case SystemParam.DEACTIVE:
+                                  sheet.Cells[row, 8].Value = "Ngừng hoạt động";
+                                  break;
+                          }
+                          sheet.Cells[row, 9].Value = dt.CreateDate.GetValueOrDefault().ToString(SystemParam.CONVERT_DATETIME);
+                          row++;
+                          stt++;
+                      }
+                  return pack;
+              }
+              catch (Exception ex)
+              {
+                  ravenClient.Capture(new SentryEvent(ex));
+                  return new ExcelPackage();
+              }
+          }*/
 
         public async Task<int> CreateUser(UserInputModel input)
         {
@@ -205,7 +206,7 @@ namespace Sneat.MVC.Services
                 // Add User authorization roles
                 if (input.RoleIds.Count > 0)
                 {
-                    foreach( var roleId in input.RoleIds )
+                    foreach (var roleId in input.RoleIds)
                     {
                         var userRole = new UserRole
                         {
@@ -263,7 +264,7 @@ namespace Sneat.MVC.Services
 
                 var bank = await _dbContext.Banks.Where(x => x.Bin == input.BankBin).FirstOrDefaultAsync();
                 var userDetail = await _dbContext.UserDetails.Where(x => x.UserID == input.ID).FirstOrDefaultAsync();
-                if(userDetail != null)
+                if (userDetail != null)
                 {
                     userDetail.FirstName = input.FirstName;
                     userDetail.LastName = input.LastName;
@@ -309,7 +310,7 @@ namespace Sneat.MVC.Services
 
                 // Update user authorization roles
                 _dbContext.UserRoles.RemoveRange(user.UserRoles);
-                if ( input.RoleIds.Count > 0 )
+                if (input.RoleIds.Count > 0)
                 {
                     foreach (var roleId in input.RoleIds)
                     {
@@ -450,7 +451,7 @@ namespace Sneat.MVC.Services
                 if (user == null)
                     return SystemParam.ACCOUNT_NOT_FOUND_ERR;
 
-                if(isAcive == SystemParam.ACTIVE)
+                if (isAcive == SystemParam.ACTIVE)
                     user.Status = Status.ACTIVE;
                 else
                     user.Status = Status.IN_ACTIVE;
