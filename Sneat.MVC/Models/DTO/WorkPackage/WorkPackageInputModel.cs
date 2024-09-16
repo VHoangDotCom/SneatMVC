@@ -21,6 +21,7 @@ namespace Sneat.MVC.Models.DTO.WorkPackage
 
         public int? AssigneeID { get; set; }
         public int? AssignorID { get; set; }
+        public List<int> MemberIds { get; set; }
         public int? ProjectID { get; set; }
         public int? WorPackageID { get; set; }
         public int? SprintID { get; set; }

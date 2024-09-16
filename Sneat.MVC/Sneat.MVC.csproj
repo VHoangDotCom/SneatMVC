@@ -217,6 +217,7 @@
     <Compile Include="Controllers\API\SystemController.cs" />
     <Compile Include="Controllers\API\TaskController.cs" />
     <Compile Include="Controllers\API\TeamsController.cs" />
+    <Compile Include="Controllers\API\TimeLogController.cs" />
     <Compile Include="Controllers\API\UploadController.cs" />
     <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -343,6 +344,18 @@
     <Compile Include="Migrations\202409160623051_add_sprint_fk.designer.cs">
       <DependentUpon>202409160623051_add_sprint_fk.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202409161525422_add-timelog-table.cs" />
+    <Compile Include="Migrations\202409161525422_add-timelog-table.designer.cs">
+      <DependentUpon>202409161525422_add-timelog-table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202409161541025_time-log-task.cs" />
+    <Compile Include="Migrations\202409161541025_time-log-task.designer.cs">
+      <DependentUpon>202409161541025_time-log-task.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202409161543051_time-log-task-relation.cs" />
+    <Compile Include="Migrations\202409161543051_time-log-task-relation.designer.cs">
+      <DependentUpon>202409161543051_time-log-task-relation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\APIModel\Authentication\ChangePasswordModel.cs" />
     <Compile Include="Models\APIModel\Authentication\WebLoginModel.cs" />
@@ -362,6 +375,7 @@
     <Compile Include="Models\DTO\Task\UpdateUserStoryGeneralInfoModel.cs" />
     <Compile Include="Models\DTO\Team\TeamOutputModel.cs" />
     <Compile Include="Models\DTO\Team\TechStackModel.cs" />
+    <Compile Include="Models\DTO\TimeLog\TimeLogInputModel.cs" />
     <Compile Include="Models\DTO\User\UserDetailOutputModel.cs" />
     <Compile Include="Models\DTO\User\UserInputModel.cs" />
     <Compile Include="Models\DTO\WorkPackage\WorkPackageInputModel.cs" />
@@ -375,6 +389,7 @@
     <Compile Include="Models\Entity\RolePermission.cs" />
     <Compile Include="Models\Entity\Sprint.cs" />
     <Compile Include="Models\Entity\Team.cs" />
+    <Compile Include="Models\Entity\TimeLog.cs" />
     <Compile Include="Models\Entity\User.cs" />
     <Compile Include="Models\Entity\UserDetail.cs" />
     <Compile Include="Models\Entity\UserProject.cs" />
@@ -400,6 +415,7 @@
     <Compile Include="Services\SprintService.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Services\TeamService.cs" />
+    <Compile Include="Services\TimeLogService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\WorkPackageService.cs" />
     <Compile Include="Templates\SendMailTemplate.cs" />
@@ -2262,6 +2278,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202409160623051_add_sprint_fk.resx">
       <DependentUpon>202409160623051_add_sprint_fk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409161525422_add-timelog-table.resx">
+      <DependentUpon>202409161525422_add-timelog-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409161541025_time-log-task.resx">
+      <DependentUpon>202409161541025_time-log-task.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202409161543051_time-log-task-relation.resx">
+      <DependentUpon>202409161543051_time-log-task-relation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
