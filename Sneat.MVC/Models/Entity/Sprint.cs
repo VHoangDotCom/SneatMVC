@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace Sneat.MVC.Models.Entity
 {
@@ -21,5 +22,6 @@ namespace Sneat.MVC.Models.Entity
         public int ProjectID { get; set; }
         public virtual Project Project { get; set; }
 
+        public virtual ICollection<TimeLog> TimeLogs { get; set; }
     }
 }

@@ -260,6 +260,20 @@ namespace Sneat.MVC.Services
                     _dbContext.UserWorkPackages.Add(assignorTask);
                 }
 
+                if (input.MemberIds.Count > 0)
+                {
+                    foreach(var memberID in input.MemberIds)
+                    {
+                        var memberTask = new UserWorkPackage
+                        {
+                            UserID = memberID,
+                            WorkPackageID = newTask.ID,
+                            AssignType = WorkAssignType.Member,
+                        };
+                         _dbContext.UserWorkPackages.Add(memberTask);
+                    }
+                }
+
                 await _dbContext.SaveChangesAsync();
                 return JsonResponse.Success(SystemParam.MESSAGE_SUCCESS, null);
             }
@@ -306,6 +320,21 @@ namespace Sneat.MVC.Services
                         AssignType = WorkAssignType.Assignee,
                     };
                     _dbContext.UserWorkPackages.Add(assigneeTask);
+                }
+
+                _dbContext.UserWorkPackages.RemoveRange(task.UserWorkPackages);
+                if (input.MemberIds.Count > 0)
+                {
+                    foreach (var memberID in input.MemberIds)
+                    {
+                        var memberTask = new UserWorkPackage
+                        {
+                            UserID = memberID,
+                            WorkPackageID = task.ID,
+                            AssignType = WorkAssignType.Member,
+                        };
+                        _dbContext.UserWorkPackages.Add(memberTask);
+                    }
                 }
 
                 await _dbContext.SaveChangesAsync();
