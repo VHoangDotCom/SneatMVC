@@ -28,11 +28,11 @@ namespace Sneat.MVC.Services
 
         #region User management
 
-        public IPagedList<UserDetailOutputModel> Search(int page, int limit, string search = "", int? teamID = null, int? projectID = null)
+        public IPagedList<UserDetailOutputModel> Search(int page, int limit, string search = "", int? projectID = null, string teamIDs = null)
         {
             try
             {
-                var list = GetListUser(search, teamID, projectID);
+                var list = GetListUser(search, projectID, teamIDs);
                 var listPaging = list.ToPagedList(page, limit);
                 return listPaging;
             }
@@ -43,10 +43,13 @@ namespace Sneat.MVC.Services
             }
         }
 
-        public List<UserDetailOutputModel> GetListUser(string search = "", int? teamID = null, int? projectID = null)
+        public List<UserDetailOutputModel> GetListUser(string search = "", int? projectID = null, string teamIDs = null)
         {
             try
             {
+                List<int> teamIDList = teamIDs?.Split(',')
+                                .Select(int.Parse)
+                                .ToList();
                 search = Utils.RemoveDiacritics(search);
                 var userTeams = _dbContext.UserTeams
                     .Where(ur => ur.Team.IsDeleted == SystemParam.IS_NOT_DELETED)
@@ -90,8 +93,9 @@ namespace Sneat.MVC.Services
                                 || Utils.RemoveDiacritics(x.UserName).Contains(search)
                                 || Utils.RemoveDiacritics(x.Phone).Contains(search)
                                 || Utils.RemoveDiacritics(x.Email).Contains(search))
-                            .Where(u => teamID.HasValue ? u.UserTeams
-                                .Select(ur => ur.TeamID).ToList().Contains((int)teamID) : true)
+                            .Where(u => teamIDList.Count > 0
+                                ? u.UserTeams.Select(ur => ur.TeamID).Any(teamID => teamIDList.Contains(teamID))
+                                : true)
                             .ToList();
 
                 return query;
