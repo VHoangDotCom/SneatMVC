@@ -38,11 +38,11 @@ namespace Sneat.MVC.Controllers.API
         }
 
         [HttpGet]
-        public async Task<JsonResultModel> GetListUserPaging(int page = SystemParam.PAGE_DEFAULT, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "", int? teamID = null, int? projectID = null)
+        public async Task<JsonResultModel> GetListUserPaging(int page = SystemParam.PAGE_DEFAULT, int limit = SystemParam.MAX_ROW_IN_LIST_WEB, string search = "", string teamIDs = null, int? projectID = null)
         {
             try
             {
-                var listPaging = _userService.Search(page, limit, search, teamID, projectID);
+                var listPaging = _userService.Search(page, limit, search, projectID, teamIDs);
                 var paging = new PagingModel
                 {
                     Page = page,
