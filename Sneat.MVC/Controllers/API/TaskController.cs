@@ -1,5 +1,6 @@
 ﻿using Sneat.MVC.Common;
 using Sneat.MVC.Models.APIModel;
+using Sneat.MVC.Models.DTO.Task;
 using Sneat.MVC.Models.DTO.WorkPackage;
 using Sneat.MVC.Services;
 using System;
@@ -43,6 +44,12 @@ namespace Sneat.MVC.Controllers.API
         public async Task<JsonResultModel> UpdateTask(WorkPackageOutputModel input)
         {
             return await _taskService.UpdateTask(input);
+        }
+
+        [HttpPost]
+        public async Task<JsonResultModel> UpdateTaskStatus(UpdateTaskStatusModel model)
+        {
+            return await _taskService.UpdateTaskStatus(model);
         }
 
         [HttpGet]
