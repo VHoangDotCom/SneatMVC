@@ -72,7 +72,6 @@ namespace Sneat.MVC.Services
                         x.Type,
                         x.Status,
                         x.EstimateTime,
-                        x.SpentTime,
                         x.RemainingTime,
                         x.PriorityPoint,
                         x.StartDate,
@@ -90,6 +89,9 @@ namespace Sneat.MVC.Services
                               AssigneeEmail = !string.IsNullOrEmpty(a.User.Email) ? a.User.Email : "---",
                           })
                           .FirstOrDefault(),
+                        AssigneeID = x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Assignee).FirstOrDefault() != null ?
+                            x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Assignee).Select(a => a.UserID).FirstOrDefault() : (int?)null,
+                        SpentTime = x.TimeLogs.Where(a => a.IsDeleted == 0).Count() > 0 ? x.TimeLogs.Where(a => a.IsDeleted == 0).Sum(a => a.Hours) : 0,
                         x.WorkPackageID,
                         ProjectID = x.Sprint != null ? x.Sprint.ProjectID : (int?)null,
                         x.SprintID,
@@ -99,7 +101,12 @@ namespace Sneat.MVC.Services
                             UserAvatar = a.User.Avatar,
                             UserName = a.User.UserName
                         }
-                      ).ToList()
+                      ).ToList(),
+<<<<<<< Updated upstream
+                        MemberIds = x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Member).Select(a => a.UserID).ToList()
+=======
+                        MemberIds = x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Member).Select(a => a.ID).ToList()
+>>>>>>> Stashed changes
                     })
                   .AsEnumerable()
                   .Select(x => new WorkPackageOutputModel
@@ -117,13 +124,18 @@ namespace Sneat.MVC.Services
                       Description = x.Description,
                       CreateDate = x.CreatedDate,
                       CompletePercent = x.CompletePercent,
-                      AssigneeID = x.Assignee != null ? x.Assignee.AssigneeID : (int?)null,
+                      AssigneeID = x.AssigneeID,
                       AssigneeName = x.Assignee != null ? x.Assignee.AssigneeName : null,
                       AssigneeAvatar = x.Assignee != null ? x.Assignee.AssigneeAvatar : null,
                       AssigneeEmail = x.Assignee != null ? x.Assignee.AssigneeEmail : null,
                       ProjectID = x.ProjectID,
                       WorPackageID = x.WorkPackageID,
-                      ListUsers = x.ListUsers
+                      ListUsers = x.ListUsers,
+<<<<<<< Updated upstream
+                      MemberIds = x.MemberIds,
+=======
+                      MemberIds = x.MemberIds
+>>>>>>> Stashed changes
                   }).ToList();
 
                 var list = _dbContext.WorkPackages
@@ -140,7 +152,6 @@ namespace Sneat.MVC.Services
                       x.Type,
                       x.Status,
                       x.EstimateTime,
-                      x.SpentTime,
                       x.RemainingTime,
                       x.PriorityPoint,
                       x.StartDate,
@@ -158,6 +169,9 @@ namespace Sneat.MVC.Services
                               AssigneeEmail = !string.IsNullOrEmpty(a.User.Email) ? a.User.Email : "---",
                           })
                           .FirstOrDefault(),
+                      AssigneeID = x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Assignee).FirstOrDefault() != null ?
+                            x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Assignee).Select(a => a.UserID).FirstOrDefault() : (int?)null,
+                      SpentTime = x.TimeLogs.Where(a => a.IsDeleted == 0).Count() > 0 ? x.TimeLogs.Where(a => a.IsDeleted == 0).Sum(a => a.Hours) : 0,
                       x.WorkPackageID,
                       x.SprintID,
                       ProjectID = x.Sprint != null ? x.Sprint.ProjectID : (int?)null,
@@ -167,7 +181,8 @@ namespace Sneat.MVC.Services
                           UserAvatar = a.User.Avatar,
                           UserName = a.User.UserName
                       }
-                      ).ToList()
+                      ).ToList(),
+                      MemberIds = x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Member).Select(a => a.UserID).ToList()
                   })
                   .AsEnumerable()
                   .Select(x => new WorkPackageOutputModel
@@ -185,14 +200,15 @@ namespace Sneat.MVC.Services
                       Description = x.Description,
                       CreateDate = x.CreatedDate,
                       CompletePercent = x.CompletePercent,
-                      AssigneeID = x.Assignee != null ? x.Assignee.AssigneeID : (int?)null,
+                      AssigneeID = x.AssigneeID,
                       AssigneeName = x.Assignee != null ? x.Assignee.AssigneeName : null,
                       AssigneeAvatar = x.Assignee != null ? x.Assignee.AssigneeAvatar : null,
                       AssigneeEmail = x.Assignee != null ? x.Assignee.AssigneeEmail : null,
                       ProjectID = x.ProjectID,
                       SprintID = x.SprintID,
                       ListTasks = listTask.Where(t => t.WorPackageID == x.ID).OrderByDescending(t => t.ID).ToList(),
-                      ListUsers = x.ListUsers
+                      ListUsers = x.ListUsers,
+                      MemberIds = x.MemberIds
                   })
                   .Where(x => string.IsNullOrEmpty(search)
                    || Utils.RemoveDiacritics(x.Subject).Contains(search)
@@ -262,7 +278,7 @@ namespace Sneat.MVC.Services
 
                 if (input.MemberIds.Count > 0)
                 {
-                    foreach(var memberID in input.MemberIds)
+                    foreach (var memberID in input.MemberIds)
                     {
                         var memberTask = new UserWorkPackage
                         {
@@ -270,7 +286,7 @@ namespace Sneat.MVC.Services
                             WorkPackageID = newTask.ID,
                             AssignType = WorkAssignType.Member,
                         };
-                         _dbContext.UserWorkPackages.Add(memberTask);
+                        _dbContext.UserWorkPackages.Add(memberTask);
                     }
                 }
 
@@ -322,7 +338,7 @@ namespace Sneat.MVC.Services
                     _dbContext.UserWorkPackages.Add(assigneeTask);
                 }
 
-                _dbContext.UserWorkPackages.RemoveRange(task.UserWorkPackages);
+                _dbContext.UserWorkPackages.RemoveRange(task.UserWorkPackages.Where(x => x.AssignType == WorkAssignType.Member));
                 if (input.MemberIds.Count > 0)
                 {
                     foreach (var memberID in input.MemberIds)

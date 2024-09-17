@@ -32,5 +32,6 @@ namespace Sneat.MVC.Models.Entity
 
         public virtual Sprint Sprint { get; set; }
         public virtual ICollection<UserWorkPackage> UserWorkPackages { get; set; }
+        public virtual ICollection<TimeLog> TimeLogs { get; set; }
     }
 }

@@ -49,7 +49,7 @@ namespace Sneat.MVC.Services
             {
                 List<int> teamIDList = teamIDs?.Split(',')
                                 .Select(int.Parse)
-                                .ToList();
+                                .ToList() ?? new List<int>();
                 search = Utils.RemoveDiacritics(search);
                 var userTeams = _dbContext.UserTeams
                     .Where(ur => ur.Team.IsDeleted == SystemParam.IS_NOT_DELETED)
