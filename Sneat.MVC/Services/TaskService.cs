@@ -102,11 +102,7 @@ namespace Sneat.MVC.Services
                             UserName = a.User.UserName
                         }
                       ).ToList(),
-<<<<<<< Updated upstream
                         MemberIds = x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Member).Select(a => a.UserID).ToList()
-=======
-                        MemberIds = x.UserWorkPackages.Where(a => a.AssignType == WorkAssignType.Member).Select(a => a.ID).ToList()
->>>>>>> Stashed changes
                     })
                   .AsEnumerable()
                   .Select(x => new WorkPackageOutputModel
@@ -131,11 +127,7 @@ namespace Sneat.MVC.Services
                       ProjectID = x.ProjectID,
                       WorPackageID = x.WorkPackageID,
                       ListUsers = x.ListUsers,
-<<<<<<< Updated upstream
-                      MemberIds = x.MemberIds,
-=======
                       MemberIds = x.MemberIds
->>>>>>> Stashed changes
                   }).ToList();
 
                 var list = _dbContext.WorkPackages
