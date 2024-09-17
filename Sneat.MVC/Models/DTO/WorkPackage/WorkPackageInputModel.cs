@@ -31,6 +31,7 @@ namespace Sneat.MVC.Models.DTO.WorkPackage
     {
         public int ID { get; set; }
         public DateTime CreateDate { get; set; }
+        public List<int> MemberIds { get; set; }
         public int? CompletePercent { get; set; }
         public string StatusStr 
         {

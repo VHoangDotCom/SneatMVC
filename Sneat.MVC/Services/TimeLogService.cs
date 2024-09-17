@@ -76,7 +76,11 @@ namespace Sneat.MVC.Services
                         CreatedByID = x.CreatedByID,
                         WorkPackageID = x.WorkPackageID,
                         Hours = x.Hours,
-                        CreateDate = x.CreatedDate
+                        CreateDate = x.CreatedDate,
+                        WorkPackageName = x.WorkPackage != null ? x.WorkPackage.Subject : string.Empty,
+                        ProjectID = x.WorkPackage != null ? x.WorkPackage.ProjectID : null,
+                        ProjectName = x.WorkPackage != null ? x.WorkPackage.Sprint.Project.Name : null,
+                        UserID = x.MemberID,
                     })
                     .OrderByDescending(x => x.ID)
                     .ToList();
