@@ -28,11 +28,11 @@ namespace Sneat.MVC.Services
             _dbContext = dbContext;
         }
 
-        public async Task<JsonResultModel> GetListTaskPaging(string search, int? projectID, int? sprintID, int? assigneeID, int page, int limit)
+        public async Task<JsonResultModel> GetListTaskPaging(string search, int? projectID, int? sprintID, int? assigneeID, int? parentID, int page, int limit)
         {
             try
             {
-                var list = await GetListTask(search, projectID, sprintID, assigneeID);
+                var list = await GetListTask(search, projectID, sprintID, assigneeID, parentID);
                 var listPaging = list.ToPagedList(page, limit);
                 var paging = new PagingModel
                 {
@@ -53,7 +53,8 @@ namespace Sneat.MVC.Services
              string search,
             int? projectID,
             int? sprintID,
-            int? assigneeID
+            int? assigneeID,
+            int? parentID
             )
         {
             try
@@ -62,7 +63,8 @@ namespace Sneat.MVC.Services
 
                 var listTask = _dbContext.WorkPackages
                     .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED
-                        && x.Type == WorkPackageType.Task)
+                        && x.Type == WorkPackageType.Task
+                        )
                     .Include(x => x.UserWorkPackages)
                     .Include(x => x.Sprint.Project.UserProjects)
                     .Select(x => new
@@ -131,10 +133,11 @@ namespace Sneat.MVC.Services
                   }).ToList();
 
                 var list = _dbContext.WorkPackages
-                  .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED && x.Type == WorkPackageType.UserStory)
+                  .Where(x => x.IsDeleted == SystemParam.IS_NOT_DELETED && (parentID.HasValue == false ?  x.Type == WorkPackageType.UserStory :true))
                   .Where(x =>
                   (projectID.HasValue ? x.ProjectID == projectID.Value : true)
                   && (sprintID.HasValue ? x.SprintID == sprintID.Value : true)
+                  && (parentID.HasValue ? (x.WorkPackageID == parentID && x.Type == WorkPackageType.Task) : true)
                   )
                   .Include(x => x.UserWorkPackages)
                   .Select(x => new

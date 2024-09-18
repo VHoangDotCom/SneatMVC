@@ -27,11 +27,12 @@ namespace Sneat.MVC.Controllers.API
             int? projectID = null,
             int? sprintID = null,
             int? assigneeID = null,
+            int? parentID = null,
             int page = SystemParam.PAGE_DEFAULT,
             int limit = SystemParam.MAX_ROW_IN_LIST_WEB
         )
         {
-            return await _taskService.GetListTaskPaging(search, projectID, sprintID, assigneeID, page, limit);
+            return await _taskService.GetListTaskPaging(search, projectID, sprintID, assigneeID, parentID, page, limit);
         }
 
         [HttpPost]
