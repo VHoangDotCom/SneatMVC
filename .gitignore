@@ -643,3 +643,4 @@ FodyWeavers.xsd
 
 **/obj/
 Sneat.MVC/Uploads/files
+Sneat.MVC/Web.config
